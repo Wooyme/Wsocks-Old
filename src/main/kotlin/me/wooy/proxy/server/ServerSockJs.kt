@@ -4,37 +4,57 @@ import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
 import io.vertx.core.http.HttpServer
 import io.vertx.core.http.ServerWebSocket
+import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.net.NetClient
 import io.vertx.core.net.NetSocket
-import io.vertx.ext.web.handler.sockjs.SockJSHandler
-import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions
 import io.vertx.kotlin.core.net.connectAwait
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.wooy.proxy.data.*
+import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
 class ServerSockJs:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ServerSockJs::class.java)
   private lateinit var netClient: NetClient
   private lateinit var httpServer:HttpServer
+  private lateinit var userList:Map<String,String>
   private val localMap: ConcurrentHashMap<String,NetSocket> = ConcurrentHashMap()
   override fun start(startFuture: Future<Void>) {
     netClient = vertx.createNetClient()
     httpServer = vertx.createHttpServer()
     httpServer.websocketHandler(this::socketHandler)
-
+    val port = config().getInteger("port")?:1888
+    configFromFile(config().getString("users"))
     vertx.executeBlocking<HttpServer>({
-      httpServer.listen(1888,it.completer())
+      httpServer.listen(port,it.completer())
     }){
       logger.info("Proxy server listen at 1888")
       startFuture.complete()
     }
   }
 
+  private fun configFromFile(filename:String){
+    val config = JsonObject(File(filename).readText())
+    userList = config.getJsonObject("users").map {
+      it.key to it.value.toString()
+    }.toMap()
+  }
+
   private fun socketHandler(sock: ServerWebSocket){
+    val user = sock.headers().get("user")
+    val pass = sock.headers().get("pass")
+    if(user==null || pass==null){
+      sock.reject()
+      return
+    }
+
+    if(userList[user]!=pass){
+      sock.reject()
+      return
+    }
     sock.binaryMessageHandler { buffer ->
       GlobalScope.launch(vertx.dispatcher()) {
         when (buffer.getIntLE(0)) {

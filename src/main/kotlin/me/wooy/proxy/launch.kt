@@ -9,30 +9,104 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.wooy.proxy.client.ClientSockJs
 import me.wooy.proxy.server.ServerSockJs
+import org.apache.commons.cli.*
+
 
 fun main(args:Array<String>) {
   val vertx = Vertx.vertx()
+  val options = options()
+  val parser = DefaultParser()
+  val formatter = HelpFormatter()
+  val cmd = try{
+    parser.parse(options,args)
+  }catch (e:ParseException){
+    formatter.printHelp("utility-name", options)
+    return
+  }
   GlobalScope.launch(vertx.dispatcher()) {
-    when {
-        args[0] == "client" -> {
-          val ip = args[1]
-          val clientConfig = JsonObject().put("ip", ip)
-          awaitResult<String> {
-            vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
-          }
+    when(cmd.getOptionValue("type")){
+      "client"->{
+        val user = cmd.getOptionValue("user")
+        val pass = cmd.getOptionValue("pass")
+        val localPort = cmd.getOptionValue("local-port").toInt()
+        val remotePort = cmd.getOptionValue("remote-port").toInt()
+        val remoteIp = cmd.getOptionValue("remote-ip")
+        val clientConfig = JsonObject()
+          .put("local.port",localPort)
+          .put("remote.ip", remoteIp)
+          .put("remote.port",remotePort)
+          .put("user",user)
+          .put("pass",pass)
+        awaitResult<String> {
+          vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
         }
-        args[0]=="server" -> awaitResult<String> {
-          vertx.deployVerticle(ServerSockJs(), it)
+      }
+      "server"->{
+        val usersFile = cmd.getOptionValue("config-user")
+        val localPort = cmd.getOptionValue("local-port").toInt()
+        val serverConfig = JsonObject().put("port",localPort).put("users",usersFile)
+        awaitResult<String> {
+          vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
         }
-        args[0]=="both" -> {
-          awaitResult<String> {
-            vertx.deployVerticle(ServerSockJs(), it)
-          }
-          val clientConfig = JsonObject().put("ip", "127.0.0.1")
-          awaitResult<String> {
-            vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
-          }
+      }
+      "both"->{
+        val port = 1888
+        val userListFile = "config.json"
+        val serverConfig = JsonObject()
+          .put("port",port)
+          .put("users",userListFile)
+        awaitResult<String> {
+          vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
         }
+        val ip = "127.0.0.1"
+        val user = "anyone"
+        val pwd = "anyone"
+        val localPort = 2888
+        val clientConfig = JsonObject()
+          .put("local.port",localPort)
+          .put("remote.ip", ip)
+          .put("remote.port",port)
+          .put("user",user)
+          .put("pass",pwd)
+        awaitResult<String> {
+          vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
+        }
+      }
     }
   }
+}
+
+
+fun options():Options{
+  val options = Options()
+
+  val proxyType = Option("T","type",true,"[server/client>]")
+  proxyType.isRequired = true
+  options.addOption(proxyType)
+
+  val localPort = Option("LP","local-port",true,"Local port for client/server")
+  localPort.isRequired = false
+  options.addOption(localPort)
+
+  val remoteIp = Option("RI","remote-ip",true,"Remote ip for client")
+  remoteIp.isRequired = false
+  options.addOption(remoteIp)
+
+  val remotePort = Option("RP","remote-port",true,"Remote port for client")
+  remotePort.isRequired = false
+  options.addOption(remotePort)
+
+
+  val user = Option("U","user",true,"Username")
+  user.isRequired = false
+  options.addOption(user)
+
+  val pwd = Option("P","pass",true,"Password")
+  pwd.isRequired = false
+  options.addOption(pwd)
+
+  val usersFile = Option("C","config-user",true,"User list file for server")
+  pwd.isRequired = false
+  options.addOption(usersFile)
+  return options
 }
