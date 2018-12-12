@@ -166,7 +166,11 @@ class ClientSockJs : AbstractVerticle() {
 
   private fun wsExceptionHandler(e: Exception) {
     logger.warn("${e.uuid} Get Exception from remote: ${e.message}")
-    val netSocket = localMap.remove(e.uuid) ?: tempMap.remove(e.uuid)?.netSocket()
+    val netSocket = try{
+      localMap.remove(e.uuid) ?: tempMap.remove(e.uuid)?.netSocket()
+    }catch (e:java.lang.IllegalStateException){
+      return
+    }
     netSocket?.end(Buffer.buffer("HTTP/1.1 500 failed\r\n\r\n"))
   }
 }

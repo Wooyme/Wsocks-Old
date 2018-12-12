@@ -100,7 +100,7 @@ class ServerSockJs:AbstractVerticle() {
       }
       net.write(data.data)
     }catch (e:Throwable){
-      logger.warn(e.message)
+      logger.warn(e)
       sock.writeBinaryMessage(Exception.create(data.uuid,e.localizedMessage).toBuffer())
       return
     }
