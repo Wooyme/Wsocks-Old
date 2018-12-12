@@ -1,0 +1,191 @@
+package me.wooy.proxy.client
+
+import io.vertx.core.AbstractVerticle
+import io.vertx.core.MultiMap
+import io.vertx.core.buffer.Buffer
+import io.vertx.core.http.HttpClient
+import io.vertx.core.http.WebSocket
+import io.vertx.core.json.JsonObject
+import io.vertx.core.logging.LoggerFactory
+import io.vertx.core.net.NetSocket
+import me.wooy.proxy.data.ClientConnect
+import me.wooy.proxy.data.ConnectSuccess
+import me.wooy.proxy.data.Exception
+import me.wooy.proxy.data.Flag
+import me.wooy.proxy.data.RawData
+import java.net.Inet4Address
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
+
+class ClientSocks5:AbstractVerticle() {
+  private val logger = LoggerFactory.getLogger(ClientSocks5::class.java)
+  private lateinit var httpClient: HttpClient
+  private lateinit var ws:WebSocket
+  private val connectMap = ConcurrentHashMap<String,NetSocket>()
+  override fun start() {
+    super.start()
+    httpClient = vertx.createHttpClient()
+    if(config().getBoolean("ui")){
+      vertx.eventBus().consumer<JsonObject>("local-init") {
+        val remoteIp = it.body().getString("remote.ip")
+        val remotePort = it.body().getInteger("remote.port")
+        val localPort = it.body().getInteger("local.port")
+        val user = it.body().getString("user")
+        val pwd = it.body().getString("pass")
+        initWebSocket(remoteIp,remotePort,user,pwd)
+        initSocksServer(localPort)
+      }
+      vertx.eventBus().consumer<JsonObject>("remote-modify") {
+        val remoteIp = it.body().getString("remote.ip")
+        val remotePort = it.body().getInteger("remote.port")
+        val user = it.body().getString("user")
+        val pwd = it.body().getString("pass")
+        initWebSocket(remoteIp,remotePort,user,pwd)
+      }
+    }else{
+      val remoteIp = config().getString("remote.ip")
+      val remotePort = config().getInteger("remote.port")
+      val localPort = config().getInteger("local.port")
+      val user = config().getString("user")
+      val pwd = config().getString("pass")
+      initWebSocket(remoteIp,remotePort,user,pwd)
+      initSocksServer(localPort)
+    }
+  }
+
+  private fun initWebSocket(remoteIp:String,remotePort:Int,user:String,pass:String){
+    if(this::ws.isInitialized){
+      ws.close()
+    }
+    httpClient.websocket(remotePort
+      ,remoteIp
+      ,"/proxy"
+      , MultiMap.caseInsensitiveMultiMap()
+      .add("user",user).add("pass",pass)){
+      it.binaryMessageHandler {buffer->
+        if (buffer.length() < 4) {
+          return@binaryMessageHandler
+        }
+        when (buffer.getIntLE(0)) {
+          Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(buffer).uuid)
+          Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(buffer))
+          Flag.RAW.ordinal -> wsReceivedRawHandler(RawData(buffer))
+          else -> logger.warn(buffer.getIntLE(0))
+        }
+      }.exceptionHandler {t->
+        logger.warn(t)
+        ws.close()
+        initWebSocket(remoteIp, remotePort, user, pass)
+      }
+      this.ws = it
+      logger.info("Connected to remote server")
+      vertx.eventBus().publish("status-modify",JsonObject().put("status","$remoteIp:$remotePort"))
+    }
+  }
+
+  private fun initSocksServer(port: Int){
+    vertx.createNetServer().connectHandler { socket ->
+      if(!this::ws.isInitialized){
+        socket.close()
+        return@connectHandler
+      }
+      val uuid = UUID.randomUUID().toString()
+      socket.handler {
+        bufferHandler(uuid,socket,it)
+      }.closeHandler {
+        connectMap.remove(uuid)
+      }
+    }.listen(port){
+      logger.info("Listen at $port")
+    }
+  }
+
+  private fun bufferHandler(uuid: String,netSocket: NetSocket,buffer: Buffer){
+    val version = buffer.getByte(0)
+    if(version !=0x05.toByte()){
+      netSocket.close()
+    }
+    when{
+      buffer.getByte(1).toInt()+2==buffer.length()->{
+        handshakeHandler(netSocket)
+      }
+      else-> requestHandler(uuid,netSocket,buffer)
+    }
+  }
+
+  private fun handshakeHandler(netSocket: NetSocket){
+    netSocket.write(Buffer.buffer().appendByte(0x05.toByte()).appendByte(0x00.toByte()))
+  }
+
+  private fun requestHandler(uuid: String,netSocket: NetSocket,buffer: Buffer){
+    /*
+    * |VER|CMD|RSV|ATYP|DST.ADDR|DST.PORT|
+    * -----------------------------------------
+    * | 1 | 1 |0x0| 1  |Variable|   2    |
+    * -----------------------------------------
+    * */
+    val cmd = buffer.getByte(1)
+    val addressType = buffer.getByte(3)
+    val (host,port) = when(addressType){
+      0x01.toByte()->{
+        val host = Inet4Address.getByAddress(buffer.getBytes(5,9)).toString()
+        val port = buffer.getShort(9).toInt()
+        host to port
+      }
+      0x03.toByte()->{
+        val hostLen = buffer.getByte(4).toInt()
+        val host = buffer.getString(5,5+hostLen)
+        val port = buffer.getShort(5+hostLen).toInt()
+        host to port
+      }
+      else->{
+        netSocket.write(Buffer.buffer()
+          .appendByte(0x05.toByte())
+          .appendByte(0x08.toByte()))
+        return
+      }
+    }
+    when(cmd){
+      0x01.toByte()->{
+        tryConnect(uuid,netSocket,host, port)
+      }
+      else->{
+        netSocket.write(Buffer.buffer()
+          .appendByte(0x05.toByte())
+          .appendByte(0x07.toByte()))
+        return
+      }
+    }
+  }
+
+  private fun tryConnect(uuid:String,netSocket: NetSocket,host:String,port:Int){
+    connectMap[uuid] = netSocket
+    ws.writeBinaryMessage(ClientConnect.create(uuid,host,port).toBuffer())
+  }
+
+  private fun wsConnectedHandler(uuid:String){
+    val netSocket = connectMap[uuid]?:return
+    //建立连接后修改handler
+    netSocket.handler {
+      ws.writeBinaryMessage(RawData.create(uuid,it).toBuffer())
+    }
+    val buffer = Buffer.buffer()
+      .appendByte(0x05.toByte())
+      .appendByte(0x00.toByte())
+      .appendByte(0x00.toByte())
+      .appendByte(0x01.toByte())
+      .appendBytes(ByteArray(6){0x0})
+    netSocket.write(buffer)
+  }
+
+  private fun wsReceivedRawHandler(data: RawData){
+    val netSocket = connectMap[data.uuid]?:return
+    netSocket.write(data.data)
+  }
+
+  private fun wsExceptionHandler(e:Exception){
+    connectMap.remove(e.uuid)?.close()
+    logger.warn(e.message)
+  }
+}
+

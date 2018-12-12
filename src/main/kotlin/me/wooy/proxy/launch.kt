@@ -7,10 +7,10 @@ import io.vertx.kotlin.coroutines.awaitResult
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import me.wooy.proxy.client.ClientSockJs
+import me.wooy.proxy.client.ClientHttp
+import me.wooy.proxy.client.ClientSocks5
 import me.wooy.proxy.server.ServerSockJs
 import me.wooy.proxy.ui.ClientUI
-import me.wooy.proxy.ui.TestTray
 import org.apache.commons.cli.*
 
 
@@ -27,16 +27,19 @@ fun main(args:Array<String>) {
   }
   GlobalScope.launch(vertx.dispatcher()) {
     when(cmd.getOptionValue("type")){
-      "client-ui"->{
+      "client-http-ui","client-socks5-ui"->{
         val clientConfig = JsonObject().put("ui",true)
         awaitResult<String> {
-          vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
+          if(cmd.getOptionValue("type")=="client-http-ui")
+            vertx.deployVerticle(ClientHttp(), DeploymentOptions().setConfig(clientConfig), it)
+          else
+            vertx.deployVerticle(ClientSocks5(), DeploymentOptions().setConfig(clientConfig), it)
         }
         awaitResult<String> {
           vertx.deployVerticle(ClientUI(),it)
         }
       }
-      "client"->{
+      "client-http","client-socks5"->{
         val user = cmd.getOptionValue("user")
         val pass = cmd.getOptionValue("pass")
         val localPort = cmd.getOptionValue("local-port").toInt()
@@ -49,7 +52,10 @@ fun main(args:Array<String>) {
           .put("user",user)
           .put("pass",pass)
         awaitResult<String> {
-          vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
+          if(cmd.getOptionValue("type")=="client-http")
+            vertx.deployVerticle(ClientHttp(), DeploymentOptions().setConfig(clientConfig), it)
+          else
+            vertx.deployVerticle(ClientSocks5(), DeploymentOptions().setConfig(clientConfig), it)
         }
       }
       "server"->{
@@ -60,22 +66,8 @@ fun main(args:Array<String>) {
           vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
         }
       }
-      "both"->{
-        val port = 9888
-        val userListFile = "config.json"
-        val serverConfig = JsonObject()
-          .put("port",port)
-          .put("users",userListFile)
-        awaitResult<String> {
-          vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
-        }
-        val clientConfig = JsonObject().put("ui",true)
-        awaitResult<String> {
-          vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
-        }
-        awaitResult<String> {
-          vertx.deployVerticle(ClientUI(),it)
-        }
+      else->{
+        formatter.printHelp("utility-name", options)
       }
     }
   }

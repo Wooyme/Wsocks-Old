@@ -1,2 +1,2 @@
-nohup java -jar proxy.jar -T client-ui &
+nohup java -jar proxy.jar -T client-socks5-ui &
 
