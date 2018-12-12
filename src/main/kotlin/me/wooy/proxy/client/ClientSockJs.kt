@@ -5,6 +5,7 @@ import io.vertx.core.Future
 import io.vertx.core.MultiMap
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.http.*
+import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.net.NetSocket
 import io.vertx.kotlin.coroutines.dispatcher
@@ -29,23 +30,28 @@ class ClientSockJs : AbstractVerticle() {
   override fun start(startFuture: Future<Void>) {
     httpClient = vertx.createHttpClient()
     httpServer = vertx.createHttpServer()
-    remoteIp = config().getString("remote.ip")
-    remotePort = config().getInteger("remote.port")
-    localPort = config().getInteger("local.port")
-    user = config().getString("user")
-    pwd = config().getString("pass")
-    initClient {
-      initServer(startFuture)
+    if (config().getBoolean("ui")) {
+      vertx.eventBus().consumer<JsonObject>("local-init") {
+        remoteIp = it.body().getString("remote.ip")
+        remotePort = it.body().getInteger("remote.port")
+        localPort = it.body().getInteger("local.port")
+        user = it.body().getString("user")
+        pwd = it.body().getString("pass")
+        initClient(true)
+      }
+      startFuture.complete()
+    } else {
+      remoteIp = config().getString("remote.ip")
+      remotePort = config().getInteger("remote.port")
+      localPort = config().getInteger("local.port")
+      user = config().getString("user")
+      pwd = config().getString("pass")
+      initClient(true, startFuture)
     }
   }
 
-  private fun initServer(future: Future<Void>) {
-    httpServer.connectionHandler { connection ->
-      logger.info("Take connection from ${connection.remoteAddress()}")
-      connection.closeHandler {
-        logger.info("Connection closed by ${connection.remoteAddress()}")
-      }
-    }.requestHandler { request ->
+  private fun initServer(future: Future<Void>? = null) {
+    httpServer.requestHandler { request ->
       GlobalScope.launch(vertx.dispatcher()) {
         val uuid = UUID.randomUUID().toString()
         val ws = this@ClientSockJs.ws
@@ -59,14 +65,14 @@ class ClientSockJs : AbstractVerticle() {
           else -> normalRequestHandler(ws, uuid, request)
         }
       }.invokeOnCompletion {
-        it?.printStackTrace()
+        if(it!=null) logger.warn(it)
       }
     }
     vertx.executeBlocking<HttpServer>({
       httpServer.listen(localPort, it.completer())
     }) {
-      logger.info("Client listen at $localPort")
-      future.complete()
+      logger.info("listen at $localPort")
+      future?.complete()
     }
   }
 
@@ -98,7 +104,8 @@ class ClientSockJs : AbstractVerticle() {
     }
   }
 
-  private fun initClient(next: (() -> Unit)?) {
+  private fun initClient(isFirst: Boolean, future: Future<Void>? = null) {
+    if (!isFirst) ws.close()
     val headers = MultiMap.caseInsensitiveMultiMap()
     headers.add("user", user).add("pass", pwd)
     httpClient.websocket(remotePort, remoteIp, "/proxy", headers) { ws ->
@@ -117,21 +124,32 @@ class ClientSockJs : AbstractVerticle() {
           else -> logger.warn(buffer.getIntLE(0))
         }
       }.exceptionHandler {
-        logger.error(it)
+        logger.warn(it)
         ws.close()
-        initClient(null)
-      }.closeHandler {
-        //如果ws意外关闭则重建
-        initClient(null)
+        initClient(false)
       }
       this.ws = ws
-      next?.invoke()
+      vertx.eventBus().publish("status-modify", JsonObject().put("status", remoteIp))
+      if (isFirst) {
+        initServer(future)
+        vertx.eventBus().consumer<JsonObject>("remote-modify") {
+          this.remoteIp = it.body().getString("remote.ip")
+          this.remotePort = it.body().getInteger("remote.port")
+          this.user = it.body().getString("user")
+          this.pwd = it.body().getString("pass")
+          initClient(false)
+        }
+      }
     }
   }
 
   private fun wsConnectedHandler(ws: WebSocket, uuid: String) {
     val request = tempMap.remove(uuid) ?: return
-    val netSocket = request.netSocket()
+    val netSocket = try {
+      request.netSocket()
+    } catch (e: IllegalStateException) {
+      return
+    }
     netSocket.handler { buffer ->
       val rawData = RawData.create(uuid, buffer)
       ws.writeBinaryMessage(rawData.toBuffer())

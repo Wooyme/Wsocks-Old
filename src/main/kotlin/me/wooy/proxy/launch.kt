@@ -9,6 +9,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.wooy.proxy.client.ClientSockJs
 import me.wooy.proxy.server.ServerSockJs
+import me.wooy.proxy.ui.ClientUI
+import me.wooy.proxy.ui.TestTray
 import org.apache.commons.cli.*
 
 
@@ -25,6 +27,15 @@ fun main(args:Array<String>) {
   }
   GlobalScope.launch(vertx.dispatcher()) {
     when(cmd.getOptionValue("type")){
+      "client-ui"->{
+        val clientConfig = JsonObject().put("ui",true)
+        awaitResult<String> {
+          vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
+        }
+        awaitResult<String> {
+          vertx.deployVerticle(ClientUI(),it)
+        }
+      }
       "client"->{
         val user = cmd.getOptionValue("user")
         val pass = cmd.getOptionValue("pass")
@@ -50,7 +61,7 @@ fun main(args:Array<String>) {
         }
       }
       "both"->{
-        val port = 1888
+        val port = 9888
         val userListFile = "config.json"
         val serverConfig = JsonObject()
           .put("port",port)
@@ -58,18 +69,12 @@ fun main(args:Array<String>) {
         awaitResult<String> {
           vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
         }
-        val ip = "127.0.0.1"
-        val user = "anyone"
-        val pwd = "anyone"
-        val localPort = 2888
-        val clientConfig = JsonObject()
-          .put("local.port",localPort)
-          .put("remote.ip", ip)
-          .put("remote.port",port)
-          .put("user",user)
-          .put("pass",pwd)
+        val clientConfig = JsonObject().put("ui",true)
         awaitResult<String> {
           vertx.deployVerticle(ClientSockJs(), DeploymentOptions().setConfig(clientConfig), it)
+        }
+        awaitResult<String> {
+          vertx.deployVerticle(ClientUI(),it)
         }
       }
     }
@@ -80,7 +85,7 @@ fun main(args:Array<String>) {
 fun options():Options{
   val options = Options()
 
-  val proxyType = Option("T","type",true,"[server/client>]")
+  val proxyType = Option("T","type",true,"[server/client/client-ui]")
   proxyType.isRequired = true
   options.addOption(proxyType)
 
