@@ -84,7 +84,6 @@ fun main(args:Array<String>) {
 
 fun options():Options{
   val options = Options()
-
   val proxyType = Option("T","type",true,"[server/client/client-ui]")
   proxyType.isRequired = true
   options.addOption(proxyType)
@@ -100,7 +99,6 @@ fun options():Options{
   val remotePort = Option("RP","remote-port",true,"Remote port for client")
   remotePort.isRequired = false
   options.addOption(remotePort)
-
 
   val user = Option("U","user",true,"Username")
   user.isRequired = false

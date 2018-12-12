@@ -25,7 +25,6 @@ class ClientUI : AbstractVerticle() {
       //没有保存文件就弹个窗，初始化一下几个参数
       initUI()
     }
-
   }
 
   private fun initUI() {
@@ -64,10 +63,14 @@ class ClientUI : AbstractVerticle() {
     systemTray.status = "Connecting"
 
     val mainMenu = systemTray.menu
-    val editEntry = MenuItem("Edit connection", ActionListener { e ->
+    val editEntry = MenuItem("Edit connection"){ e ->
       remoteModify()
-    })
+    }
+    val quitEntry = MenuItem("Quit"){
+      System.exit(0)
+    }
     mainMenu.add(editEntry)
+    mainMenu.add(quitEntry)
   }
 
 
