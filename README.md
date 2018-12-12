@@ -39,7 +39,7 @@ usage: utility-name
  -U,--user <arg>           用户名
  -RI,--remote-ip <arg>     远程服务器IP
  -RP,--remote-port <arg>   远程服务器端口
- -T,--type <arg>           选择服务端或客户端[server/client>]
+ -T,--type <arg>           选择服务端或客户端[server/client/client-ui]
 ```
 服务端
 -----
@@ -65,6 +65,10 @@ java -jar proxy.jar -T client -RI <服务器IP> -RP <服务器端口> -LP <本�
 nohup java -jar proxy.jar -T client -RI <服务器IP> -RP <服务器端口> -LP <本地端口> -U <用户名> -P <密码> &
 后台运行(Windows Only)
 START /B java -jar proxy.jar -T client -RI <服务器IP> -RP <服务器端口> -LP <本地端口> -U <用户名> -P <密码>
+后台运行GUI模式(Linux\Unix Only)
+nohup java -jar proxy.jar -T client-ui &
+后台运行GUI模式(Windows Only)
+START /B java -jar proxy.jar -T client-ui
 ```
 客户端运行后会在本地监听2888端口，使用HTTP协议  
 开启客户端之后需要设置浏览器代理

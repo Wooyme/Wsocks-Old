@@ -33,7 +33,7 @@
           <entry key="java" value="72" />
           <entry key="json" value="3" />
           <entry key="kt" value="37" />
-          <entry key="md" value="1" />
+          <entry key="md" value="2" />
           <entry key="xml" value="9" />
         </counts>
       </usages-collector>
@@ -43,7 +43,7 @@
           <entry key="JAVA" value="72" />
           <entry key="JSON" value="3" />
           <entry key="Kotlin" value="37" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="PLAIN_TEXT" value="2" />
           <entry key="XML" value="9" />
         </counts>
       </usages-collector>
@@ -51,7 +51,8 @@
         <counts>
           <entry key="java" value="53" />
           <entry key="json" value="4" />
-          <entry key="kt" value="14154" />
+          <entry key="kt" value="14216" />
+          <entry key="md" value="160" />
           <entry key="xml" value="89" />
         </counts>
       </usages-collector>
@@ -59,7 +60,8 @@
         <counts>
           <entry key="JAVA" value="53" />
           <entry key="JSON" value="4" />
-          <entry key="Kotlin" value="14154" />
+          <entry key="Kotlin" value="14216" />
+          <entry key="PLAIN_TEXT" value="160" />
           <entry key="XML" value="89" />
         </counts>
       </usages-collector>
@@ -91,8 +93,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="63" column="36" selection-start-line="63" selection-start-column="36" selection-end-line="63" selection-end-column="36" />
+            <state relative-caret-position="308">
+              <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="70" column="41" selection-start-line="70" selection-start-column="41" selection-end-line="70" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -109,11 +120,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
+            <state relative-caret-position="302">
+              <caret line="91" column="30" lean-forward="true" selection-start-line="91" selection-start-column="30" selection-end-line="91" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -173,10 +184,11 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/AuthHeader.kt" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/TestTray.java" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt" />
         <option value="$PROJECT_DIR$/save.json" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientSockJs.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -397,12 +409,12 @@
       <workItem from="1544540656197" duration="171000" />
       <workItem from="1544541964545" duration="862000" />
       <workItem from="1544580833692" duration="5832000" />
-      <workItem from="1544597671316" duration="4456000" />
+      <workItem from="1544597671316" duration="4934000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52644000" />
+    <option name="totallyTimeSpent" value="53122000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -430,7 +442,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32853982" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32853982" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32853982" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32743362" />
@@ -651,9 +663,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/io/vertx/vertx-core/3.6.0/vertx-core-3.6.0-sources.jar!/io/vertx/core/http/HttpServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="419">
@@ -783,13 +792,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="63" column="36" selection-start-line="63" selection-start-column="36" selection-end-line="63" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientSockJs.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="874">
@@ -802,8 +804,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
+        <state relative-caret-position="302">
+          <caret line="91" column="30" lean-forward="true" selection-start-line="91" selection-start-column="30" selection-end-line="91" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="70" column="41" selection-start-line="70" selection-start-column="41" selection-end-line="70" selection-end-column="41" />
         </state>
       </provider>
     </entry>
