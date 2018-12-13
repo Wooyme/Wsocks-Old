@@ -665,3 +665,668 @@ java.lang.IllegalStateException: WebSocket is closed
 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
 	at java.lang.Thread.run(Thread.java:748)
 
+十二月 13, 2018 5:21:19 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:24 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:29 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:34 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:21:34 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:39 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:44 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:49 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:54 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:21:59 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:04 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:09 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:11 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:22:11 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:22:12 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:22:14 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:19 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:24 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:25 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:22:29 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:34 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:39 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:44 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:49 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:54 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:22:57 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:22:59 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:04 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:09 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:10 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:14 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:19 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:24 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:27 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:27 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:27 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:27 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:27 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:27 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:29 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:34 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:39 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:42 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 5:23:42 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 5:23:42 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:42 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:42 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 5:23:42 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 5:23:44 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:49 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:54 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
+十二月 13, 2018 5:23:59 下午 io.vertx.core.impl.ContextImpl
+严重: Unhandled exception
+java.lang.IllegalStateException: WebSocket is closed
+	at io.vertx.core.http.impl.WebSocketImplBase.checkClosed(WebSocketImplBase.java:272)
+	at io.vertx.core.http.impl.WebSocketImplBase.writeFrame(WebSocketImplBase.java:262)
+	at io.vertx.core.http.impl.WebSocketImplBase.writePing(WebSocketImplBase.java:201)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:79)
+	at me.wooy.proxy.client.ClientSocks5$initWebSocket$2$1.handle(ClientSocks5.kt:19)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:907)
+	at io.vertx.core.impl.VertxImpl$InternalTimerHandler.handle(VertxImpl.java:866)
+	at io.vertx.core.impl.ContextImpl.executeTask(ContextImpl.java:320)
+	at io.vertx.core.impl.EventLoopContext.lambda$executeAsync$0(EventLoopContext.java:38)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:462)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:897)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+
