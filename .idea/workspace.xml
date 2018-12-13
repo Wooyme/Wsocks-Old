@@ -18,7 +18,7 @@
     <session id="996742881">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.3" value="2" />
@@ -85,8 +85,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="68" column="48" selection-start-line="68" selection-start-column="48" selection-end-line="68" selection-end-column="48" />
+            <state relative-caret-position="462">
+              <caret line="27" column="3" lean-forward="true" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -410,12 +410,12 @@
       <workItem from="1544608987406" duration="47000" />
       <workItem from="1544609096485" duration="17012000" />
       <workItem from="1544673046234" duration="9429000" />
-      <workItem from="1544691694463" duration="1267000" />
+      <workItem from="1544691694463" duration="1446000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82712000" />
+    <option name="totallyTimeSpent" value="82891000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -442,7 +442,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.3277027" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.527027" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.527027" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.3293919" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.3260135" />
@@ -830,8 +830,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="68" column="48" selection-start-line="68" selection-start-column="48" selection-end-line="68" selection-end-column="48" />
+        <state relative-caret-position="462">
+          <caret line="27" column="3" lean-forward="true" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
         </state>
       </provider>
     </entry>
