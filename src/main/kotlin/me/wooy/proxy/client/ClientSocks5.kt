@@ -24,25 +24,33 @@ class ClientSocks5:AbstractVerticle() {
   private val connectMap = ConcurrentHashMap<String,NetSocket>()
   private val senderMap = ConcurrentHashMap<String,SocketAddress>()
   private val address = Inet4Address.getByName("127.0.0.1").address
+  private lateinit var remoteIp: String
+  private var remotePort: Int = 0
+  private var localPort:Int = 0
+  private lateinit var user: String
+  private lateinit var pwd: String
   override fun start() {
     super.start()
     httpClient = vertx.createHttpClient()
     if(config().getBoolean("ui")){
       vertx.eventBus().consumer<JsonObject>("local-init") {
-        val remoteIp = it.body().getString("remote.ip")
-        val remotePort = it.body().getInteger("remote.port")
-        val localPort = it.body().getInteger("local.port")
-        val user = it.body().getString("user")
-        val pwd = it.body().getString("pass")
+        remoteIp = it.body().getString("remote.ip")
+        remotePort = it.body().getInteger("remote.port")
+        localPort = it.body().getInteger("local.port")
+        user = it.body().getString("user")
+        pwd = it.body().getString("pass")
         initWebSocket(remoteIp,remotePort,user,pwd)
         initSocksServer(localPort)
         initUdpServer()
       }
       vertx.eventBus().consumer<JsonObject>("remote-modify") {
-        val remoteIp = it.body().getString("remote.ip")
-        val remotePort = it.body().getInteger("remote.port")
-        val user = it.body().getString("user")
-        val pwd = it.body().getString("pass")
+        remoteIp = it.body().getString("remote.ip")
+        remotePort = it.body().getInteger("remote.port")
+        user = it.body().getString("user")
+        pwd = it.body().getString("pass")
+        initWebSocket(remoteIp,remotePort,user,pwd)
+      }
+      vertx.eventBus().consumer<String>("remote-re-connect"){
         initWebSocket(remoteIp,remotePort,user,pwd)
       }
     }else{

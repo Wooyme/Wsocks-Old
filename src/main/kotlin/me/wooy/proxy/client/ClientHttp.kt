@@ -15,6 +15,7 @@ import me.wooy.proxy.data.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
+@Deprecated("HTTP写的太乱不再更新，使用Socks5代替HTTP")
 class ClientHttp : AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ClientHttp::class.java)
   private lateinit var httpClient: HttpClient

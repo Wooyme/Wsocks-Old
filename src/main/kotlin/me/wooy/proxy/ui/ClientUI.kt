@@ -66,13 +66,22 @@ class ClientUI : AbstractVerticle() {
     val editEntry = MenuItem("Edit connection"){ e ->
       remoteModify()
     }
+    val reConnectEntry = MenuItem("Re-Connect"){
+      if(systemTray.status!="Connecting")
+        reConnectCommand()
+    }
     val quitEntry = MenuItem("Quit"){
       System.exit(0)
     }
     mainMenu.add(editEntry)
+    mainMenu.add(reConnectEntry)
     mainMenu.add(quitEntry)
   }
 
+  private fun reConnectCommand(){
+    systemTray.status="Connecting"
+    vertx.eventBus().publish("remote-re-connect","")
+  }
 
   private fun remoteModify() {
     vertx.executeBlocking<String>({

@@ -9,7 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.wooy.proxy.client.ClientHttp
 import me.wooy.proxy.client.ClientSocks5
-import me.wooy.proxy.server.ServerSockJs
+import me.wooy.proxy.server.ServerWebSocket
 import me.wooy.proxy.ui.ClientUI
 import org.apache.commons.cli.*
 
@@ -63,7 +63,7 @@ fun main(args:Array<String>) {
         val localPort = cmd.getOptionValue("local-port").toInt()
         val serverConfig = JsonObject().put("port",localPort).put("users",usersFile)
         awaitResult<String> {
-          vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
+          vertx.deployVerticle(ServerWebSocket(),DeploymentOptions().setConfig(serverConfig), it)
         }
       }
       "test"->{
@@ -71,7 +71,7 @@ fun main(args:Array<String>) {
         val localPort = 9998
         val serverConfig = JsonObject().put("port",localPort).put("users",usersFile)
         awaitResult<String> {
-          vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
+          vertx.deployVerticle(ServerWebSocket(),DeploymentOptions().setConfig(serverConfig), it)
         }
         val clientConfig = JsonObject().put("ui",true)
         awaitResult<String> {
@@ -91,7 +91,7 @@ fun main(args:Array<String>) {
 
 fun options():Options{
   val options = Options()
-  val proxyType = Option("T","type",true,"[server/client/client-ui]")
+  val proxyType = Option("T","type",true,"[server/client-socks5/client-socks5-ui] HTTP代理仍可以使用，但不再更新")
   proxyType.isRequired = true
   options.addOption(proxyType)
 
