@@ -12,6 +12,7 @@ import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.net.NetSocket
 import io.vertx.core.net.SocketAddress
 import me.wooy.proxy.data.*
+import java.lang.IllegalStateException
 import java.net.Inet4Address
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -67,7 +68,13 @@ class ClientSocks5:AbstractVerticle() {
 
   private fun initWebSocket(remoteIp:String,remotePort:Int,user:String,pass:String){
     if(this::ws.isInitialized){
-      ws.close()
+      try { ws.close() }catch (e:IllegalStateException){ /*异常属于正常情况，不用处理*/ }
+    }else{
+      //只在第一次初始化的设置
+      vertx.setPeriodic(5000) {
+        if(this::ws.isInitialized)
+          ws.writePing(Buffer.buffer())
+      }
     }
     httpClient.websocket(remotePort
       ,remoteIp
@@ -75,9 +82,6 @@ class ClientSocks5:AbstractVerticle() {
       , MultiMap.caseInsensitiveMultiMap()
       .add("user",user).add("pass",pass)){ webSocket ->
       webSocket.writePing(Buffer.buffer())
-      vertx.setPeriodic(5000) {
-        webSocket.writePing(Buffer.buffer())
-      }
       webSocket.binaryMessageHandler {buffer->
         if (buffer.length() < 4) {
           return@binaryMessageHandler
