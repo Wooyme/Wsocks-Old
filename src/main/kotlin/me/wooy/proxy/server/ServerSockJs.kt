@@ -2,12 +2,15 @@ package me.wooy.proxy.server
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
+import io.vertx.core.datagram.DatagramSocket
 import io.vertx.core.http.HttpServer
 import io.vertx.core.http.ServerWebSocket
+import io.vertx.core.http.WebSocket
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.net.NetClient
 import io.vertx.core.net.NetSocket
+import io.vertx.core.net.SocketAddress
 import io.vertx.kotlin.core.net.connectAwait
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.GlobalScope
@@ -18,11 +21,15 @@ import java.util.concurrent.ConcurrentHashMap
 
 class ServerSockJs:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ServerSockJs::class.java)
+  private lateinit var udpClient:DatagramSocket
   private lateinit var netClient: NetClient
   private lateinit var httpServer:HttpServer
   private lateinit var userList:Map<String,String>
   private val localMap: ConcurrentHashMap<String,NetSocket> = ConcurrentHashMap()
+  private val senderMap = ConcurrentHashMap<SocketAddress,Pair<ServerWebSocket,String>>()
   override fun start(startFuture: Future<Void>) {
+    udpClient = vertx.createDatagramSocket()
+    initUdpClient()
     netClient = vertx.createNetClient()
     httpServer = vertx.createHttpServer()
     httpServer.websocketHandler(this::socketHandler)
@@ -31,7 +38,7 @@ class ServerSockJs:AbstractVerticle() {
     vertx.executeBlocking<HttpServer>({
       httpServer.listen(port,it.completer())
     }){
-      logger.info("Proxy server listen at 1888")
+      logger.info("Proxy server listen at $port")
       startFuture.complete()
     }
   }
@@ -61,6 +68,7 @@ class ServerSockJs:AbstractVerticle() {
           Flag.CONNECT.ordinal -> clientConnectHandler(sock, ClientConnect(buffer))
           Flag.RAW.ordinal -> clientRawHandler(sock, RawData(buffer))
           Flag.HTTP.ordinal -> clientRequestHandler(sock, HttpData(buffer))
+          Flag.UDP.ordinal -> clientUDPHandler(sock, RawUDPData(buffer))
           else->logger.error(buffer.getIntLE(0))
         }
       }
@@ -103,6 +111,18 @@ class ServerSockJs:AbstractVerticle() {
       logger.warn(e)
       sock.writeBinaryMessage(Exception.create(data.uuid,e.localizedMessage).toBuffer())
       return
+    }
+  }
+
+  private fun clientUDPHandler(sock: ServerWebSocket,data:RawUDPData){
+    senderMap[SocketAddress.inetSocketAddress(data.port,data.host)] = sock to data.uuid
+    udpClient.send(data.data,data.port,data.host){}
+  }
+
+  private fun initUdpClient(){
+    udpClient.handler {
+      val (ws,uuid) = senderMap.remove(it.sender())?:return@handler
+      ws.writeBinaryMessage(RawUDPData.create(uuid,"",0,it.data()).toBuffer())
     }
   }
 }

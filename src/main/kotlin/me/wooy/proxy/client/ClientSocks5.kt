@@ -3,25 +3,27 @@ package me.wooy.proxy.client
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.MultiMap
 import io.vertx.core.buffer.Buffer
+import io.vertx.core.datagram.DatagramPacket
+import io.vertx.core.datagram.DatagramSocket
 import io.vertx.core.http.HttpClient
 import io.vertx.core.http.WebSocket
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.net.NetSocket
-import me.wooy.proxy.data.ClientConnect
-import me.wooy.proxy.data.ConnectSuccess
-import me.wooy.proxy.data.Exception
-import me.wooy.proxy.data.Flag
-import me.wooy.proxy.data.RawData
+import io.vertx.core.net.SocketAddress
+import me.wooy.proxy.data.*
 import java.net.Inet4Address
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class ClientSocks5:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ClientSocks5::class.java)
+  private lateinit var udpServer:DatagramSocket
   private lateinit var httpClient: HttpClient
   private lateinit var ws:WebSocket
   private val connectMap = ConcurrentHashMap<String,NetSocket>()
+  private val senderMap = ConcurrentHashMap<String,SocketAddress>()
+  private val address = Inet4Address.getByName("127.0.0.1").address
   override fun start() {
     super.start()
     httpClient = vertx.createHttpClient()
@@ -34,6 +36,7 @@ class ClientSocks5:AbstractVerticle() {
         val pwd = it.body().getString("pass")
         initWebSocket(remoteIp,remotePort,user,pwd)
         initSocksServer(localPort)
+        initUdpServer()
       }
       vertx.eventBus().consumer<JsonObject>("remote-modify") {
         val remoteIp = it.body().getString("remote.ip")
@@ -50,6 +53,7 @@ class ClientSocks5:AbstractVerticle() {
       val pwd = config().getString("pass")
       initWebSocket(remoteIp,remotePort,user,pwd)
       initSocksServer(localPort)
+      initUdpServer()
     }
   }
 
@@ -70,6 +74,7 @@ class ClientSocks5:AbstractVerticle() {
           Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(buffer).uuid)
           Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(buffer))
           Flag.RAW.ordinal -> wsReceivedRawHandler(RawData(buffer))
+          Flag.UDP.ordinal -> wsReceivedUDPHandler(RawUDPData(buffer))
           else -> logger.warn(buffer.getIntLE(0))
         }
       }.exceptionHandler {t->
@@ -97,6 +102,16 @@ class ClientSocks5:AbstractVerticle() {
       }
     }.listen(port){
       logger.info("Listen at $port")
+    }
+  }
+
+  private fun initUdpServer(){
+    udpServer = vertx.createDatagramSocket().handler {
+      if(!this::ws.isInitialized)
+        return@handler
+      udpPacketHandler(it)
+    }.listen(29799,"127.0.0.1"){
+      logger.info("UDP Server listen at 29799")
     }
   }
 
@@ -149,6 +164,14 @@ class ClientSocks5:AbstractVerticle() {
       0x01.toByte()->{
         tryConnect(uuid,netSocket,host, port)
       }
+      0x03.toByte()->{
+        netSocket.write(Buffer.buffer()
+          .appendByte(0x05.toByte())
+          .appendByte(0x00.toByte())
+          .appendByte(0x00.toByte())
+          .appendByte(0x01.toByte())
+          .appendBytes(address).appendUnsignedShortLE(29799))
+      }
       else->{
         netSocket.write(Buffer.buffer()
           .appendByte(0x05.toByte())
@@ -156,6 +179,36 @@ class ClientSocks5:AbstractVerticle() {
         return
       }
     }
+  }
+
+  private fun udpPacketHandler(packet:DatagramPacket){
+    val buffer = packet.data()
+    if(buffer.getByte(0)!=0x0.toByte() || buffer.getByte(1)!=0x0.toByte()){
+      return
+    }
+    if(buffer.getByte(2)!=0x0.toByte()){
+      return
+    }
+    val addressType = buffer.getByte(3)
+    val (host,port,data ) = when(addressType){
+      0x01.toByte()->{
+        val host = Inet4Address.getByAddress(buffer.getBytes(5,9)).toString()
+        val port = buffer.getShort(9).toInt()
+        val data = buffer.getBuffer(11,buffer.length())
+        Triple(host,port,data)
+      }
+      0x03.toByte()->{
+        val hostLen = buffer.getByte(4).toInt()
+        val host = buffer.getString(5,5+hostLen)
+        val port = buffer.getShort(5+hostLen).toInt()
+        val data = buffer.getBuffer(7+hostLen,buffer.length())
+        Triple(host,port,data)
+      }
+      else-> return
+    }
+    val uuid = UUID.randomUUID().toString()
+    senderMap[uuid] = packet.sender()
+    ws.writeBinaryMessage(RawUDPData.create(uuid, host, port, data).toBuffer())
   }
 
   private fun tryConnect(uuid:String,netSocket: NetSocket,host:String,port:Int){
@@ -181,6 +234,11 @@ class ClientSocks5:AbstractVerticle() {
   private fun wsReceivedRawHandler(data: RawData){
     val netSocket = connectMap[data.uuid]?:return
     netSocket.write(data.data)
+  }
+
+  private fun wsReceivedUDPHandler(data:RawUDPData){
+    val sender = senderMap[data.uuid]?:return
+    udpServer.send(data.data,sender.port(),sender.host()){}
   }
 
   private fun wsExceptionHandler(e:Exception){

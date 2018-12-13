@@ -66,6 +66,21 @@ fun main(args:Array<String>) {
           vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
         }
       }
+      "test"->{
+        val usersFile = "config.json"
+        val localPort = 9998
+        val serverConfig = JsonObject().put("port",localPort).put("users",usersFile)
+        awaitResult<String> {
+          vertx.deployVerticle(ServerSockJs(),DeploymentOptions().setConfig(serverConfig), it)
+        }
+        val clientConfig = JsonObject().put("ui",true)
+        awaitResult<String> {
+          vertx.deployVerticle(ClientSocks5(), DeploymentOptions().setConfig(clientConfig), it)
+        }
+        awaitResult<String> {
+          vertx.deployVerticle(ClientUI(),it)
+        }
+      }
       else->{
         formatter.printHelp("utility-name", options)
       }
