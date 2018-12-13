@@ -100,7 +100,7 @@ class ClientUI : AbstractVerticle() {
 
 
   companion object {
-    private val LT_GRAY_TRAIN = ClientUI::class.java.getResource("favicon-32x32.png")
+    private val LT_GRAY_TRAIN = ClientUI::class.java.getResource("icon.jpg")
 
   }
 }

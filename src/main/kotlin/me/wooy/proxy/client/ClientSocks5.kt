@@ -65,8 +65,12 @@ class ClientSocks5:AbstractVerticle() {
       ,remoteIp
       ,"/proxy"
       , MultiMap.caseInsensitiveMultiMap()
-      .add("user",user).add("pass",pass)){
-      it.binaryMessageHandler {buffer->
+      .add("user",user).add("pass",pass)){ webSocket ->
+      webSocket.writePing(Buffer.buffer())
+      vertx.setPeriodic(5000) {
+        webSocket.writePing(Buffer.buffer())
+      }
+      webSocket.binaryMessageHandler {buffer->
         if (buffer.length() < 4) {
           return@binaryMessageHandler
         }
@@ -82,7 +86,7 @@ class ClientSocks5:AbstractVerticle() {
         ws.close()
         initWebSocket(remoteIp, remotePort, user, pass)
       }
-      this.ws = it
+      this.ws = webSocket
       logger.info("Connected to remote server")
       vertx.eventBus().publish("status-modify",JsonObject().put("status","$remoteIp:$remotePort"))
     }

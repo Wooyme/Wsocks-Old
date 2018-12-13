@@ -1,861 +1,139 @@
 SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-十二月 12, 2018 11:40:52 下午 me.wooy.proxy.client.ClientSocks5
-信息: Listen at 1080
-十二月 12, 2018 11:40:52 下午 me.wooy.proxy.client.ClientSocks5
-信息: Connected to remote server
+十二月 13, 2018 4:00:29 下午 me.wooy.proxy.client.ClientHttp
+信息: listen at 1080
 SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-十二月 12, 2018 11:42:15 下午 me.wooy.proxy.client.ClientSocks5
-信息: Listen at 1080
-十二月 12, 2018 11:42:16 下午 me.wooy.proxy.client.ClientSocks5
-信息: Connected to remote server
-十二月 12, 2018 11:42:58 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:00:40 下午 me.wooy.proxy.client.ClientHttp
+信息: listen at 1080
+十二月 13, 2018 4:01:15 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 12, 2018 11:42:58 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:01:15 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 12, 2018 11:42:58 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:01:15 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 12, 2018 11:42:58 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:01:15 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 12, 2018 11:43:14 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:01:15 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 12, 2018 11:43:14 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:01:15 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 12, 2018 11:43:14 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:01:24 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 12, 2018 11:43:14 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:47:03 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:47:03 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:47:03 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:47:03 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:47:27 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:47:27 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:14 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:14 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:14 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:14 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:14 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:16 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:50 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:48:50 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:49:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:50:49 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:51:37 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:05 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:37 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:41 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:41 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:41 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:52:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:24 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:24 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:24 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:27 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:40 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:40 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:40 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:40 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:41 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:41 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:45 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:53:49 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:02 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:02 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:02 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:02 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:02 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:02 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:02 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:54:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:17 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:18 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:20 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:40 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:42 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:42 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:44 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:55:44 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:57:14 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:57:29 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:57:50 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:33 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:33 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:37 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:38 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:39 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:39 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:43 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:51 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:58:51 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:59:06 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:59:06 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 12, 2018 11:59:06 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:05 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:51 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:52 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:52 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:55 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:56 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:56 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:00:57 上午 me.wooy.proxy.client.ClientSocks5
-警告: failed to resolve 'eicm-global.dsp.io'. Exceeded max queries per resolve 4 
-十二月 13, 2018 12:01:16 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:01:19 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:01:19 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:01:19 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:02:20 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:02:20 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:02:20 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:02:20 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:02:20 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:02:20 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:02:50 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:02:50 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:03:20 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: b-gold-cdn.xitu.io/124.200.113.145:443
-十二月 13, 2018 12:04:17 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:22 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:22 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:22 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:22 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:23 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:26 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:26 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:27 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:30 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:38 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:38 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:04:38 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:00 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:00 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:00 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:00 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:28 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:28 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:52 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:52 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:05:52 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:06:19 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: s.union.360.cn/180.163.251.76:443
-十二月 13, 2018 12:06:19 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:07:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:07:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:07:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:09:26 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:10:09 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:13:22 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:13:22 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:13:22 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:13:22 上午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:01:24 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
 SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-十二月 13, 2018 10:22:18 上午 me.wooy.proxy.client.ClientSocks5
-信息: Listen at 1080
-十二月 13, 2018 10:22:19 上午 io.vertx.core.http.impl.HttpClientImpl
-严重: io.vertx.core.http.WebsocketRejectedException: Websocket connection attempt returned HTTP status code 302
-SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-十二月 13, 2018 10:22:55 上午 me.wooy.proxy.client.ClientSocks5
-信息: Listen at 1080
-十二月 13, 2018 10:22:56 上午 me.wooy.proxy.client.ClientSocks5
-信息: Connected to remote server
-十二月 13, 2018 10:23:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:29 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:30 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:30 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:30 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:30 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:31 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:23:36 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:24:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:24:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:24:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:24:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:24:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:25:15 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:25:15 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:44 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:44 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:31:44 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:35:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:40:32 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:41:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:41:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:41:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:41:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:41:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:41:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:51:44 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:57:17 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:57:21 上午 me.wooy.proxy.client.ClientSocks5
-警告: failed to resolve 'www'. Exceeded max queries per resolve 4 
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:24 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:24 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:24 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:24 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:37 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:37 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:59 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:59 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 10:58:59 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:00:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:00:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:00:27 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:01:44 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:01:44 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:01:44 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:01:55 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:01:55 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:02:28 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:02:28 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:02:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:02:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:02:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:02:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:02:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:02:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:03:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:04:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:04:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:04:13 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:07:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:07:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:07:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:07:48 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:15:43 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-十二月 13, 2018 11:32:36 上午 io.vertx.core.impl.BlockedThreadChecker
-警告: Thread Thread[vert.x-eventloop-thread-1,5,main] has been blocked for 2032 ms, time limit is 2000 ms
-十二月 13, 2018 11:32:37 上午 io.vertx.core.impl.BlockedThreadChecker
-警告: Thread Thread[vert.x-eventloop-thread-1,5,main] has been blocked for 3032 ms, time limit is 2000 ms
-十二月 13, 2018 11:32:38 上午 io.vertx.core.impl.BlockedThreadChecker
-警告: Thread Thread[vert.x-eventloop-thread-1,5,main] has been blocked for 4031 ms, time limit is 2000 ms
-十二月 13, 2018 11:32:39 上午 me.wooy.proxy.client.ClientSocks5
-信息: Listen at 1080
-十二月 13, 2018 11:32:40 上午 me.wooy.proxy.client.ClientSocks5
-信息: Connected to remote server
-十二月 13, 2018 11:33:01 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:23 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:33 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:34 上午 me.wooy.proxy.client.ClientSocks5
-警告: failed to resolve 'eicm-global.dsp.io'. Exceeded max queries per resolve 4 
-十二月 13, 2018 11:33:34 上午 me.wooy.proxy.client.ClientSocks5
-警告: failed to resolve 'eicm-global.dsp.io'. Exceeded max queries per resolve 4 
-十二月 13, 2018 11:33:37 上午 me.wooy.proxy.client.ClientSocks5
-警告: failed to resolve 'pixel.ad.mlnadvertising.com'. Exceeded max queries per resolve 4 
-十二月 13, 2018 11:33:42 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:33:43 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:33:53 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:33:54 上午 me.wooy.proxy.client.ClientSocks5
-警告: 网络不可达: t.update.rubiconproject.com/2600:1f18:2326:cb01:7e90:3252:25be:ca0:443
-十二月 13, 2018 11:33:56 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:01 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:03 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:04 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:07 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:08 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:10 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:16 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:25 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:28 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:28 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:28 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:34:42 上午 me.wooy.proxy.client.ClientSocks5
-警告: connection timed out: adtag.vidssp.com/18.197.38.114:443
-十二月 13, 2018 11:38:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:38:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:38:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:38:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:38:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:38:45 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:39 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:39 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:39 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:39 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:39 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:39 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:39 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:39:56 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:39:56 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:39:56 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:39:56 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:39:56 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:39:56 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:40:09 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:40:09 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:40:09 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:40:23 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:40:23 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:40:23 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:40:34 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:41:07 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:41:07 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:41:07 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:41:07 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:48:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:48:06 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:48:16 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:48:16 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:48:17 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:48:17 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:48:17 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:48:35 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:50:36 上午 me.wooy.proxy.client.ClientSocks5
-警告: Remote socket has closed
-十二月 13, 2018 11:50:52 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:50:52 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:50:54 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:50:54 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:50:54 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:50:54 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:50:54 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:55:41 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:55:41 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:55:41 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 11:55:41 上午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:11:42 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:11:42 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:11:42 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:11:46 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:21 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:44 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:46 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:46 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:12:47 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:13:04 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:13:04 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:13:04 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:14:33 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:03 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:03 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:03 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:05 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:06 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:07 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:07 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:15:22 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:24:38 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:24:38 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:24:38 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:24:38 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:24:38 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 12:24:38 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-十二月 13, 2018 2:54:55 下午 me.wooy.proxy.client.ClientSocks5
+十二月 13, 2018 4:05:36 下午 me.wooy.proxy.client.ClientSocks5
 信息: UDP Server listen at 29799
-十二月 13, 2018 2:54:55 下午 me.wooy.proxy.client.ClientSocks5
+十二月 13, 2018 4:05:36 下午 me.wooy.proxy.client.ClientSocks5
 信息: Listen at 1080
-十二月 13, 2018 2:54:56 下午 me.wooy.proxy.client.ClientSocks5
+十二月 13, 2018 4:05:37 下午 me.wooy.proxy.client.ClientSocks5
 信息: Connected to remote server
-十二月 13, 2018 3:07:51 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:05:55 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 13, 2018 3:07:51 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:05:55 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 13, 2018 3:07:51 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:05:55 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
-SLF4J: Defaulting to no-operation (NOP) logger implementation
-SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
-十二月 13, 2018 3:10:28 下午 io.vertx.core.impl.BlockedThreadChecker
-警告: Thread Thread[vert.x-eventloop-thread-1,5,main] has been blocked for 2989 ms, time limit is 2000 ms
-十二月 13, 2018 3:10:29 下午 me.wooy.proxy.client.ClientSocks5
-信息: UDP Server listen at 29799
-十二月 13, 2018 3:10:29 下午 me.wooy.proxy.client.ClientSocks5
-信息: Listen at 1080
-十二月 13, 2018 3:10:30 下午 me.wooy.proxy.client.ClientSocks5
-信息: Connected to remote server
-十二月 13, 2018 3:10:46 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:05:55 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 13, 2018 3:10:46 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:06:00 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 13, 2018 3:10:46 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:06:00 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 13, 2018 3:10:46 下午 io.vertx.core.net.impl.ConnectionBase
+十二月 13, 2018 4:06:03 下午 io.vertx.core.net.impl.ConnectionBase
 严重: 连接被对方重设
-十二月 13, 2018 3:10:53 下午 me.wooy.proxy.client.ClientSocks5
+十二月 13, 2018 4:06:03 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:06:03 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:06:03 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:06:05 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:07:41 下午 me.wooy.proxy.client.ClientSocks5
 警告: Remote socket has closed
-十二月 13, 2018 3:10:53 下午 me.wooy.proxy.client.ClientSocks5
+十二月 13, 2018 4:08:02 下午 me.wooy.proxy.client.ClientSocks5
 警告: Remote socket has closed
-十二月 13, 2018 3:10:54 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:10:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:10:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:10:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:10:58 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:10 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:48 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:48 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:11:49 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:12:27 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:12:27 下午 io.vertx.core.net.impl.ConnectionBase
-严重: 连接被对方重设
-十二月 13, 2018 3:12:58 下午 me.wooy.proxy.client.ClientSocks5
+十二月 13, 2018 4:08:03 下午 me.wooy.proxy.client.ClientSocks5
 警告: Remote socket has closed
+十二月 13, 2018 4:12:57 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:12:57 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:12:57 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:13:13 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:13:27 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:13:30 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:13:30 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:14:24 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:14:42 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:14:43 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:14:48 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:14:48 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:14:48 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:14:49 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:14:51 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:14:54 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:14:54 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:15:03 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:15:03 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:16:11 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:16:13 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:19:05 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:20:10 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:20:10 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:20:10 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:20:28 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
+十二月 13, 2018 4:20:31 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:20:32 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:21:31 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:21:31 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:21:31 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:22:44 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:22:44 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:22:45 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:23:30 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:25:01 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:26:40 下午 me.wooy.proxy.client.ClientSocks5
+警告: Remote socket has closed
+十二月 13, 2018 4:48:21 下午 io.vertx.core.net.impl.ConnectionBase
+严重: 连接被对方重设
