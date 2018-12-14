@@ -9,6 +9,7 @@ import io.vertx.core.http.HttpClient
 import io.vertx.core.http.WebSocket
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
+import io.vertx.core.net.NetServer
 import io.vertx.core.net.NetSocket
 import io.vertx.core.net.SocketAddress
 import me.wooy.proxy.data.*
@@ -21,6 +22,7 @@ class ClientSocks5:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ClientSocks5::class.java)
   private lateinit var udpServer:DatagramSocket
   private lateinit var httpClient: HttpClient
+  private lateinit var netServer:NetServer
   private lateinit var ws:WebSocket
   private val connectMap = ConcurrentHashMap<String,NetSocket>()
   private val senderMap = ConcurrentHashMap<String,SocketAddress>()
@@ -53,6 +55,10 @@ class ClientSocks5:AbstractVerticle() {
       }
       vertx.eventBus().consumer<String>("remote-re-connect"){
         initWebSocket(remoteIp,remotePort,user,pwd)
+      }
+      vertx.eventBus().consumer<JsonObject>("local-modify"){
+        localPort = it.body().getInteger("port")
+        initSocksServer(localPort)
       }
     }else{
       val remoteIp = config().getString("remote.ip")
@@ -105,7 +111,11 @@ class ClientSocks5:AbstractVerticle() {
   }
 
   private fun initSocksServer(port: Int){
-    vertx.createNetServer().connectHandler { socket ->
+    if(this::netServer.isInitialized){
+      this.connectMap.forEach { it.value.close() }
+      this.netServer.close()
+    }
+    this.netServer = vertx.createNetServer().connectHandler { socket ->
       if(!this::ws.isInitialized){
         socket.close()
         return@connectHandler

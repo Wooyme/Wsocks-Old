@@ -34,7 +34,10 @@ class ClientUI : AbstractVerticle() {
 
   private fun initUI() {
     vertx.executeBlocking<Int>({
-      it.complete(JOptionPane.showInputDialog("Local Port").toInt())
+      var port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
+      while(port==null)
+        port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
+      it.complete(port)
     }) {
       val localPort = it.result()
       vertx.executeBlocking<String>({
@@ -68,24 +71,45 @@ class ClientUI : AbstractVerticle() {
     systemTray.status = "Connecting"
 
     val mainMenu = systemTray.menu
-    val editEntry = MenuItem("Edit connection"){ e ->
+    val editLocalEntry = MenuItem("Edit Local Port"){
+      remoteLocal()
+    }
+    val editRemoteEntry = MenuItem("Edit connection"){
       remoteModify()
     }
     val reConnectEntry = MenuItem("Re-Connect"){
       if(systemTray.status!="Connecting")
         reConnectCommand()
     }
+    val aboutEntry = MenuItem("About"){
+      JOptionPane.showMessageDialog(null,"Wsocks https://github.com/Wooyme/Wsocks\n made by Wooyme")
+    }
     val quitEntry = MenuItem("Quit"){
       System.exit(0)
     }
-    mainMenu.add(editEntry)
+    mainMenu.add(editLocalEntry)
+    mainMenu.add(editRemoteEntry)
     mainMenu.add(reConnectEntry)
+    mainMenu.add(aboutEntry)
     mainMenu.add(quitEntry)
   }
 
   private fun reConnectCommand(){
     systemTray.status="Connecting"
     vertx.eventBus().publish("remote-re-connect","")
+  }
+
+  private fun remoteLocal(){
+    vertx.executeBlocking<Int>({
+      var port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
+      while(port==null){
+        port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
+      }
+      it.complete(port)
+    }){
+      val port = it.result()
+      vertx.eventBus().publish("local-modify",JsonObject().put("port",port))
+    }
   }
 
   private fun remoteModify() {
