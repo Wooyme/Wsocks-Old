@@ -1,4 +1,4 @@
-LightSocks
+Wsocks
 ==========
 一个基于Vertx实现的类Shadowsocks代理工具
 
