@@ -172,8 +172,7 @@
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
-                    <Main-Class>io.vertx.core.Launcher</Main-Class>
-                    <Main-Verticle>${main.verticle}</Main-Verticle>
+                    <Main-Class>me.wooy.proxy.LaunchKt</Main-Class>
                   </manifestEntries>
                 </transformer>
                 <transformer

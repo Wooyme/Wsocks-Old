@@ -27,13 +27,10 @@ fun main(args:Array<String>) {
   }
   GlobalScope.launch(vertx.dispatcher()) {
     when(cmd.getOptionValue("type")){
-      "client-http-ui","client-socks5-ui"->{
+      "client-socks5-ui"->{
         val clientConfig = JsonObject().put("ui",true)
         awaitResult<String> {
-          if(cmd.getOptionValue("type")=="client-http-ui")
-            vertx.deployVerticle(ClientHttp(), DeploymentOptions().setConfig(clientConfig), it)
-          else
-            vertx.deployVerticle(ClientSocks5(), DeploymentOptions().setConfig(clientConfig), it)
+          vertx.deployVerticle(ClientSocks5(), DeploymentOptions().setConfig(clientConfig), it)
         }
         awaitResult<String> {
           vertx.deployVerticle(ClientUI(),it)

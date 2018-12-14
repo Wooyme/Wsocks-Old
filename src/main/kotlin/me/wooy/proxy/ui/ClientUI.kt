@@ -4,21 +4,26 @@ import dorkbox.systemTray.MenuItem
 import dorkbox.systemTray.SystemTray
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
-import java.awt.event.ActionListener
 import java.io.File
+import java.nio.file.Paths
+
 import javax.swing.JOptionPane
 
 class ClientUI : AbstractVerticle() {
   private val systemTray = SystemTray.get() ?: throw RuntimeException("Unable to load SystemTray!")
   private lateinit var info: JsonObject
+  private lateinit var saveFile: File
   override fun start() {
     super.start()
+    val home = System.getProperty("user.home")
+    Paths.get(home,".wsocks","").toFile().mkdirs()
+    saveFile = Paths.get(home,".wsocks","save.json").toFile()
     vertx.eventBus().consumer<JsonObject>("status-modify") {
       systemTray.status = it.body().getString("status")
     }
     initTray()
     try {
-      val save = JsonObject(File("save.json").readText())
+      val save = JsonObject(saveFile.readText())
       info = save
       vertx.eventBus().publish("local-init", save)
     } catch (e: Throwable) {
@@ -50,7 +55,7 @@ class ClientUI : AbstractVerticle() {
             .put("pass", pass)
             .put("local.port", localPort)
           vertx.eventBus().publish("local-init", info)
-          File("save.json").writeText(info.toString())
+          saveFile.writeText(info.toString())
         }
       }
 
@@ -96,13 +101,13 @@ class ClientUI : AbstractVerticle() {
         val server = remote.split("@")[1]
         val host = server.split(":")[0]
         val port = server.split(":")[1].toInt()
-        val address = if(systemTray.status=="Connecting") "local-init" else "remote-modify"
+        val address = "remote-modify"
         vertx.eventBus().publish(address, info
           .put("remote.ip", host)
           .put("remote.port", port)
           .put("user", user)
           .put("pass", pass))
-        File("save.json").writeText(info.toString())
+        saveFile.writeText(info.toString())
       }
     }
   }
