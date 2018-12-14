@@ -24,6 +24,7 @@ class ClientSocks5:AbstractVerticle() {
   private lateinit var httpClient: HttpClient
   private lateinit var netServer:NetServer
   private lateinit var ws:WebSocket
+  private var bufferSizeHistory:Long = 0L
   private val connectMap = ConcurrentHashMap<String,NetSocket>()
   private val senderMap = ConcurrentHashMap<String,SocketAddress>()
   private val address = Inet4Address.getByName("127.0.0.1").address
@@ -60,17 +61,19 @@ class ClientSocks5:AbstractVerticle() {
         localPort = it.body().getInteger("port")
         initSocksServer(localPort)
       }
+      initFlowCounter()
     }else{
-      val remoteIp = config().getString("remote.ip")
-      val remotePort = config().getInteger("remote.port")
-      val localPort = config().getInteger("local.port")
-      val user = config().getString("user")
-      val pwd = config().getString("pass")
+      remoteIp = config().getString("remote.ip")
+      remotePort = config().getInteger("remote.port")
+      localPort = config().getInteger("local.port")
+      user = config().getString("user")
+      pwd = config().getString("pass")
       initWebSocket(remoteIp,remotePort,user,pwd)
       initSocksServer(localPort)
       initUdpServer()
     }
   }
+
 
   private fun initWebSocket(remoteIp:String,remotePort:Int,user:String,pass:String){
     if(this::ws.isInitialized){
@@ -259,6 +262,7 @@ class ClientSocks5:AbstractVerticle() {
 
   private fun wsReceivedRawHandler(data: RawData){
     val netSocket = connectMap[data.uuid]?:return
+    bufferSizeHistory+=data.data.length()
     netSocket.write(data.data)
   }
 
@@ -270,6 +274,13 @@ class ClientSocks5:AbstractVerticle() {
   private fun wsExceptionHandler(e:Exception){
     connectMap.remove(e.uuid)?.close()
     logger.warn(e.message)
+  }
+
+  private fun initFlowCounter(){
+    vertx.setPeriodic(4*1000){
+      vertx.eventBus().publish("net-status-update","${bufferSizeHistory shr 12}kb/s")
+      bufferSizeHistory=0
+    }
   }
 }
 

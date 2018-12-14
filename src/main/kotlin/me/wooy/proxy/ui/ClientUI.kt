@@ -18,9 +18,6 @@ class ClientUI : AbstractVerticle() {
     val home = System.getProperty("user.home")
     Paths.get(home,".wsocks","").toFile().mkdirs()
     saveFile = Paths.get(home,".wsocks","save.json").toFile()
-    vertx.eventBus().consumer<JsonObject>("status-modify") {
-      systemTray.status = it.body().getString("status")
-    }
     initTray()
     try {
       val save = JsonObject(saveFile.readText())
@@ -35,8 +32,7 @@ class ClientUI : AbstractVerticle() {
   private fun initUI() {
     vertx.executeBlocking<Int>({
       var port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
-      while(port==null)
-        port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
+      while(port==null) port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
       it.complete(port)
     }) {
       val localPort = it.result()
@@ -66,13 +62,20 @@ class ClientUI : AbstractVerticle() {
   }
 
   private fun initTray() {
+    vertx.eventBus().consumer<JsonObject>("status-modify") {
+      systemTray.status = it.body().getString("status")
+    }
     systemTray.setTooltip("LightSocks")
     systemTray.setImage(LT_GRAY_TRAIN)
     systemTray.status = "Connecting"
 
     val mainMenu = systemTray.menu
+    val netStatusEntry = MenuItem("0kb/s")
+    vertx.eventBus().consumer<String>("net-status-update"){
+      netStatusEntry.text = it.body()
+    }
     val editLocalEntry = MenuItem("Edit Local Port"){
-      remoteLocal()
+      localModify()
     }
     val editRemoteEntry = MenuItem("Edit connection"){
       remoteModify()
@@ -87,6 +90,7 @@ class ClientUI : AbstractVerticle() {
     val quitEntry = MenuItem("Quit"){
       System.exit(0)
     }
+    mainMenu.add(netStatusEntry)
     mainMenu.add(editLocalEntry)
     mainMenu.add(editRemoteEntry)
     mainMenu.add(reConnectEntry)
@@ -99,12 +103,10 @@ class ClientUI : AbstractVerticle() {
     vertx.eventBus().publish("remote-re-connect","")
   }
 
-  private fun remoteLocal(){
+  private fun localModify(){
     vertx.executeBlocking<Int>({
       var port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
-      while(port==null){
-        port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
-      }
+      while(port==null) port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
       it.complete(port)
     }){
       val port = it.result()
@@ -138,7 +140,7 @@ class ClientUI : AbstractVerticle() {
 
 
   companion object {
-    private val LT_GRAY_TRAIN = ClientUI::class.java.getResource("icon.jpg")
+    private val LT_GRAY_TRAIN = ClientUI::class.java.getResource("/icon/icon.jpg")
 
   }
 }

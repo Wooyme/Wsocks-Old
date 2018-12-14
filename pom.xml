@@ -101,6 +101,11 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resource</directory>
+      </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
