@@ -57,10 +57,9 @@ class ClientSocks5:AbstractVerticle() {
         pwd = it.body().getString("pass")
         if(it.body().containsKey("key")){
           val array = it.body().getString("key").toByteArray()
-          val n = log2(array.size.toDouble()).toInt().toDouble()
-          if(Math.pow(2.0,n).toInt()!=array.size){
-            Aes.raw = array+ByteArray(Math.pow(2.0,n+1.0).toInt()-array.size){ 0x00 }
-          }else
+          if(16!=array.size)
+            Aes.raw = array+ByteArray(16-array.size){ 0x00 }
+          else
             Aes.raw = array
         }
         if(it.body().containsKey("offset")){
@@ -82,6 +81,14 @@ class ClientSocks5:AbstractVerticle() {
       localPort = config().getInteger("local.port")
       user = config().getString("user")
       pwd = config().getString("pass")
+      if(config().containsKey("key")){
+        val array = config().getString("key").toByteArray()
+        if(16!=array.size)
+          Aes.raw = array+ByteArray(16-array.size){ 0x00 }
+        else
+          Aes.raw = array
+      }
+      offset = config().getInteger("offset")?:0
       initWebSocket(remoteIp,remotePort,user,pwd)
       initSocksServer(localPort)
     }

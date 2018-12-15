@@ -12,6 +12,7 @@ import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.wooy.proxy.data.*
+import me.wooy.proxy.encryption.Aes
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -26,29 +27,35 @@ class ClientHttp : AbstractVerticle() {
   private var localPort: Int = 0
   private lateinit var user: String
   private lateinit var pwd: String
+  private var offset:Int = 0
   private val tempMap: ConcurrentHashMap<String, HttpServerRequest> = ConcurrentHashMap()
   private val localMap: ConcurrentHashMap<String, NetSocket> = ConcurrentHashMap()
+  private fun WebSocket.writeBinaryMessage(offset:Int,data: Buffer){
+    if(offset==0){
+      this.writeBinaryMessage(data)
+    }else{
+      val bytes = ByteArray(offset)
+      Random().nextBytes(bytes)
+      this.writeBinaryMessage(Buffer.buffer(bytes).appendBuffer(data))
+    }
+  }
   override fun start(startFuture: Future<Void>) {
     httpClient = vertx.createHttpClient()
     httpServer = vertx.createHttpServer()
-    if (config().getBoolean("ui")) {
-      vertx.eventBus().consumer<JsonObject>("local-init") {
-        remoteIp = it.body().getString("remote.ip")
-        remotePort = it.body().getInteger("remote.port")
-        localPort = it.body().getInteger("local.port")
-        user = it.body().getString("user")
-        pwd = it.body().getString("pass")
-        initClient(true)
-      }
-      startFuture.complete()
-    } else {
-      remoteIp = config().getString("remote.ip")
-      remotePort = config().getInteger("remote.port")
-      localPort = config().getInteger("local.port")
-      user = config().getString("user")
-      pwd = config().getString("pass")
-      initClient(true, startFuture)
+    remoteIp = config().getString("remote.ip")
+    remotePort = config().getInteger("remote.port")
+    localPort = config().getInteger("local.port")
+    user = config().getString("user")
+    pwd = config().getString("pass")
+    if(config().containsKey("key")){
+      val array = config().getString("key").toByteArray()
+      if(16!=array.size)
+        Aes.raw = array+ByteArray(16-array.size){ 0x00 }
+      else
+        Aes.raw = array
     }
+    offset = config().getInteger("offset")?:0
+    initClient(true, startFuture)
   }
 
   private fun initServer(future: Future<Void>? = null) {
@@ -153,7 +160,7 @@ class ClientHttp : AbstractVerticle() {
     }
     netSocket.handler { buffer ->
       val rawData = RawData.create(uuid, buffer)
-      ws.writeBinaryMessage(rawData.toBuffer())
+      ws.writeBinaryMessage(offset,rawData.toBuffer())
     }.closeHandler {
       localMap.remove(uuid)
     }

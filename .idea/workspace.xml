@@ -18,11 +18,12 @@
     <session id="996742881">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="18" />
+          <entry key="project.closed" value="19" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.19" value="1" />
+          <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.3" value="3" />
           <entry key="project.open.time.35" value="1" />
@@ -35,7 +36,7 @@
           <entry key="project.open.time.56" value="1" />
           <entry key="project.open.time.57" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="21" />
+          <entry key="project.opened" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -46,7 +47,7 @@
           <entry key="java" value="108" />
           <entry key="jpg" value="1" />
           <entry key="json" value="8" />
-          <entry key="kt" value="83" />
+          <entry key="kt" value="84" />
           <entry key="md" value="5" />
           <entry key="properties" value="1" />
           <entry key="sh" value="1" />
@@ -59,7 +60,7 @@
           <entry key="Image" value="1" />
           <entry key="JAVA" value="108" />
           <entry key="JSON" value="8" />
-          <entry key="Kotlin" value="83" />
+          <entry key="Kotlin" value="84" />
           <entry key="Manifest" value="3" />
           <entry key="PLAIN_TEXT" value="8" />
           <entry key="Properties" value="1" />
@@ -70,7 +71,7 @@
         <counts>
           <entry key="java" value="250" />
           <entry key="json" value="151" />
-          <entry key="kt" value="24035" />
+          <entry key="kt" value="24380" />
           <entry key="kts" value="161" />
           <entry key="md" value="162" />
           <entry key="sh" value="30" />
@@ -81,7 +82,7 @@
         <counts>
           <entry key="JAVA" value="250" />
           <entry key="JSON" value="151" />
-          <entry key="Kotlin" value="24196" />
+          <entry key="Kotlin" value="24541" />
           <entry key="PLAIN_TEXT" value="192" />
           <entry key="XML" value="120" />
         </counts>
@@ -90,11 +91,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientSocks5.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="59" column="64" selection-start-line="59" selection-start-column="64" selection-end-line="59" selection-end-column="64" />
+            <state relative-caret-position="188">
+              <caret line="38" selection-start-line="38" selection-end-line="46" selection-end-column="3" />
               <folding>
                 <element signature="e#30#705#0" expanded="true" />
               </folding>
@@ -102,11 +103,20 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientHttp.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3278">
+              <caret line="163" column="20" lean-forward="true" selection-start-line="163" selection-start-column="20" selection-end-line="163" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+            <state relative-caret-position="161">
+              <caret line="57" column="10" lean-forward="true" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
               <folding>
                 <element signature="e#30#723#0" expanded="true" />
               </folding>
@@ -117,20 +127,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="81" selection-start-line="81" selection-end-line="81" />
-              <folding>
-                <element signature="e#26#281#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            <state>
+              <caret line="24" column="48" lean-forward="true" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -138,17 +136,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/ClientConnect.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
+            <state relative-caret-position="254">
               <caret line="17" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/encryption/Aes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -156,8 +145,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="43" column="49" selection-start-line="42" selection-start-column="52" selection-end-line="43" selection-end-column="49" />
+            <state relative-caret-position="320">
+              <caret line="51" column="27" lean-forward="true" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
               <folding>
                 <element signature="e#23#476#0" expanded="true" />
               </folding>
@@ -219,7 +208,6 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/Flag.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/RawUDPData.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerSockJs.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientHttp.kt" />
         <option value="$PROJECT_DIR$/build.sh" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/pom.xml" />
@@ -231,11 +219,12 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/ClientConnect.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/RawData.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/encryption/Aes.java" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt" />
         <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientSocks5.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientHttp.kt" />
       </list>
     </option>
   </component>
@@ -442,7 +431,7 @@
     <configuration name="me.wooy.proxy.LaunchKt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
       <module name="proxy" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="-T test" />
+      <option name="PROGRAM_PARAMETERS" value="-T client-socks5-ui" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PASS_PARENT_ENVS" value="true" />
@@ -505,12 +494,13 @@
       <workItem from="1544775707559" duration="1765000" />
       <workItem from="1544790318741" duration="163000" />
       <workItem from="1544801274118" duration="2698000" />
-      <workItem from="1544845616187" duration="9815000" />
+      <workItem from="1544845616187" duration="11578000" />
+      <workItem from="1544864677903" duration="608000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116251000" />
+    <option name="totallyTimeSpent" value="118622000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -523,7 +513,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1366" height="720" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.23292868" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -532,13 +521,13 @@
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3293919" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.47635135" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.47635135" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.5185811" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.3277027" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49924126" weight="0.8817568" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49924126" weight="0.3277027" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007587" side_tool="true" weight="0.527027" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32263514" />
@@ -562,18 +551,6 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/encryption/Aes.java</url>
-          <line>12</line>
-          <properties />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -702,13 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientHttp.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1364">
-          <caret line="75" column="24" selection-start-line="75" selection-start-column="24" selection-end-line="75" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resource/icon/icon.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -770,9 +740,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
           <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-          <folding>
-            <element signature="e#28#135#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -814,27 +781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
           <caret line="292" column="18" selection-start-line="292" selection-start-column="18" selection-end-line="292" selection-end-column="18" />
-          <folding>
-            <element signature="e#8527#8528#0" expanded="true" />
-            <element signature="e#8565#8566#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="43" column="49" selection-start-line="42" selection-start-column="52" selection-end-line="43" selection-end-column="49" />
-          <folding>
-            <element signature="e#23#476#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/ClientConnect.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
@@ -859,40 +805,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="24" column="48" lean-forward="true" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/encryption/Aes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/ClientConnect.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="51" column="27" lean-forward="true" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
+          <folding>
+            <element signature="e#23#476#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+        <state relative-caret-position="161">
+          <caret line="57" column="10" lean-forward="true" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
           <folding>
             <element signature="e#30#723#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/encryption/Aes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/ClientUI.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="81" selection-start-line="81" selection-end-line="81" />
-          <folding>
-            <element signature="e#26#281#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientSocks5.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="59" column="64" selection-start-line="59" selection-start-column="64" selection-end-line="59" selection-end-column="64" />
+        <state relative-caret-position="188">
+          <caret line="38" selection-start-line="38" selection-end-line="46" selection-end-column="3" />
           <folding>
             <element signature="e#30#705#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientHttp.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3278">
+          <caret line="163" column="20" lean-forward="true" selection-start-line="163" selection-start-column="20" selection-end-line="163" selection-end-column="20" />
         </state>
       </provider>
     </entry>

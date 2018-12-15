@@ -53,10 +53,9 @@ class ServerWebSocket:AbstractVerticle() {
     }
     if(config.containsKey("key")){
       val array = config.getString("key").toByteArray()
-      val n = log2(array.size.toDouble()).toInt().toDouble()
-      if(Math.pow(2.0,n).toInt()!=array.size){
-        Aes.raw = array+ByteArray(Math.pow(2.0,n+1.0).toInt() - array.size){ 0x00 }
-      }else
+      if(16!=array.size)
+        Aes.raw = array+ByteArray(16 - array.size){ 0x00 }
+      else
         Aes.raw = array
     }else{
       logger.info("配置文件未设置秘钥，默认使用${Aes.raw.joinToString("") { it.toString() }}")

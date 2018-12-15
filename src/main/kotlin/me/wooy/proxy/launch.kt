@@ -42,12 +42,16 @@ fun main(args:Array<String>) {
         val localPort = cmd.getOptionValue("local-port").toInt()
         val remotePort = cmd.getOptionValue("remote-port").toInt()
         val remoteIp = cmd.getOptionValue("remote-ip")
+        val key = cmd.getOptionValue("key")
+        val offset = cmd.getOptionValue("offset")
         val clientConfig = JsonObject()
           .put("local.port",localPort)
           .put("remote.ip", remoteIp)
           .put("remote.port",remotePort)
           .put("user",user)
           .put("pass",pass)
+          .put("key",key)
+          .put("offset",offset)
         awaitResult<String> {
           if(cmd.getOptionValue("type")=="client-http")
             vertx.deployVerticle(ClientHttp(), DeploymentOptions().setConfig(clientConfig), it)
@@ -110,8 +114,16 @@ fun options():Options{
   pwd.isRequired = false
   options.addOption(pwd)
 
-  val usersFile = Option("C","config-path",true,"path of config file (server)")
-  pwd.isRequired = false
-  options.addOption(usersFile)
+  val key = Option("K","key",true,"加密秘钥")
+  key.isRequired = false
+  options.addOption(key)
+
+  val offset = Option("O","offset",true,"数据偏移")
+  offset.isRequired = false
+  options.addOption(offset)
+
+  val configFile = Option("C","config-path",true,"path of config file (server)")
+  configFile.isRequired = false
+  options.addOption(configFile)
   return options
 }

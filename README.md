@@ -33,13 +33,13 @@ Usage
 ----
 ```
 usage: utility-name
- -C,--config-user <arg>    用户列表路径
- -LP,--local-port <arg>    客户端或服务端的本地端口
+ -C,--config-user <arg>    配置文件路径
+ -LP,--local-port <arg>    客户端的本地端口
  -P,--pass <arg>           用户密码
  -U,--user <arg>           用户名
  -RI,--remote-ip <arg>     远程服务器IP
  -RP,--remote-port <arg>   远程服务器端口
- -T,--type <arg>           选择服务端或客户端[server/client-http/client-http-ui/client-socks5/client-socks5-ui]
+ -T,--type <arg>           选择服务端或客户端[server/client-socks5/client-socks5-ui]
 ```
 服务端
 -----
@@ -47,18 +47,18 @@ usage: utility-name
 **服务器需要安装Java8，Oracle或是OpenJDK（只要不是2年前的版本）都可以**
 ```
 运行(Linux\Unix Only)
-nohup java -jar proxy.jar -T server -LP <端口号> -C <用户列表路径> &
+nohup java -jar proxy.jar -T server -LP <端口号> -C <配置文件路径> &
 nohup java -jar \
 -Djava.net.preferIPv4Stack=true \
 -Dvertx.disableDnsResolver=true \
 -Dio.netty.leakDetection.level=paranoid \
 -XX:MaxDirectMemorySize=128m \
 -Djdk.nio.maxChachedBufferSize=262144 \
-proxy.jar -T server -LP 1888 -C config.json &
+proxy.jar -T server -C config.json &
 ```
-用户列表格式
+配置文件格式
 ```
-{"users":{"user1":"passwd1","user2":"passwd2",........}}
+{"port":端口号,"key":"Aes加密秘钥，可以填写9位-16位的任意字符串"，"offset":数据偏移量(可以填写任意整数不要太大),"users":{"user1":"passwd1","user2":"passwd2",........}}
 ```
 *解释一下各行参数:*
 ```
