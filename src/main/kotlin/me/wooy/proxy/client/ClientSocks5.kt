@@ -13,10 +13,12 @@ import io.vertx.core.net.NetServer
 import io.vertx.core.net.NetSocket
 import io.vertx.core.net.SocketAddress
 import me.wooy.proxy.data.*
+import me.wooy.proxy.encryption.Aes
 import java.lang.IllegalStateException
 import java.net.Inet4Address
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.log2
 
 class ClientSocks5:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ClientSocks5::class.java)
@@ -31,34 +33,46 @@ class ClientSocks5:AbstractVerticle() {
   private lateinit var remoteIp: String
   private var remotePort: Int = 0
   private var localPort:Int = 0
+  private var offset:Int = 0
   private lateinit var user: String
   private lateinit var pwd: String
+  private fun WebSocket.writeBinaryMessage(offset:Int,data: Buffer){
+    if(offset==0){
+      this.writeBinaryMessage(data)
+    }else{
+      val bytes = ByteArray(offset)
+      Random().nextBytes(bytes)
+      this.writeBinaryMessage(Buffer.buffer(bytes).appendBuffer(data))
+    }
+  }
   override fun start() {
     super.start()
+    initUdpServer()
     httpClient = vertx.createHttpClient()
     if(config().getBoolean("ui")){
-      vertx.eventBus().consumer<JsonObject>("local-init") {
-        remoteIp = it.body().getString("remote.ip")
-        remotePort = it.body().getInteger("remote.port")
-        localPort = it.body().getInteger("local.port")
-        user = it.body().getString("user")
-        pwd = it.body().getString("pass")
-        initWebSocket(remoteIp,remotePort,user,pwd)
-        initSocksServer(localPort)
-        initUdpServer()
-      }
       vertx.eventBus().consumer<JsonObject>("remote-modify") {
         remoteIp = it.body().getString("remote.ip")
         remotePort = it.body().getInteger("remote.port")
         user = it.body().getString("user")
         pwd = it.body().getString("pass")
+        if(it.body().containsKey("key")){
+          val array = it.body().getString("key").toByteArray()
+          val n = log2(array.size.toDouble()).toInt().toDouble()
+          if(Math.pow(2.0,n).toInt()!=array.size){
+            Aes.raw = array+ByteArray(Math.pow(2.0,n+1.0).toInt()-array.size){ 0x00 }
+          }else
+            Aes.raw = array
+        }
+        if(it.body().containsKey("offset")){
+          offset = it.body().getInteger("offset")
+        }
         initWebSocket(remoteIp,remotePort,user,pwd)
       }
       vertx.eventBus().consumer<String>("remote-re-connect"){
         initWebSocket(remoteIp,remotePort,user,pwd)
       }
       vertx.eventBus().consumer<JsonObject>("local-modify"){
-        localPort = it.body().getInteger("port")
+        localPort = it.body().getInteger("local.port")
         initSocksServer(localPort)
       }
       initFlowCounter()
@@ -70,7 +84,6 @@ class ClientSocks5:AbstractVerticle() {
       pwd = config().getString("pass")
       initWebSocket(remoteIp,remotePort,user,pwd)
       initSocksServer(localPort)
-      initUdpServer()
     }
   }
 
@@ -237,19 +250,19 @@ class ClientSocks5:AbstractVerticle() {
     }
     val uuid = UUID.randomUUID().toString()
     senderMap[uuid] = packet.sender()
-    ws.writeBinaryMessage(RawUDPData.create(uuid, host, port, data).toBuffer())
+    ws.writeBinaryMessage(offset,RawUDPData.create(uuid, host, port, data).toBuffer())
   }
 
   private fun tryConnect(uuid:String,netSocket: NetSocket,host:String,port:Int){
     connectMap[uuid] = netSocket
-    ws.writeBinaryMessage(ClientConnect.create(uuid,host,port).toBuffer())
+    ws.writeBinaryMessage(offset,ClientConnect.create(uuid,host,port).toBuffer())
   }
 
   private fun wsConnectedHandler(uuid:String){
     val netSocket = connectMap[uuid]?:return
     //建立连接后修改handler
     netSocket.handler {
-      ws.writeBinaryMessage(RawData.create(uuid,it).toBuffer())
+      ws.writeBinaryMessage(offset,RawData.create(uuid,it).toBuffer())
     }
     val buffer = Buffer.buffer()
       .appendByte(0x05.toByte())
@@ -277,8 +290,8 @@ class ClientSocks5:AbstractVerticle() {
   }
 
   private fun initFlowCounter(){
-    vertx.setPeriodic(4*1000){
-      vertx.eventBus().publish("net-status-update","${bufferSizeHistory shr 12}kb/s")
+    vertx.setPeriodic(2*1000){
+      vertx.eventBus().publish("net-status-update","${bufferSizeHistory shr 11}kb/s")
       bufferSizeHistory=0
     }
   }

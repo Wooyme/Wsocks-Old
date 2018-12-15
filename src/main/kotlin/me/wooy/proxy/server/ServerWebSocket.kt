@@ -15,8 +15,10 @@ import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.wooy.proxy.data.*
+import me.wooy.proxy.encryption.Aes
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.log2
 
 class ServerWebSocket:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ServerWebSocket::class.java)
@@ -24,6 +26,9 @@ class ServerWebSocket:AbstractVerticle() {
   private lateinit var netClient: NetClient
   private lateinit var httpServer:HttpServer
   private lateinit var userList:Map<String,String>
+  private var port:Int = 1888
+  private var offset:Int = 0
+
   private val localMap: ConcurrentHashMap<String,NetSocket> = ConcurrentHashMap()
   private val senderMap = ConcurrentHashMap<SocketAddress,Pair<ServerWebSocket,String>>()
   override fun start(startFuture: Future<Void>) {
@@ -32,8 +37,7 @@ class ServerWebSocket:AbstractVerticle() {
     netClient = vertx.createNetClient()
     httpServer = vertx.createHttpServer()
     httpServer.websocketHandler(this::socketHandler)
-    val port = config().getInteger("port")?:1888
-    configFromFile(config().getString("users"))
+    configFromFile(config().getString("config.path"))
     vertx.executeBlocking<HttpServer>({
       httpServer.listen(port,it.completer())
     }){
@@ -44,6 +48,28 @@ class ServerWebSocket:AbstractVerticle() {
 
   private fun configFromFile(filename:String){
     val config = JsonObject(File(filename).readText())
+    if(config.containsKey("port")) {
+      port = config.getInteger("port")
+    }
+    if(config.containsKey("key")){
+      val array = config.getString("key").toByteArray()
+      val n = log2(array.size.toDouble()).toInt().toDouble()
+      if(Math.pow(2.0,n).toInt()!=array.size){
+        Aes.raw = array+ByteArray(Math.pow(2.0,n+1.0).toInt() - array.size){ 0x00 }
+      }else
+        Aes.raw = array
+    }else{
+      logger.info("配置文件未设置秘钥，默认使用${Aes.raw.joinToString("") { it.toString() }}")
+    }
+    if(config.containsKey("offset")){
+      offset = config.getInteger("offset")
+    }else{
+      logger.info("配置文件未设置数据偏移，默认为0")
+    }
+    if(!config.containsKey("users")){
+      logger.error("配置文件未设置用户，程序退出")
+      System.exit(-1)
+    }
     userList = config.getJsonObject("users").map {
       it.key to it.value.toString()
     }.toMap()
@@ -61,8 +87,9 @@ class ServerWebSocket:AbstractVerticle() {
       sock.reject()
       return
     }
-    sock.binaryMessageHandler { buffer ->
+    sock.binaryMessageHandler { _buffer ->
       GlobalScope.launch(vertx.dispatcher()) {
+        val buffer = if(offset!=0) _buffer.getBuffer(offset,_buffer.length()) else _buffer
         when (buffer.getIntLE(0)) {
           Flag.CONNECT.ordinal -> clientConnectHandler(sock, ClientConnect(buffer))
           Flag.RAW.ordinal -> clientRawHandler(sock, RawData(buffer))

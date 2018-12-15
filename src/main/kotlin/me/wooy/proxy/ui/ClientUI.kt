@@ -8,6 +8,8 @@ import java.io.File
 import java.nio.file.Paths
 
 import javax.swing.JOptionPane
+import javax.swing.JPasswordField
+import javax.swing.JTextField
 
 class ClientUI : AbstractVerticle() {
   private val systemTray = SystemTray.get() ?: throw RuntimeException("Unable to load SystemTray!")
@@ -16,13 +18,14 @@ class ClientUI : AbstractVerticle() {
   override fun start() {
     super.start()
     val home = System.getProperty("user.home")
-    Paths.get(home,".wsocks","").toFile().mkdirs()
-    saveFile = Paths.get(home,".wsocks","save.json").toFile()
+    Paths.get(home, ".wsocks", "").toFile().mkdirs()
+    saveFile = Paths.get(home, ".wsocks", "save.json").toFile()
     initTray()
     try {
       val save = JsonObject(saveFile.readText())
       info = save
-      vertx.eventBus().publish("local-init", save)
+      vertx.eventBus().publish("remote-modify", save)
+      vertx.eventBus().publish("local-modify", save)
     } catch (e: Throwable) {
       //没有保存文件就弹个窗，初始化一下几个参数
       initUI()
@@ -30,35 +33,9 @@ class ClientUI : AbstractVerticle() {
   }
 
   private fun initUI() {
-    vertx.executeBlocking<Int>({
-      var port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
-      while(port==null) port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
-      it.complete(port)
-    }) {
-      val localPort = it.result()
-      vertx.executeBlocking<String>({
-        it.complete(JOptionPane.showInputDialog("Input remote server(user:pass@host:port)"))
-      }) {
-        val remote = it.result()
-        if (remote != null && remote.isNotBlank()) {
-          val auth = remote.split("@")[0]
-          val user = auth.split(":")[0]
-          val pass = auth.split(":")[1]
-          val server = remote.split("@")[1]
-          val host = server.split(":")[0]
-          val port = server.split(":")[1].toInt()
-          info = JsonObject()
-            .put("remote.ip", host)
-            .put("remote.port", port)
-            .put("user", user)
-            .put("pass", pass)
-            .put("local.port", localPort)
-          vertx.eventBus().publish("local-init", info)
-          saveFile.writeText(info.toString())
-        }
-      }
-
-    }
+    info = JsonObject()
+    localModify()
+    remoteModify()
   }
 
   private fun initTray() {
@@ -71,23 +48,23 @@ class ClientUI : AbstractVerticle() {
 
     val mainMenu = systemTray.menu
     val netStatusEntry = MenuItem("0kb/s")
-    vertx.eventBus().consumer<String>("net-status-update"){
+    vertx.eventBus().consumer<String>("net-status-update") {
       netStatusEntry.text = it.body()
     }
-    val editLocalEntry = MenuItem("Edit Local Port"){
+    val editLocalEntry = MenuItem("Edit Local Port") {
       localModify()
     }
-    val editRemoteEntry = MenuItem("Edit connection"){
+    val editRemoteEntry = MenuItem("Edit connection") {
       remoteModify()
     }
-    val reConnectEntry = MenuItem("Re-Connect"){
-      if(systemTray.status!="Connecting")
+    val reConnectEntry = MenuItem("Re-Connect") {
+      if (systemTray.status != "Connecting")
         reConnectCommand()
     }
-    val aboutEntry = MenuItem("About"){
-      JOptionPane.showMessageDialog(null,"Wsocks https://github.com/Wooyme/Wsocks\n made by Wooyme")
+    val aboutEntry = MenuItem("About") {
+      JOptionPane.showMessageDialog(null, "Wsocks https://github.com/Wooyme/Wsocks\n made by Wooyme")
     }
-    val quitEntry = MenuItem("Quit"){
+    val quitEntry = MenuItem("Quit") {
       System.exit(0)
     }
     mainMenu.add(netStatusEntry)
@@ -98,41 +75,55 @@ class ClientUI : AbstractVerticle() {
     mainMenu.add(quitEntry)
   }
 
-  private fun reConnectCommand(){
-    systemTray.status="Connecting"
-    vertx.eventBus().publish("remote-re-connect","")
+  private fun reConnectCommand() {
+    systemTray.status = "Connecting"
+    vertx.eventBus().publish("remote-re-connect", "")
   }
 
-  private fun localModify(){
+  private fun localModify() {
     vertx.executeBlocking<Int>({
       var port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
-      while(port==null) port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
+      while (port == null) port = JOptionPane.showInputDialog("Local Port").toIntOrNull()
       it.complete(port)
-    }){
+    }) {
       val port = it.result()
-      vertx.eventBus().publish("local-modify",JsonObject().put("port",port))
+      info.put("local.port",port)
+      saveFile.writeText(info.toString())
+      vertx.eventBus().publish("local-modify", JsonObject().put("local.port", port))
     }
   }
 
   private fun remoteModify() {
-    vertx.executeBlocking<String>({
-      val remote = JOptionPane.showInputDialog("Input remote server(user:pass@host:port)")
-      it.complete(remote)
+    val hostField = JTextField()
+    val portField = JTextField()
+    val usernameField = JTextField()
+    val passwordField = JPasswordField()
+    val keyField = JTextField()
+    val offsetField = JTextField()
+    val message = arrayOf<Any>("Host:", hostField
+      , "Port:", portField
+      , "Username:", usernameField
+      , "Password:", passwordField
+      , "Key(Optional):", keyField
+      , "offset(Optional):", offsetField)
+    vertx.executeBlocking<Int>({
+      val option = JOptionPane.showConfirmDialog(null, message, "Connect", JOptionPane.OK_CANCEL_OPTION)
+      it.complete(option)
     }) { result ->
-      val remote = result.result()
-      if (remote != null && remote.isNotBlank()) {
-        val auth = remote.split("@")[0]
-        val user = auth.split(":")[0]
-        val pass = auth.split(":")[1]
-        val server = remote.split("@")[1]
-        val host = server.split(":")[0]
-        val port = server.split(":")[1].toInt()
-        val address = "remote-modify"
-        vertx.eventBus().publish(address, info
+      if (result.result() == JOptionPane.OK_OPTION) {
+        val host = hostField.text
+        val port = portField.text.toInt()
+        val user = usernameField.text
+        val pass = String(passwordField.password)
+        val key = keyField.text
+        val offset = offsetField.text.toInt()
+        vertx.eventBus().publish("remote-modify", info
           .put("remote.ip", host)
           .put("remote.port", port)
           .put("user", user)
-          .put("pass", pass))
+          .put("pass", pass)
+          .put("key",key)
+          .put("offset",offset))
         saveFile.writeText(info.toString())
       }
     }

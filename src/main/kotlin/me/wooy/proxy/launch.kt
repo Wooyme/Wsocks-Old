@@ -56,17 +56,15 @@ fun main(args:Array<String>) {
         }
       }
       "server"->{
-        val usersFile = cmd.getOptionValue("config-user")
-        val localPort = cmd.getOptionValue("local-port").toInt()
-        val serverConfig = JsonObject().put("port",localPort).put("users",usersFile)
+        val configPath = cmd.getOptionValue("config-path")
+        val serverConfig = JsonObject().put("config.path",configPath)
         awaitResult<String> {
           vertx.deployVerticle(ServerWebSocket(),DeploymentOptions().setConfig(serverConfig), it)
         }
       }
       "test"->{
         val usersFile = "config.json"
-        val localPort = 9998
-        val serverConfig = JsonObject().put("port",localPort).put("users",usersFile)
+        val serverConfig = JsonObject().put("config.path",usersFile)
         awaitResult<String> {
           vertx.deployVerticle(ServerWebSocket(),DeploymentOptions().setConfig(serverConfig), it)
         }
@@ -92,27 +90,27 @@ fun options():Options{
   proxyType.isRequired = true
   options.addOption(proxyType)
 
-  val localPort = Option("LP","local-port",true,"Local port for client/server")
+  val localPort = Option("LP","local-port",true,"Local port (client)")
   localPort.isRequired = false
   options.addOption(localPort)
 
-  val remoteIp = Option("RI","remote-ip",true,"Remote ip for client")
+  val remoteIp = Option("RI","remote-ip",true,"Remote ip (client)")
   remoteIp.isRequired = false
   options.addOption(remoteIp)
 
-  val remotePort = Option("RP","remote-port",true,"Remote port for client")
+  val remotePort = Option("RP","remote-port",true,"Remote port (client)")
   remotePort.isRequired = false
   options.addOption(remotePort)
 
-  val user = Option("U","user",true,"Username")
+  val user = Option("U","user",true,"username (client)")
   user.isRequired = false
   options.addOption(user)
 
-  val pwd = Option("P","pass",true,"Password")
+  val pwd = Option("P","pass",true,"password (client)")
   pwd.isRequired = false
   options.addOption(pwd)
 
-  val usersFile = Option("C","config-user",true,"User list file for server")
+  val usersFile = Option("C","config-path",true,"path of config file (server)")
   pwd.isRequired = false
   options.addOption(usersFile)
   return options

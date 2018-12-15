@@ -6,10 +6,10 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 
 public class Aes {
+  public static byte[] raw = new byte[]{'C', 'a', 'o', 'N', 'i', 'M', 'a', ',', 'N', 'M', 'S', 'L', '!', 'G', 'F', 'W'};
   public static byte[] encrypt(byte[] value) {
     byte[] encrypted = null;
     try {
-      byte[] raw = new byte[]{'C', 'a', 'o', 'N', 'i', 'M', 'a', ',', 'N', 'M', 'S', 'L', '!', 'G', 'F', 'W'};
       Key skeySpec = new SecretKeySpec(raw, "AES");
       Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
       byte[] iv = new byte[cipher.getBlockSize()];
@@ -28,7 +28,6 @@ public class Aes {
     byte[] original = null;
     Cipher cipher;
     try {
-      byte[] raw = new byte[]{'C', 'a', 'o', 'N', 'i', 'M', 'a', ',', 'N', 'M', 'S', 'L', '!', 'G', 'F', 'W'};
       Key key = new SecretKeySpec(raw, "AES");
       cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
       byte[] ivByte = new byte[cipher.getBlockSize()];
@@ -40,4 +39,5 @@ public class Aes {
     }
     return original;
   }
+
 }
