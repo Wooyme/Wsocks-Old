@@ -18,7 +18,6 @@ import me.wooy.proxy.data.*
 import me.wooy.proxy.encryption.Aes
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.math.log2
 
 class ServerWebSocket:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ServerWebSocket::class.java)

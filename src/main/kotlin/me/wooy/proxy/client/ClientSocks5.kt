@@ -9,6 +9,7 @@ import io.vertx.core.http.HttpClient
 import io.vertx.core.http.WebSocket
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
+import io.vertx.core.net.NetClient
 import io.vertx.core.net.NetServer
 import io.vertx.core.net.NetSocket
 import io.vertx.core.net.SocketAddress
@@ -18,12 +19,12 @@ import java.lang.IllegalStateException
 import java.net.Inet4Address
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.math.log2
 
 class ClientSocks5:AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ClientSocks5::class.java)
   private lateinit var udpServer:DatagramSocket
   private lateinit var httpClient: HttpClient
+  private lateinit var localNetClient:NetClient
   private lateinit var netServer:NetServer
   private lateinit var ws:WebSocket
   private var bufferSizeHistory:Long = 0L
@@ -34,6 +35,7 @@ class ClientSocks5:AbstractVerticle() {
   private var remotePort: Int = 0
   private var localPort:Int = 0
   private var offset:Int = 0
+  private var useGFWList:Boolean = false
   private lateinit var user: String
   private lateinit var pwd: String
   private fun WebSocket.writeBinaryMessage(offset:Int,data: Buffer){
@@ -48,6 +50,7 @@ class ClientSocks5:AbstractVerticle() {
   override fun start() {
     super.start()
     initUdpServer()
+    localNetClient = vertx.createNetClient()
     httpClient = vertx.createHttpClient()
     if(config().getBoolean("ui")){
       vertx.eventBus().consumer<JsonObject>("remote-modify") {
@@ -71,7 +74,9 @@ class ClientSocks5:AbstractVerticle() {
         initWebSocket(remoteIp,remotePort,user,pwd)
       }
       vertx.eventBus().consumer<JsonObject>("local-modify"){
-        localPort = it.body().getInteger("local.port")
+        localPort = it.body().getInteger("local.port")?:1080
+        useGFWList = it.body().getBoolean("gfw.use")?:false
+        if(it.body().containsKey("gfw.path")) GFWRegex.initRegexList(it.body().getString("gfw.path"))
         initSocksServer(localPort)
       }
       initFlowCounter()
@@ -261,8 +266,36 @@ class ClientSocks5:AbstractVerticle() {
   }
 
   private fun tryConnect(uuid:String,netSocket: NetSocket,host:String,port:Int){
-    connectMap[uuid] = netSocket
-    ws.writeBinaryMessage(offset,ClientConnect.create(uuid,host,port).toBuffer())
+    if(useGFWList && !GFWRegex.doNeedProxy(host)){
+      //如果使用GFWList，并且host在列表中，则直接打开一个本地管道
+      localNetClient.connect(port,host){
+        if(it.failed()){
+          netSocket.close()
+          return@connect
+        }
+        val pipe = it.result()
+        pipe.handler {buffer->
+          netSocket.write(buffer)
+        }.closeHandler {
+          netSocket.close()
+        }
+        netSocket.handler {buffer->
+          pipe.write(buffer)
+        }.closeHandler {
+          pipe.close()
+        }
+        val buffer = Buffer.buffer()
+          .appendByte(0x05.toByte())
+          .appendByte(0x00.toByte())
+          .appendByte(0x00.toByte())
+          .appendByte(0x01.toByte())
+          .appendBytes(ByteArray(6){0x0})
+        netSocket.write(buffer)
+      }
+    }else {
+      connectMap[uuid] = netSocket
+      ws.writeBinaryMessage(offset, ClientConnect.create(uuid, host, port).toBuffer())
+    }
   }
 
   private fun wsConnectedHandler(uuid:String){
