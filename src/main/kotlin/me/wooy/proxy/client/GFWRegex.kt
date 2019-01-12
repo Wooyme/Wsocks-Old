@@ -9,8 +9,10 @@ object GFWRegex {
       it.containsMatchIn(host)
     }
   fun initRegexList(path:String){
-    regexList = File(path).readLines().map {
-      it.toRegex()
+    if(File(path).exists()) {
+      regexList = File(path).readLines().map {
+        it.toRegex()
+      }
     }
   }
 }

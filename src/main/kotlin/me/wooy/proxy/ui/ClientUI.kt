@@ -3,33 +3,47 @@ package me.wooy.proxy.ui
 import dorkbox.systemTray.MenuItem
 import dorkbox.systemTray.SystemTray
 import io.vertx.core.AbstractVerticle
+import io.vertx.core.Future
 import io.vertx.core.json.JsonObject
+import io.vertx.kotlin.coroutines.awaitBlocking
+import io.vertx.kotlin.coroutines.awaitResult
+import io.vertx.kotlin.coroutines.dispatcher
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import me.wooy.proxy.client.ClientHttp
+import me.wooy.proxy.client.ClientSocks5
 import java.io.File
-import java.nio.file.Path
 import java.nio.file.Paths
-import javax.swing.JCheckBox
+import javax.swing.*
 
-import javax.swing.JOptionPane
-import javax.swing.JPasswordField
-import javax.swing.JTextField
 
 class ClientUI : AbstractVerticle() {
   private val systemTray = SystemTray.get() ?: throw RuntimeException("Unable to load SystemTray!")
   private lateinit var info: JsonObject
   private lateinit var localPath: String
   private lateinit var saveFile: File
+  private lateinit var deployID: String
   override fun start() {
     super.start()
+    initTray()
     val home = System.getProperty("user.home")
     Paths.get(home, ".wsocks", "").toFile().mkdirs()
-    localPath = Paths.get(home,".wsocks","").toAbsolutePath().toString()
+    localPath = Paths.get(home, ".wsocks", "").toAbsolutePath().toString()
     saveFile = Paths.get(home, ".wsocks", "save.json").toFile()
-    initTray()
     try {
       val save = JsonObject(saveFile.readText())
+      if (save.getString("version") != VERSION)
+        throw Exception("old version")
       info = save
-      vertx.eventBus().publish("remote-modify", save)
-      vertx.eventBus().publish("local-modify", save)
+      val future = Future.future<String>().setHandler {
+        deployID = it.result()
+        vertx.eventBus().publish("config-modify", save)
+      }
+      when (info.getString("proxy.type")) {
+        "socks5" -> vertx.deployVerticle(ClientSocks5(), future.completer())
+        "http" -> vertx.deployVerticle(ClientHttp(), future.completer())
+      }
+      systemTray.status = "Connecting..."
     } catch (e: Throwable) {
       //没有保存文件就弹个窗，初始化一下几个参数
       initUI()
@@ -37,18 +51,21 @@ class ClientUI : AbstractVerticle() {
   }
 
   private fun initUI() {
-    info = JsonObject()
-    localModify()
-    remoteModify()
+    systemTray.status = "Init..."
+    info = JsonObject().put("version", VERSION)
+    GlobalScope.launch(vertx.dispatcher()) { localModify() }.invokeOnCompletion {
+      remoteModify()
+    }
+
   }
 
   private fun initTray() {
     vertx.eventBus().consumer<JsonObject>("status-modify") {
       systemTray.status = it.body().getString("status")
     }
-    systemTray.setTooltip("LightSocks")
+    systemTray.setTooltip("WSocks")
     systemTray.setImage(LT_GRAY_TRAIN)
-    systemTray.status = "Connecting"
+    systemTray.status = "No Action"
 
     val mainMenu = systemTray.menu
     val netStatusEntry = MenuItem("0kb/s")
@@ -56,7 +73,7 @@ class ClientUI : AbstractVerticle() {
       netStatusEntry.text = it.body()
     }
     val editLocalEntry = MenuItem("Edit Local") {
-      localModify()
+      GlobalScope.launch(vertx.dispatcher()) { localModify() }
     }
     val editRemoteEntry = MenuItem("Edit Remote") {
       remoteModify()
@@ -81,26 +98,52 @@ class ClientUI : AbstractVerticle() {
 
   private fun reConnectCommand() {
     systemTray.status = "Connecting"
-    vertx.eventBus().publish("remote-re-connect", "")
+    vertx.eventBus().publish("config-modify", info)
   }
 
-  private fun localModify() {
-    val portField = JTextField(info.getInteger("local.port")?.toString())
-    val gfwListPathField = JTextField(info.getString("gfw.path")?:Paths.get(localPath,"gfw.lst").toString())
-    val gfwCheckBox = JCheckBox(null,null,info.getBoolean("gfw.use")?:false)
-    vertx.executeBlocking<Int>({
-      val message = arrayOf("Local Port",portField,"GFW list",gfwListPathField,"Use GFW list",gfwCheckBox)
-      val option = JOptionPane.showConfirmDialog(null, message, "Local", JOptionPane.OK_CANCEL_OPTION)
-      it.complete(option)
-    }) {
-      if(it.result()==JOptionPane.OK_OPTION){
-        val port = portField.text.toInt()
-        val gfwListPath = gfwListPathField.text
-        val useGFWList = gfwCheckBox.isSelected
-        info.put("local.port",port).put("gfw.use",useGFWList).put("gfw.path",gfwListPath)
-        saveFile.writeText(info.toString())
-        vertx.eventBus().publish("local-modify", info)
+  private suspend fun localModify() {
+    val socks5Radio = JRadioButton("Socks5")
+    val httpRadio = JRadioButton("HTTP")
+    socks5Radio.addActionListener {
+      httpRadio.isSelected = false
+    }
+    httpRadio.addActionListener {
+      socks5Radio.isSelected = false
+    }
+    when(info.getString("proxy.type")){
+      "socks5"->{
+        socks5Radio.isSelected = true
       }
+      "http"->{
+        httpRadio.isSelected = true
+      }
+    }
+    val portField = JTextField(info.getInteger("local.port")?.toString())
+    val gfwListPathField = JTextField(info.getString("gfw.path") ?: Paths.get(localPath, "gfw.lst").toString())
+    val gfwCheckBox = JCheckBox(null, null, info.getBoolean("gfw.use") ?: false)
+    val message = arrayOf(
+        httpRadio, socks5Radio,
+        "Local Port", portField,
+        "GFW list", gfwListPathField,
+        "Use GFW list", gfwCheckBox)
+    val option = awaitBlocking { JOptionPane.showConfirmDialog(null, message, "Local", JOptionPane.OK_CANCEL_OPTION) }
+    if (option == JOptionPane.OK_OPTION) {
+      if (this@ClientUI::deployID.isInitialized)
+        vertx.undeploy(deployID)
+      if (socks5Radio.isSelected) {
+        info.put("proxy.type","socks5")
+        deployID = awaitResult { vertx.deployVerticle(ClientSocks5(), it) }
+      }else if (httpRadio.isSelected){
+        info.put("proxy.type","http")
+        deployID = awaitResult { vertx.deployVerticle(ClientHttp(),it) }
+      }
+
+      val port = portField.text.toInt()
+      val gfwListPath = gfwListPathField.text
+      val useGFWList = gfwCheckBox.isSelected
+      info.put("local.port", port).put("gfw.use", useGFWList).put("gfw.path", gfwListPath)
+      vertx.eventBus().publish("config-modify", info)
+      saveFile.writeText(info.toString())
     }
   }
 
@@ -110,13 +153,11 @@ class ClientUI : AbstractVerticle() {
     val usernameField = JTextField(info.getString("user"))
     val passwordField = JPasswordField(info.getString("pass"))
     val keyField = JTextField(info.getString("key"))
-    val offsetField = JTextField(info.getInteger("offset")?.toString())
     val message = arrayOf<Any>("Host:", hostField
-      , "Port:", portField
-      , "Username:", usernameField
-      , "Password:", passwordField
-      , "Key(Optional):", keyField
-      , "offset(Optional):", offsetField)
+        , "Port:", portField
+        , "Username:", usernameField
+        , "Password:", passwordField
+        , "Key(Optional):", keyField)
     vertx.executeBlocking<Int>({
       val option = JOptionPane.showConfirmDialog(null, message, "Connect", JOptionPane.OK_CANCEL_OPTION)
       it.complete(option)
@@ -127,14 +168,14 @@ class ClientUI : AbstractVerticle() {
         val user = usernameField.text
         val pass = String(passwordField.password)
         val key = keyField.text
-        val offset = offsetField.text.toInt()
-        vertx.eventBus().publish("remote-modify", info
-          .put("remote.ip", host)
-          .put("remote.port", port)
-          .put("user", user)
-          .put("pass", pass)
-          .put("key",key)
-          .put("offset",offset))
+        val offset = 0
+        vertx.eventBus().publish("config-modify", info
+            .put("remote.ip", host)
+            .put("remote.port", port)
+            .put("user", user)
+            .put("pass", pass)
+            .put("key", key)
+            .put("offset", offset))
         saveFile.writeText(info.toString())
       }
     }
@@ -142,6 +183,6 @@ class ClientUI : AbstractVerticle() {
 
   companion object {
     private val LT_GRAY_TRAIN = ClientUI::class.java.getResource("/icon/icon.jpg")
-
+    private const val VERSION = "0.0.6"
   }
 }

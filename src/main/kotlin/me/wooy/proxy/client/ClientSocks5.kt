@@ -1,192 +1,93 @@
 package me.wooy.proxy.client
 
-import io.vertx.core.AbstractVerticle
-import io.vertx.core.MultiMap
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.datagram.DatagramPacket
 import io.vertx.core.datagram.DatagramSocket
-import io.vertx.core.http.HttpClient
-import io.vertx.core.http.WebSocket
-import io.vertx.core.json.JsonObject
+import io.vertx.core.logging.Logger
 import io.vertx.core.logging.LoggerFactory
-import io.vertx.core.net.NetClient
 import io.vertx.core.net.NetServer
 import io.vertx.core.net.NetSocket
 import io.vertx.core.net.SocketAddress
-import me.wooy.proxy.data.*
-import me.wooy.proxy.encryption.Aes
-import java.lang.IllegalStateException
+import me.wooy.proxy.data.ClientConnect
+import me.wooy.proxy.data.Exception
+import me.wooy.proxy.data.RawData
+import me.wooy.proxy.data.RawUDPData
 import java.net.Inet4Address
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-class ClientSocks5:AbstractVerticle() {
-  private val logger = LoggerFactory.getLogger(ClientSocks5::class.java)
-  private lateinit var udpServer:DatagramSocket
-  private lateinit var httpClient: HttpClient
-  private lateinit var localNetClient:NetClient
-  private lateinit var netServer:NetServer
-  private lateinit var ws:WebSocket
-  private var bufferSizeHistory:Long = 0L
-  private val connectMap = ConcurrentHashMap<String,NetSocket>()
-  private val senderMap = ConcurrentHashMap<String,SocketAddress>()
+class ClientSocks5 : AbstractClient() {
+  override val logger: Logger = LoggerFactory.getLogger(ClientSocks5::class.java)
+  private lateinit var udpServer: DatagramSocket
+  private lateinit var netServer: NetServer
+  private val connectMap = ConcurrentHashMap<String, NetSocket>()
+  private val senderMap = ConcurrentHashMap<String, SocketAddress>()
   private val address = Inet4Address.getByName("127.0.0.1").address
-  private lateinit var remoteIp: String
-  private var remotePort: Int = 0
-  private var localPort:Int = 0
-  private var offset:Int = 0
-  private var useGFWList:Boolean = false
-  private lateinit var user: String
-  private lateinit var pwd: String
-  private fun WebSocket.writeBinaryMessage(offset:Int,data: Buffer){
-    if(offset==0){
-      this.writeBinaryMessage(data)
-    }else{
-      val bytes = ByteArray(offset)
-      Random().nextBytes(bytes)
-      this.writeBinaryMessage(Buffer.buffer(bytes).appendBuffer(data))
-    }
-  }
-  override fun start() {
-    super.start()
+
+  override fun initLocalServer() {
+    initSocksServer(port)
     initUdpServer()
-    localNetClient = vertx.createNetClient()
-    httpClient = vertx.createHttpClient()
-    if(config().getBoolean("ui")){
-      vertx.eventBus().consumer<JsonObject>("remote-modify") {
-        remoteIp = it.body().getString("remote.ip")
-        remotePort = it.body().getInteger("remote.port")
-        user = it.body().getString("user")
-        pwd = it.body().getString("pass")
-        if(it.body().containsKey("key")){
-          val array = it.body().getString("key").toByteArray()
-          if(16!=array.size)
-            Aes.raw = array+ByteArray(16-array.size){ 0x00 }
-          else
-            Aes.raw = array
-        }
-        if(it.body().containsKey("offset")){
-          offset = it.body().getInteger("offset")
-        }
-        initWebSocket(remoteIp,remotePort,user,pwd)
-      }
-      vertx.eventBus().consumer<String>("remote-re-connect"){
-        initWebSocket(remoteIp,remotePort,user,pwd)
-      }
-      vertx.eventBus().consumer<JsonObject>("local-modify"){
-        localPort = it.body().getInteger("local.port")?:1080
-        useGFWList = it.body().getBoolean("gfw.use")?:false
-        if(it.body().containsKey("gfw.path")) GFWRegex.initRegexList(it.body().getString("gfw.path"))
-        initSocksServer(localPort)
-      }
-      initFlowCounter()
-    }else{
-      remoteIp = config().getString("remote.ip")
-      remotePort = config().getInteger("remote.port")
-      localPort = config().getInteger("local.port")
-      user = config().getString("user")
-      pwd = config().getString("pass")
-      if(config().containsKey("key")){
-        val array = config().getString("key").toByteArray()
-        if(16!=array.size)
-          Aes.raw = array+ByteArray(16-array.size){ 0x00 }
-        else
-          Aes.raw = array
-      }
-      offset = config().getInteger("offset")?:0
-      initWebSocket(remoteIp,remotePort,user,pwd)
-      initSocksServer(localPort)
-    }
   }
 
-
-  private fun initWebSocket(remoteIp:String,remotePort:Int,user:String,pass:String){
-    if(this::ws.isInitialized){
-      try { ws.close() }catch (e:IllegalStateException){ /*异常属于正常情况，不用处理*/ }
-    }else{
-      //只在第一次初始化的设置
-      vertx.setPeriodic(5000) {
-        if(this::ws.isInitialized)
-          ws.writePing(Buffer.buffer())
-      }
-    }
-    httpClient.websocket(remotePort
-      ,remoteIp
-      ,"/proxy"
-      , MultiMap.caseInsensitiveMultiMap()
-      .add("user",user).add("pass",pass)){ webSocket ->
-      webSocket.writePing(Buffer.buffer())
-      webSocket.binaryMessageHandler {buffer->
-        if (buffer.length() < 4) {
-          return@binaryMessageHandler
-        }
-        when (buffer.getIntLE(0)) {
-          Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(buffer).uuid)
-          Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(buffer))
-          Flag.RAW.ordinal -> wsReceivedRawHandler(RawData(buffer))
-          Flag.UDP.ordinal -> wsReceivedUDPHandler(RawUDPData(buffer))
-          else -> logger.warn(buffer.getIntLE(0))
-        }
-      }.exceptionHandler {t->
-        logger.warn(t)
-        ws.close()
-        initWebSocket(remoteIp, remotePort, user, pass)
-      }
-      this.ws = webSocket
-      logger.info("Connected to remote server")
-      vertx.eventBus().publish("status-modify",JsonObject().put("status","$remoteIp:$remotePort"))
-    }
+  override fun stop() {
+    senderMap.clear()
+    udpServer.close()
+    netServer.close()
+    super.stop()
   }
 
-  private fun initSocksServer(port: Int){
-    if(this::netServer.isInitialized){
-      this.connectMap.forEach { it.value.close() }
+  private fun initSocksServer(port: Int) {
+    if (this::netServer.isInitialized) {
       this.netServer.close()
     }
     this.netServer = vertx.createNetServer().connectHandler { socket ->
-      if(!this::ws.isInitialized){
+      if (!this.isWebSocketAvailable()) {
         socket.close()
         return@connectHandler
       }
       val uuid = UUID.randomUUID().toString()
       socket.handler {
-        bufferHandler(uuid,socket,it)
+        bufferHandler(uuid, socket, it)
       }.closeHandler {
         connectMap.remove(uuid)
       }
-    }.listen(port){
+    }.listen(port) {
       logger.info("Listen at $port")
     }
   }
 
-  private fun initUdpServer(){
+  private fun initUdpServer() {
+    if(this::udpServer.isInitialized){
+      senderMap.clear()
+      this.udpServer.close()
+    }
     udpServer = vertx.createDatagramSocket().handler {
-      if(!this::ws.isInitialized)
+      if (!this.isWebSocketAvailable())
         return@handler
       udpPacketHandler(it)
-    }.listen(29799,"127.0.0.1"){
+    }.listen(29799, "127.0.0.1") {
       logger.info("UDP Server listen at 29799")
     }
   }
 
-  private fun bufferHandler(uuid: String,netSocket: NetSocket,buffer: Buffer){
+  private fun bufferHandler(uuid: String, netSocket: NetSocket, buffer: Buffer) {
     val version = buffer.getByte(0)
-    if(version !=0x05.toByte()){
+    if (version != 0x05.toByte()) {
       netSocket.close()
     }
-    when{
-      buffer.getByte(1).toInt()+2==buffer.length()->{
+    when {
+      buffer.getByte(1).toInt() + 2 == buffer.length() -> {
         handshakeHandler(netSocket)
       }
-      else-> requestHandler(uuid,netSocket,buffer)
+      else -> requestHandler(uuid, netSocket, buffer)
     }
   }
 
-  private fun handshakeHandler(netSocket: NetSocket){
+  private fun handshakeHandler(netSocket: NetSocket) {
     netSocket.write(Buffer.buffer().appendByte(0x05.toByte()).appendByte(0x00.toByte()))
   }
 
-  private fun requestHandler(uuid: String,netSocket: NetSocket,buffer: Buffer){
+  private fun requestHandler(uuid: String, netSocket: NetSocket, buffer: Buffer) {
     /*
     * |VER|CMD|RSV|ATYP|DST.ADDR|DST.PORT|
     * -----------------------------------------
@@ -195,145 +96,136 @@ class ClientSocks5:AbstractVerticle() {
     * */
     val cmd = buffer.getByte(1)
     val addressType = buffer.getByte(3)
-    val (host,port) = when(addressType){
-      0x01.toByte()->{
-        val host = Inet4Address.getByAddress(buffer.getBytes(5,9)).toString()
+    val (host, port) = when (addressType) {
+      0x01.toByte() -> {
+        val host = Inet4Address.getByAddress(buffer.getBytes(5, 9)).toString()
         val port = buffer.getShort(9).toInt()
         host to port
       }
-      0x03.toByte()->{
+      0x03.toByte() -> {
         val hostLen = buffer.getByte(4).toInt()
-        val host = buffer.getString(5,5+hostLen)
-        val port = buffer.getShort(5+hostLen).toInt()
+        val host = buffer.getString(5, 5 + hostLen)
+        val port = buffer.getShort(5 + hostLen).toInt()
         host to port
       }
-      else->{
+      else -> {
         netSocket.write(Buffer.buffer()
-          .appendByte(0x05.toByte())
-          .appendByte(0x08.toByte()))
+            .appendByte(0x05.toByte())
+            .appendByte(0x08.toByte()))
         return
       }
     }
-    when(cmd){
-      0x01.toByte()->{
-        tryConnect(uuid,netSocket,host, port)
+    when (cmd) {
+      0x01.toByte() -> {
+        tryConnect(uuid, netSocket, host, port)
       }
-      0x03.toByte()->{
+      0x03.toByte() -> {
         netSocket.write(Buffer.buffer()
-          .appendByte(0x05.toByte())
-          .appendByte(0x00.toByte())
-          .appendByte(0x00.toByte())
-          .appendByte(0x01.toByte())
-          .appendBytes(address).appendUnsignedShortLE(29799))
+            .appendByte(0x05.toByte())
+            .appendByte(0x00.toByte())
+            .appendByte(0x00.toByte())
+            .appendByte(0x01.toByte())
+            .appendBytes(address).appendUnsignedShortLE(29799))
       }
-      else->{
+      else -> {
         netSocket.write(Buffer.buffer()
-          .appendByte(0x05.toByte())
-          .appendByte(0x07.toByte()))
+            .appendByte(0x05.toByte())
+            .appendByte(0x07.toByte()))
         return
       }
     }
   }
 
-  private fun udpPacketHandler(packet:DatagramPacket){
+  private fun udpPacketHandler(packet: DatagramPacket) {
     val buffer = packet.data()
-    if(buffer.getByte(0)!=0x0.toByte() || buffer.getByte(1)!=0x0.toByte()){
+    if (buffer.getByte(0) != 0x0.toByte() || buffer.getByte(1) != 0x0.toByte()) {
       return
     }
-    if(buffer.getByte(2)!=0x0.toByte()){
+    if (buffer.getByte(2) != 0x0.toByte()) {
       return
     }
     val addressType = buffer.getByte(3)
-    val (host,port,data ) = when(addressType){
-      0x01.toByte()->{
-        val host = Inet4Address.getByAddress(buffer.getBytes(5,9)).toString()
+    val (host, port, data) = when (addressType) {
+      0x01.toByte() -> {
+        val host = Inet4Address.getByAddress(buffer.getBytes(5, 9)).toString()
         val port = buffer.getShort(9).toInt()
-        val data = buffer.getBuffer(11,buffer.length())
-        Triple(host,port,data)
+        val data = buffer.getBuffer(11, buffer.length())
+        Triple(host, port, data)
       }
-      0x03.toByte()->{
+      0x03.toByte() -> {
         val hostLen = buffer.getByte(4).toInt()
-        val host = buffer.getString(5,5+hostLen)
-        val port = buffer.getShort(5+hostLen).toInt()
-        val data = buffer.getBuffer(7+hostLen,buffer.length())
-        Triple(host,port,data)
+        val host = buffer.getString(5, 5 + hostLen)
+        val port = buffer.getShort(5 + hostLen).toInt()
+        val data = buffer.getBuffer(7 + hostLen, buffer.length())
+        Triple(host, port, data)
       }
-      else-> return
+      else -> return
     }
     val uuid = UUID.randomUUID().toString()
     senderMap[uuid] = packet.sender()
-    ws.writeBinaryMessage(offset,RawUDPData.create(uuid, host, port, data).toBuffer())
+    ws.writeBinaryMessageWithOffset(RawUDPData.create(uuid, host, port, data).toBuffer())
   }
 
-  private fun tryConnect(uuid:String,netSocket: NetSocket,host:String,port:Int){
-    if(useGFWList && !GFWRegex.doNeedProxy(host)){
-      //如果使用GFWList，并且host在列表中，则直接打开一个本地管道
-      localNetClient.connect(port,host){
-        if(it.failed()){
+  private fun tryConnect(uuid: String, netSocket: NetSocket, host: String, port: Int) {
+    if (!throughProxy(host)) {
+      localNetClient.connect(port, host) {
+        if (it.failed()) {
           netSocket.close()
           return@connect
         }
         val pipe = it.result()
-        pipe.handler {buffer->
+        pipe.handler { buffer ->
           netSocket.write(buffer)
         }.closeHandler {
           netSocket.close()
         }
-        netSocket.handler {buffer->
+        netSocket.handler { buffer ->
           pipe.write(buffer)
         }.closeHandler {
           pipe.close()
         }
         val buffer = Buffer.buffer()
-          .appendByte(0x05.toByte())
-          .appendByte(0x00.toByte())
-          .appendByte(0x00.toByte())
-          .appendByte(0x01.toByte())
-          .appendBytes(ByteArray(6){0x0})
+            .appendByte(0x05.toByte())
+            .appendByte(0x00.toByte())
+            .appendByte(0x00.toByte())
+            .appendByte(0x01.toByte())
+            .appendBytes(ByteArray(6) { 0x0 })
         netSocket.write(buffer)
       }
-    }else {
+    } else {
       connectMap[uuid] = netSocket
-      ws.writeBinaryMessage(offset, ClientConnect.create(uuid, host, port).toBuffer())
+      ws.writeBinaryMessageWithOffset(ClientConnect.create(uuid, host, port).toBuffer())
     }
   }
 
-  private fun wsConnectedHandler(uuid:String){
-    val netSocket = connectMap[uuid]?:return
+  override fun wsConnectedHandler(uuid: String) {
+    val netSocket = connectMap[uuid] ?: return
     //建立连接后修改handler
     netSocket.handler {
-      ws.writeBinaryMessage(offset,RawData.create(uuid,it).toBuffer())
+      ws.writeBinaryMessageWithOffset(RawData.create(uuid, it).toBuffer())
     }
     val buffer = Buffer.buffer()
-      .appendByte(0x05.toByte())
-      .appendByte(0x00.toByte())
-      .appendByte(0x00.toByte())
-      .appendByte(0x01.toByte())
-      .appendBytes(ByteArray(6){0x0})
+        .appendByte(0x05.toByte())
+        .appendByte(0x00.toByte())
+        .appendByte(0x00.toByte())
+        .appendByte(0x01.toByte())
+        .appendBytes(ByteArray(6) { 0x0 })
     netSocket.write(buffer)
   }
 
-  private fun wsReceivedRawHandler(data: RawData){
-    val netSocket = connectMap[data.uuid]?:return
-    bufferSizeHistory+=data.data.length()
+  override fun wsReceivedRawHandler(data: RawData) {
+    val netSocket = connectMap[data.uuid] ?: return
     netSocket.write(data.data)
   }
 
-  private fun wsReceivedUDPHandler(data:RawUDPData){
-    val sender = senderMap[data.uuid]?:return
-    udpServer.send(data.data,sender.port(),sender.host()){}
+  override fun wsReceivedUDPHandler(data: RawUDPData) {
+    val sender = senderMap[data.uuid] ?: return
+    udpServer.send(data.data, sender.port(), sender.host()) {}
   }
 
-  private fun wsExceptionHandler(e:Exception){
+  override fun wsExceptionHandler(e: Exception) {
     connectMap.remove(e.uuid)?.close()
     logger.warn(e.message)
-  }
-
-  private fun initFlowCounter(){
-    vertx.setPeriodic(2*1000){
-      vertx.eventBus().publish("net-status-update","${bufferSizeHistory shr 11}kb/s")
-      bufferSizeHistory=0
-    }
   }
 }
 

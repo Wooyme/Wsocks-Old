@@ -6,38 +6,29 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 
 public class Aes {
-  public static byte[] raw = new byte[]{'C', 'a', 'o', 'N', 'i', 'M', 'a', ',', 'N', 'M', 'S', 'L', '!', 'G', 'F', 'W'};
-  public static byte[] encrypt(byte[] value) {
-    byte[] encrypted = null;
-    try {
-      Key skeySpec = new SecretKeySpec(raw, "AES");
-      Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-      byte[] iv = new byte[cipher.getBlockSize()];
+    public static byte[] raw = new byte[]{0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06};
+    public static byte[] iv = new byte[]{0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05};
 
-      IvParameterSpec ivParams = new IvParameterSpec(iv);
-      cipher.init(Cipher.ENCRYPT_MODE, skeySpec,ivParams);
-      encrypted  = cipher.doFinal(value);
+    public static byte[] encrypt(byte[] value) throws Exception {
+        byte[] encrypted = null;
+        Key skeySpec = new SecretKeySpec(raw, "AES");
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        IvParameterSpec ivParams = new IvParameterSpec(iv);
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivParams);
+        encrypted = cipher.doFinal(value);
 
-    } catch (Exception ex) {
-      ex.printStackTrace();
+        return encrypted;
     }
-    return encrypted;
-  }
 
-  public static  byte[]  decrypt(byte[] encrypted) {
-    byte[] original = null;
-    Cipher cipher;
-    try {
-      Key key = new SecretKeySpec(raw, "AES");
-      cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-      byte[] ivByte = new byte[cipher.getBlockSize()];
-      IvParameterSpec ivParamsSpec = new IvParameterSpec(ivByte);
-      cipher.init(Cipher.DECRYPT_MODE, key, ivParamsSpec);
-      original= cipher.doFinal(encrypted);
-    } catch (Exception ex) {
-      ex.printStackTrace();
+    public static byte[] decrypt(byte[] encrypted) throws Exception {
+        byte[] original = null;
+        Cipher cipher;
+        Key key = new SecretKeySpec(raw, "AES");
+        cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        IvParameterSpec ivParamsSpec = new IvParameterSpec(iv);
+        cipher.init(Cipher.DECRYPT_MODE, key, ivParamsSpec);
+        original = cipher.doFinal(encrypted);
+        return original;
     }
-    return original;
-  }
 
 }

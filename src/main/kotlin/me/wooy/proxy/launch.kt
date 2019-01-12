@@ -12,30 +12,33 @@ import me.wooy.proxy.client.ClientSocks5
 import me.wooy.proxy.server.ServerWebSocket
 import me.wooy.proxy.ui.ClientUI
 import org.apache.commons.cli.*
+import io.vertx.core.VertxOptions
+
+
 
 
 fun main(args:Array<String>) {
-  val vertx = Vertx.vertx()
+  //程序初始化的时候经常会block，干脆关了
+  val vertx = Vertx.vertx(VertxOptions().setBlockedThreadCheckInterval(1000*60*60))
   val options = options()
   val parser = DefaultParser()
   val formatter = HelpFormatter()
+  if(args.isEmpty()){
+    vertx.deployVerticle(ClientUI())
+    return
+  }
   val cmd = try{
     parser.parse(options,args)
   }catch (e:ParseException){
-    formatter.printHelp("utility-name", options)
+    formatter.printHelp("帮助", options)
+    return
+  }
+  if(cmd.hasOption("help")){
+    formatter.printHelp("帮助", options)
     return
   }
   GlobalScope.launch(vertx.dispatcher()) {
     when(cmd.getOptionValue("type")){
-      "client-socks5-ui"->{
-        val clientConfig = JsonObject().put("ui",true)
-        awaitResult<String> {
-          vertx.deployVerticle(ClientSocks5(), DeploymentOptions().setConfig(clientConfig), it)
-        }
-        awaitResult<String> {
-          vertx.deployVerticle(ClientUI(),it)
-        }
-      }
       "client-http","client-socks5"->{
         val user = cmd.getOptionValue("user")
         val pass = cmd.getOptionValue("pass")
@@ -72,16 +75,12 @@ fun main(args:Array<String>) {
         awaitResult<String> {
           vertx.deployVerticle(ServerWebSocket(),DeploymentOptions().setConfig(serverConfig), it)
         }
-        val clientConfig = JsonObject().put("ui",true)
-        awaitResult<String> {
-          vertx.deployVerticle(ClientSocks5(), DeploymentOptions().setConfig(clientConfig), it)
-        }
         awaitResult<String> {
           vertx.deployVerticle(ClientUI(),it)
         }
       }
       else->{
-        formatter.printHelp("utility-name", options)
+        formatter.printHelp("帮助", options)
       }
     }
   }
@@ -90,27 +89,27 @@ fun main(args:Array<String>) {
 
 fun options():Options{
   val options = Options()
-  val proxyType = Option("T","type",true,"[server/client-socks5/client-socks5-ui] HTTP代理仍可以使用，但不再更新")
+  val proxyType = Option("T","type",true,"[server/client-socks5/client-http]")
   proxyType.isRequired = true
   options.addOption(proxyType)
 
-  val localPort = Option("LP","local-port",true,"Local port (client)")
+  val localPort = Option("LP","local-port",true,"本地端口")
   localPort.isRequired = false
   options.addOption(localPort)
 
-  val remoteIp = Option("RI","remote-ip",true,"Remote ip (client)")
+  val remoteIp = Option("RI","remote-ip",true,"远程服务器地址")
   remoteIp.isRequired = false
   options.addOption(remoteIp)
 
-  val remotePort = Option("RP","remote-port",true,"Remote port (client)")
+  val remotePort = Option("RP","remote-port",true,"远程服务器端口")
   remotePort.isRequired = false
   options.addOption(remotePort)
 
-  val user = Option("U","user",true,"username (client)")
+  val user = Option("U","user",true,"客户端登录账户")
   user.isRequired = false
   options.addOption(user)
 
-  val pwd = Option("P","pass",true,"password (client)")
+  val pwd = Option("P","pass",true,"客户端登录密码")
   pwd.isRequired = false
   options.addOption(pwd)
 
@@ -122,8 +121,12 @@ fun options():Options{
   offset.isRequired = false
   options.addOption(offset)
 
-  val configFile = Option("C","config-path",true,"path of config file (server)")
+  val configFile = Option("C","config-path",true,"配置文件路径")
   configFile.isRequired = false
   options.addOption(configFile)
+
+  val help = Option("H","help",false,"帮助")
+  help.isRequired = false
+  options.addOption(help)
   return options
 }
