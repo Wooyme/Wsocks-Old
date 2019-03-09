@@ -22,7 +22,7 @@ class ClientSocks5 : AbstractClient() {
   private lateinit var netServer: NetServer
   private val connectMap = ConcurrentHashMap<String, NetSocket>()
   private val senderMap = ConcurrentHashMap<String, SocketAddress>()
-  private val address = Inet4Address.getByName("127.0.0.1").address
+  private val address = Inet4Address.getByName("12.0.0.1").address
 
   override fun initLocalServer() {
     initSocksServer(port)
@@ -96,10 +96,12 @@ class ClientSocks5 : AbstractClient() {
     * */
     val cmd = buffer.getByte(1)
     val addressType = buffer.getByte(3)
+    logger.info("UUID:$uuid,$cmd,$addressType")
     val (host, port) = when (addressType) {
       0x01.toByte() -> {
-        val host = Inet4Address.getByAddress(buffer.getBytes(5, 9)).toString()
-        val port = buffer.getShort(9).toInt()
+        val host = Inet4Address.getByAddress(buffer.getBytes(4, 8)).toString().removePrefix("/")
+        val port = buffer.getShort(8).toInt()
+        logger.info("UUID:$uuid,Connect to $host:$port")
         host to port
       }
       0x03.toByte() -> {
