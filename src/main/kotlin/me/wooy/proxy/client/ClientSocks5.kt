@@ -22,7 +22,7 @@ class ClientSocks5 : AbstractClient() {
   private lateinit var netServer: NetServer
   private val connectMap = ConcurrentHashMap<String, NetSocket>()
   private val senderMap = ConcurrentHashMap<String, SocketAddress>()
-  private val address = Inet4Address.getByName("12.0.0.1").address
+  private val address = Inet4Address.getByName("127.0.0.1").address
 
   override fun initLocalServer() {
     initSocksServer(port)

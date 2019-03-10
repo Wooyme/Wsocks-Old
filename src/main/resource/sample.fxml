@@ -1,0 +1,41 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<GridPane fx:controller="me.wooy.proxy.ui.Controller"
+          xmlns:fx="http://javafx.com/fxml" hgap="10" vgap="10" style="-fx-font-family: 'DejaVu Sans Mono';-fx-font-size: 15px;-fx-font-weight: bold">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+    <Label text="Local Port"
+           GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="localPortTextField"
+            GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200"/>
+
+    <Label text="Remote Address"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField fx:id="remoteAddressTextField"
+            GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200"/>
+    <Label text="Remote Port"
+           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="remotePortTextField"
+            GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200"/>
+    <!--Auth-->
+    <Label text="Username"
+           GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+    <TextField fx:id="usernameTextField"
+            GridPane.columnIndex="3" GridPane.rowIndex="1" prefWidth="200"/>
+    <Label text="Password"
+           GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+    <TextField fx:id="passwordTextField"
+            GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="200"/>
+    <Label text="Key"
+           GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+    <TextField fx:id="keyTextField"
+            GridPane.columnIndex="3" GridPane.rowIndex="3" prefWidth="200"/>
+    <HBox spacing="10" alignment="bottom_right"
+          GridPane.columnIndex="3" GridPane.rowIndex="4">
+        <Button text="Confirm" onAction="#onButtonClicked"/>
+    </HBox>
+</GridPane>

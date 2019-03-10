@@ -10,23 +10,14 @@ import kotlinx.coroutines.launch
 import me.wooy.proxy.client.ClientHttp
 import me.wooy.proxy.client.ClientSocks5
 import me.wooy.proxy.server.ServerWebSocket
-import me.wooy.proxy.ui.ClientUI
 import org.apache.commons.cli.*
-import io.vertx.core.VertxOptions
 
-
-
-
+//无GUI版本，包括服务端与客户端
 fun main(args:Array<String>) {
-  //程序初始化的时候经常会block，干脆关了
-  val vertx = Vertx.vertx(VertxOptions().setBlockedThreadCheckInterval(1000*60*60))
+  val vertx = Vertx.vertx()
   val options = options()
   val parser = DefaultParser()
   val formatter = HelpFormatter()
-  if(args.isEmpty()){
-    vertx.deployVerticle(ClientUI())
-    return
-  }
   val cmd = try{
     parser.parse(options,args)
   }catch (e:ParseException){
@@ -68,19 +59,6 @@ fun main(args:Array<String>) {
         awaitResult<String> {
           vertx.deployVerticle(ServerWebSocket(),DeploymentOptions().setConfig(serverConfig), it)
         }
-      }
-      "test"->{
-        val usersFile = "config.json"
-        val serverConfig = JsonObject().put("config.path",usersFile)
-        awaitResult<String> {
-          vertx.deployVerticle(ServerWebSocket(),DeploymentOptions().setConfig(serverConfig), it)
-        }
-        awaitResult<String> {
-          vertx.deployVerticle(ClientUI(),it)
-        }
-      }
-      else->{
-        formatter.printHelp("帮助", options)
       }
     }
   }
