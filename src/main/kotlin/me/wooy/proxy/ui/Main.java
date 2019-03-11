@@ -1,18 +1,16 @@
 package me.wooy.proxy.ui;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonObject;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import me.wooy.proxy.client.ClientSocks5;
 
-import java.awt.*;
 import java.io.File;
 import java.nio.file.Paths;
 
@@ -22,7 +20,9 @@ public class Main extends Application {
     public static String VERSION = "0.0.6";
     public static JsonObject info = new JsonObject().put("version",VERSION);
     public static void main(String[] args) {
-        vertx = Vertx.vertx();
+        VertxOptions options = new VertxOptions();
+        options.getFileSystemOptions().setFileCachingEnabled(false).setClassPathResolvingEnabled(false);
+        vertx = Vertx.vertx(options);
         String home = System.getProperty("user.home");
         Paths.get(home, ".wsocks", "").toFile().mkdirs();
         saveFile = Paths.get(home, ".wsocks", "save.json").toFile();

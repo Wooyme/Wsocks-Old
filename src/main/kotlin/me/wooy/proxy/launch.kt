@@ -14,7 +14,6 @@ import org.apache.commons.cli.*
 
 //无GUI版本，包括服务端与客户端
 fun main(args:Array<String>) {
-  val vertx = Vertx.vertx()
   val options = options()
   val parser = DefaultParser()
   val formatter = HelpFormatter()
@@ -28,6 +27,7 @@ fun main(args:Array<String>) {
     formatter.printHelp("帮助", options)
     return
   }
+  val vertx = Vertx.vertx()
   GlobalScope.launch(vertx.dispatcher()) {
     when(cmd.getOptionValue("type")){
       "client-http","client-socks5"->{

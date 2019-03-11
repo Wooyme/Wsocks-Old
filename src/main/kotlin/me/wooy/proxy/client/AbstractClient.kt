@@ -9,10 +9,15 @@ import io.vertx.core.http.WebSocket
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.Logger
 import io.vertx.core.net.NetClient
+import io.vertx.core.net.NetServer
+import io.vertx.core.net.NetSocket
 import me.wooy.proxy.data.*
 import me.wooy.proxy.encryption.Aes
 import org.apache.commons.codec.digest.DigestUtils
+import java.net.Inet4Address
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.LinkedHashMap
 
 abstract class AbstractClient : AbstractVerticle() {
   abstract val logger: Logger
@@ -27,6 +32,10 @@ abstract class AbstractClient : AbstractVerticle() {
   private val httpClient: HttpClient by lazy { vertx.createHttpClient() }
   protected lateinit var ws: WebSocket
   protected val localNetClient: NetClient by lazy { vertx.createNetClient() }
+  private val dnsQueryMap = ConcurrentHashMap<String,Pair<NetSocket,Buffer>>()
+  private val localDNSServer:NetServer by lazy {
+    vertx.createNetServer()
+  }
   protected fun WebSocket.writeBinaryMessageWithOffset(data: Buffer) {
     if (offset == 0) {
       this.writeBinaryMessage(data)
@@ -38,6 +47,15 @@ abstract class AbstractClient : AbstractVerticle() {
   }
 
   override fun start(future: Future<Void>) {
+
+    localDNSServer.connectHandler {socket->
+      socket.handler{ buf->
+        handleQuery(socket,buf)
+      }
+    }.listen(5553){
+      println("Listen at 5553")
+    }
+
     if (config().getBoolean("ui") != false) {
       vertx.eventBus().consumer<JsonObject>("config-modify") {
         readConfig(it.body())
@@ -105,6 +123,9 @@ abstract class AbstractClient : AbstractVerticle() {
             bufferSizeHistory += buffer.length()
             wsReceivedUDPHandler(RawUDPData(buffer))
           }
+          Flag.DNS.ordinal -> {
+            wsReceivedDNSHandler(DnsQuery(buffer))
+          }
           else -> logger.warn(buffer.getIntLE(0))
         }
       }.exceptionHandler { t ->
@@ -128,5 +149,51 @@ abstract class AbstractClient : AbstractVerticle() {
   abstract fun wsReceivedRawHandler(data: RawData)
   protected open fun wsReceivedUDPHandler(data: RawUDPData){}
 
+  private fun handleQuery(socket: NetSocket, buffer:Buffer){
+    val sb = StringBuilder()
+    fun getName(buffer: Buffer,offset:Int):Int{
+      val length = buffer.getByte(offset)
+
+      if(length==0.toByte()){
+        return offset + 1
+      }
+      val bytes = buffer.getString(offset+1,offset+1+length.toInt())
+      sb.append(bytes).append(".")
+      return getName(buffer,offset+1+length.toInt())
+    }
+    getName(buffer,14)
+    val host = sb.toString().removeSuffix(".")
+    val uuid = UUID.randomUUID().toString()
+    dnsQueryMap[uuid] = socket to buffer
+    println("Query:$host")
+    ws.writeBinaryMessage(DnsQuery.create(uuid,host).toBuffer())
+  }
+
+  private fun response(id:Short,ip:String,query: Buffer):Buffer{
+    val address = Inet4Address.getByName(ip).address
+    val buffer = Buffer.buffer()
+    buffer.appendShort(id)
+    buffer.appendUnsignedShort(0x8180)
+    buffer.appendUnsignedShort(1)
+    buffer.appendUnsignedShort(1)
+    buffer.appendUnsignedShort(0)
+    buffer.appendUnsignedShort(0)
+    buffer.appendBuffer(query)
+    buffer.appendUnsignedShort(0xC00C)
+    buffer.appendUnsignedShort(1)
+    buffer.appendUnsignedShort(1)
+    buffer.appendUnsignedInt(86400)
+    buffer.appendUnsignedShort(4)
+    buffer.appendBytes(address)
+    return buffer
+  }
+
+  private fun wsReceivedDNSHandler(data:DnsQuery){
+    println("Answer:${data.host}")
+    val (sock,buffer) = dnsQueryMap[data.uuid]?:return
+    val id = buffer.getShort(2)
+    val buf = response(id,data.host,buffer.getBuffer(14,buffer.length()))
+    sock.write(Buffer.buffer().appendShort(buf.length().toShort()).appendBuffer(buf)).end()
+  }
 
 }

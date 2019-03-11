@@ -1,5 +1,6 @@
 package me.wooy.proxy.client
 
+import io.netty.handler.codec.dns.DatagramDnsResponse
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.datagram.DatagramPacket
 import io.vertx.core.datagram.DatagramSocket
@@ -40,6 +41,7 @@ class ClientSocks5 : AbstractClient() {
     if (this::netServer.isInitialized) {
       this.netServer.close()
     }
+
     this.netServer = vertx.createNetServer().connectHandler { socket ->
       if (!this.isWebSocketAvailable()) {
         socket.close()
