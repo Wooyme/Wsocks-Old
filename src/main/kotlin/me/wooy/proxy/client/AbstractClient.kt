@@ -48,24 +48,30 @@ abstract class AbstractClient : AbstractVerticle() {
 
   override fun start(future: Future<Void>) {
 
-    localDNSServer.connectHandler {socket->
-      socket.handler{ buf->
-        handleQuery(socket,buf)
-      }
-    }.listen(5553){
-      println("Listen at 5553")
-    }
-
     if (config().getBoolean("ui") != false) {
       vertx.eventBus().consumer<JsonObject>("config-modify") {
         readConfig(it.body())
         login()
         initLocalServer()
+        localDNSServer.connectHandler {socket->
+          socket.handler{ buf->
+            handleQuery(socket,buf)
+          }
+        }.listen(5553){
+          println("Listen at 5553")
+        }
       }
     } else {
       readConfig(config())
       login()
       initLocalServer()
+      localDNSServer.connectHandler {socket->
+        socket.handler{ buf->
+          handleQuery(socket,buf)
+        }
+      }.listen(5553){
+        println("Listen at 5553")
+      }
     }
 
     vertx.setPeriodic(5000) {
@@ -190,7 +196,7 @@ abstract class AbstractClient : AbstractVerticle() {
 
   private fun wsReceivedDNSHandler(data:DnsQuery){
     println("Answer:${data.host}")
-    val (sock,buffer) = dnsQueryMap[data.uuid]?:return
+    val (sock,buffer) = dnsQueryMap.remove(data.uuid)?:return
     val id = buffer.getShort(2)
     val buf = response(id,data.host,buffer.getBuffer(14,buffer.length()))
     sock.write(Buffer.buffer().appendShort(buf.length().toShort()).appendBuffer(buf)).end()

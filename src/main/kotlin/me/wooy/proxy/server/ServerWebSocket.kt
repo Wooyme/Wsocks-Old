@@ -21,11 +21,16 @@ import me.wooy.proxy.encryption.Aes
 import org.apache.commons.codec.digest.DigestUtils
 import java.io.File
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentLinkedQueue
 import javax.crypto.BadPaddingException
 
 class ServerWebSocket : AbstractVerticle() {
+  inner class Counter(public var count: Int)
+
   private val logger = LoggerFactory.getLogger(ServerWebSocket::class.java)
+  private val fileSystem by lazy {
+    vertx.fileSystem()
+  }
   private lateinit var dnsClient: DnsClient
   private lateinit var udpClient: DatagramSocket
   private lateinit var netClient: NetClient
@@ -33,10 +38,9 @@ class ServerWebSocket : AbstractVerticle() {
   private lateinit var userList: Map<String, String>
   private var port: Int = 1888
   private var offset: Int = 0
-  private var dns:String = "8.8.8.8"
-
-  private val localMap: ConcurrentHashMap<String, NetSocket> = ConcurrentHashMap()
-  private val senderMap = ConcurrentHashMap<SocketAddress, Pair<ServerWebSocket, String>>()
+  private var dns: String = "8.8.8.8"
+  private val localMap = LinkedHashMap<String, NetSocket>()
+  private val senderMap = LinkedHashMap<SocketAddress, Pair<ServerWebSocket, String>>()
   private fun ServerWebSocket.writeBinaryMessageWithOffset(data: Buffer) {
     if (offset == 0) {
       this.writeBinaryMessage(data)
@@ -54,7 +58,7 @@ class ServerWebSocket : AbstractVerticle() {
     netClient = vertx.createNetClient()
     httpServer = vertx.createHttpServer()
     httpServer.websocketHandler(this::socketHandler)
-    dnsClient = vertx.createDnsClient(53,dns)
+    dnsClient = vertx.createDnsClient(53, dns)
     vertx.executeBlocking<HttpServer>({
       httpServer.listen(port, it.completer())
     }) {
@@ -68,7 +72,7 @@ class ServerWebSocket : AbstractVerticle() {
     if (config.containsKey("port")) {
       port = config.getInteger("port")
     }
-    if(config.containsKey("dns")){
+    if (config.containsKey("dns")) {
       dns = config.getString("dns")
     }
     if (config.containsKey("key")) {
@@ -77,7 +81,6 @@ class ServerWebSocket : AbstractVerticle() {
         Aes.raw = array + ByteArray(16 - array.size) { 0x06 }
       else
         Aes.raw = array
-      println(Aes.raw.contentToString())
       println(DigestUtils.md5Hex(Aes.raw))
     } else {
       logger.info("配置文件未设置秘钥，默认使用${Aes.raw.joinToString("") { it.toString() }}")
@@ -119,6 +122,7 @@ class ServerWebSocket : AbstractVerticle() {
       sock.reject()
       return
     }
+    sock.setWriteQueueMaxSize(16 * 1024 * 1024)
     sock.binaryMessageHandler { _buffer ->
       GlobalScope.launch(vertx.dispatcher()) {
         val buffer = if (offset != 0) _buffer.getBuffer(offset, _buffer.length()) else _buffer
@@ -141,19 +145,27 @@ class ServerWebSocket : AbstractVerticle() {
   }
 
   private suspend fun clientConnectHandler(sock: ServerWebSocket, data: ClientConnect) {
-    try {
-      val net = netClient.connectAwait(data.port, data.host)
-      net.handler { buffer ->
-        sock.writeBinaryMessageWithOffset(RawData.create(data.uuid, buffer).toBuffer())
-      }.closeHandler {
-        localMap.remove(data.uuid)
-      }
-      localMap[data.uuid] = net
+    val net = try {
+      netClient.connectAwait(data.port, data.host)
     } catch (e: Throwable) {
       logger.warn(e.message)
       sock.writeBinaryMessageWithOffset(Exception.create(data.uuid, e.localizedMessage).toBuffer())
       return
     }
+    net.handler { buffer ->
+      if(sock.writeQueueFull()){
+        net.pause()
+        vertx.setTimer(3000){
+          net.resume()
+        }
+      }
+      sock.writeBinaryMessageWithOffset(RawData.create(data.uuid, buffer).toBuffer())
+    }.closeHandler {
+      localMap.remove(data.uuid)
+    }.exceptionHandler {
+      it.printStackTrace()
+    }
+    localMap[data.uuid] = net
     sock.writeBinaryMessageWithOffset(ConnectSuccess.create(data.uuid).toBuffer())
   }
 
@@ -191,12 +203,11 @@ class ServerWebSocket : AbstractVerticle() {
   }
 
   private fun clientDNSHandler(sock: ServerWebSocket, data: DnsQuery) {
-    println("DNS Query:${data.host}")
-    dnsClient.lookup4(data.host){
-      if(it.failed()){
-        sock.writeBinaryMessage(DnsQuery.create(data.uuid,"0.0.0.0").toBuffer())
-      }else{
-        sock.writeBinaryMessage(DnsQuery.create(data.uuid,it.result()?:"0.0.0.0").toBuffer())
+    dnsClient.lookup4(data.host) {
+      if (it.failed()) {
+        sock.writeBinaryMessage(DnsQuery.create(data.uuid, "0.0.0.0").toBuffer())
+      } else {
+        sock.writeBinaryMessage(DnsQuery.create(data.uuid, it.result() ?: "0.0.0.0").toBuffer())
       }
     }
   }
