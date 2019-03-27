@@ -2,24 +2,6 @@ Wsocks
 ==========
 一个基于Vertx实现的类Shadowsocks代理工具
 
-Building
-========
-
-To launch your tests:
-```
-./mvnw clean test
-```
-
-To package your application:
-```
-./mvnw clean package
-```
-
-To run your application:
-```
-./mvnw clean exec:java
-```
-
 Usage
 =====
 **程序运行需要Java8环境**
@@ -29,7 +11,7 @@ Usage
   https://www.java.com/zh_CN/download/
 
 ****
-命令行说明
+命令行说明(0.0.6以下版本)
 ----
 ```
 usage: utility-name
@@ -78,24 +60,11 @@ proxy.jar -T server -C config.json &
 
 *Linux*  
 ```
-chmod a+x wsocks.AppImage
-```  
->然后运行wsocks.AppImage即可  
-
+java -jar proxy-client.jar
+```    
 *Windows*  
->解压后运行socks5-client.bat即可
+>0.0.7版本直接下载WSocks-1.0.exe即可
 
-*命令行运行*
-```
-后台运行(Linux\Unix Only)
-nohup java -jar proxy.jar -T client -RI <服务器IP> -RP <服务器端口> -LP <本地端口> -U <用户名> -P <密码> -K <秘钥> -O <数据偏移> &
-后台运行(Windows Only)
-START javaw -jar proxy.jar -T client -RI <服务器IP> -RP <服务器端口> -LP <本地端口> -U <用户名> -P <密码> -K <秘钥> -O <数据偏移>
-后台运行GUI模式(Linux\Unix Only)
-nohup java -jar proxy.jar -T <client-socks5-ui> &
-后台运行GUI模式(Windows Only)
-javaw -jar proxy.jar -T <client-socks5-ui>
-```
 
 *开启客户端之后需要设置浏览器代理*
 * Firefox  
@@ -104,12 +73,6 @@ javaw -jar proxy.jar -T <client-socks5-ui>
   https://www.expressvpn.com/support/troubleshooting/google-chrome-no-proxy/  
   或  
   安装Proxy Switcher and Manager(推荐)
-
-****
-*关于GFW List*  
-浏览器使用gfw list一般可以使用PAC，Chrome的Proxy Switcher and Manager和Firefox的一些插件都是支持PAC的。对于那些不支持PAC的情景，Wsocks客户端内置了gfw list支持。只需要在`Edit Local`中配置list文件目录并开启`Use GFW List`即可。  
-AppImage打包内置一个gfw.lst，会在第一次运行的时候释放到`$HOME/.wsocks`目录。Windows用户需要自行复制压缩包中的gfw.lst到`用户目录/.wsocks`目录
-
 
 Help
 ====
