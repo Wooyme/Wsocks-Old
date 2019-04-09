@@ -3,6 +3,7 @@ package me.wooy.proxy.ui;
 import io.vertx.core.json.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -20,7 +21,8 @@ public class Controller {
     private TextField usernameTextField;
     @FXML
     private TextField passwordTextField;
-
+    @FXML
+    private CheckBox doZipCheckBox;
     private Number selected = -1;
 
     @FXML
@@ -44,6 +46,7 @@ public class Controller {
         Integer remotePort = new Integer(remotePortTextField.getText());
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
+        boolean doZip = doZipCheckBox.isSelected();
         JsonObject config = new JsonObject();
         config.put("proxy.type", "socks5")
                 .put("local.port", localPort);
@@ -51,6 +54,7 @@ public class Controller {
                 .put("remote.port", remotePort)
                 .put("user", username)
                 .put("pass", password)
+                .put("zip",doZip)
                 .put("offset", 0);
         Main.info.add(config);
         Utils.INSTANCE.saveInfo(Main.saveFile, Main.info);
@@ -65,6 +69,7 @@ public class Controller {
         Integer remotePort = new Integer(remotePortTextField.getText());
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
+        boolean doZip = doZipCheckBox.isSelected();
         JsonObject config = new JsonObject();
         config.put("proxy.type", "socks5")
                 .put("local.port", localPort);
@@ -72,6 +77,7 @@ public class Controller {
                 .put("remote.port", remotePort)
                 .put("user", username)
                 .put("pass", password)
+                .put("zip",doZip)
                 .put("offset", 0);
         if (selected.intValue() >= 0) {
             Main.info.getJsonObject(selected.intValue()).put("selected", true);
@@ -94,6 +100,9 @@ public class Controller {
             remotePortTextField.setText(String.valueOf(config.getInteger("remote.port")));
             usernameTextField.setText(config.getString("user"));
             passwordTextField.setText(config.getString("pass"));
+            if(config.containsKey("zip")){
+                doZipCheckBox.setSelected(config.getBoolean("zip"));
+            }
         });
         Main.info.stream().forEach((value) -> {
             JsonObject config = (JsonObject) value;
@@ -103,6 +112,9 @@ public class Controller {
                 remotePortTextField.setText(String.valueOf(config.getInteger("remote.port")));
                 usernameTextField.setText(config.getString("user"));
                 passwordTextField.setText(config.getString("pass"));
+                if(config.containsKey("zip")){
+                    doZipCheckBox.setSelected(config.getBoolean("zip"));
+                }
             }
             listView.getItems().add(config.getString("remote.ip") + ":" + config.getInteger("remote.port"));
         });

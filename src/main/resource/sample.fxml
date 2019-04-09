@@ -29,6 +29,9 @@
            GridPane.columnIndex="0" GridPane.rowIndex="5"/>
     <PasswordField fx:id="passwordTextField"
                    GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="200"/>
+    <Label text="Zip"
+           GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <CheckBox fx:id="doZipCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
     <HBox spacing="10" alignment="bottom_right"
           GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.columnSpan="2">
         <Button text="Save" onAction="#onAddButtonClicked"/>
