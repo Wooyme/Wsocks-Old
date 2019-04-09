@@ -54,6 +54,19 @@ class ServerWebSocket : AbstractVerticle() {
       logger.info("Proxy server listen at $port")
       startFuture.complete()
     }
+    vertx.eventBus().consumer<JsonObject>("user-modify"){
+      val userInfo = UserInfo.fromJson(it.body())
+      userMap[userInfo.secret()] = userInfo
+    }
+    vertx.eventBus().consumer<JsonObject>("user-remove"){
+      val username = it.body().getString("user")
+      userMap.asIterable().forEach{ v->
+        if(v.value.username==username){
+          userMap.remove(v.key)
+          return@consumer
+        }
+      }
+    }
   }
 
   private fun initParams() {

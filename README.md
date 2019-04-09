@@ -20,7 +20,7 @@ nohup java -jar \
 -Dio.netty.leakDetection.level=paranoid \
 -XX:MaxDirectMemorySize=128m \
 -Djdk.nio.maxChachedBufferSize=262144 \
-proxy.jar -T server -C config.json &
+proxy.jar -T websocket -C config.json &
 ```
 配置文件格式
 ```
@@ -51,10 +51,6 @@ proxy.jar -T server -C config.json &
 ```
 java -jar proxy.jar
 ```
-
-*Windows*  
->直接下载WSocks-1.0.exe安装包即可
-
 
 *开启客户端之后需要设置浏览器代理*
 * Firefox  
