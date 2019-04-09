@@ -1,20 +1,19 @@
 package me.wooy.proxy.ui
 
+import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import java.io.File
 object Utils{
-  fun readInfo(saveFile:File):JsonObject?{
+  fun readInfo(saveFile:File):JsonArray{
     return try {
-      val info = JsonObject(saveFile.readText())
-      if (info.getString("version") != Main.VERSION)
-        throw Exception("old version")
+      val info = JsonArray(saveFile.readText())
       info
     } catch (e: Throwable) {
-      JsonObject().put("version",Main.VERSION)
+      JsonArray()
     }
   }
 
-  fun saveInfo(saveFile: File,info:JsonObject){
+  fun saveInfo(saveFile: File,info:JsonArray){
     saveFile.writeText(info.toString())
   }
 }

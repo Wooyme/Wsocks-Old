@@ -33,7 +33,7 @@ object Tray {
     val reConnectEntry = MenuItem("Reconnect") {
       if (systemTray.status != "Connecting..."){
         systemTray.status = "Connecting..."
-        vertx.eventBus().publish("config-modify", Main.info)
+        vertx.eventBus().publish("config-modify", JsonObject())
       }
     }
     val quitEntry = MenuItem("Quit") {

@@ -4,7 +4,9 @@
       <w>addr</w>
       <w>atyp</w>
       <w>vertx</w>
+      <w>websocket</w>
       <w>wsocks</w>
+      <w>zlib</w>
     </words>
   </dictionary>
 </component>
