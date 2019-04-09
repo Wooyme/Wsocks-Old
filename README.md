@@ -8,20 +8,7 @@ Usage
 **程序运行需要Java8环境**
 
 ****
-命令行说明
-----
-```
-usage: utility-name
- -C,--config-user <arg>    配置文件路径
- -LP,--local-port <arg>    客户端的本地端口
- -P,--pass <arg>           用户密码
- -U,--user <arg>           用户名
- -RH,--remote-ip <arg>     远程服务器IP
- -RP,--remote-port <arg>   远程服务器端口
- -T,--type <arg>           选择服务端或客户端[server/client-socks5/client-socks5-ui]
- -K,--key <arg>            设置秘钥
- -O,--offset <arg>         设置数据偏移
-```
+
 服务端
 -----
 **服务端需要架设在可访问墙外世界的服务器上**
@@ -37,7 +24,16 @@ proxy.jar -T server -C config.json &
 ```
 配置文件格式
 ```
-{"port":端口号,"key":"Aes加密秘钥，可以填写9位-16位的任意字符串"，"offset":数据偏移量(可以填写任意整数不要太大),"users":{"user1":"passwd1","user2":"passwd2",........}}
+{"port":端口号,"dns":默认8.8.8.8,"users":[
+    {
+        "user":"用户名",
+        "pass":"密码",
+        "zip":是否使用gzip压缩,
+        "multiple":是否可以多设备同时登录,
+        "offset":数据偏移
+        "limit":流量限制(尚未支持)
+    }
+]}
 ```
 *解释一下各行参数:*
 ```

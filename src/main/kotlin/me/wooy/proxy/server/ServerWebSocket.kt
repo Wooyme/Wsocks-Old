@@ -18,6 +18,7 @@ import me.wooy.proxy.common.UserInfo
 import me.wooy.proxy.data.*
 import java.util.*
 import javax.crypto.BadPaddingException
+import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashMap
 
 class ServerWebSocket : AbstractVerticle() {
@@ -26,6 +27,7 @@ class ServerWebSocket : AbstractVerticle() {
   private lateinit var netClient: NetClient
   private lateinit var httpServer: HttpServer
   private val userMap:MutableMap<String,UserInfo> = LinkedHashMap()
+  private val hasLoginSet = HashSet<String>()
   private var port: Int = 1888
   private var dns: String = "8.8.8.8"
   private var maxQueueSize = 8*1024*1024
@@ -66,8 +68,12 @@ class ServerWebSocket : AbstractVerticle() {
 
   private fun socketHandler(sock: ServerWebSocket) {
     val userInfo = sock.headers()
-        .firstOrNull { userMap.containsKey(it.value) }
-        ?.let { userMap[it.value] }?:return sock.reject()
+        .firstOrNull { userMap.containsKey(it.value) && !hasLoginSet.contains(it.value) }
+        ?.let {
+          hasLoginSet.add(it.value)
+          userMap[it.value]
+        }?:return sock.reject()
+
     sock.setWriteQueueMaxSize(maxQueueSize)
     sock.binaryMessageHandler { _buffer ->
       GlobalScope.launch(vertx.dispatcher()) {

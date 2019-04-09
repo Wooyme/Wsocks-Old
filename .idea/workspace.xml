@@ -82,7 +82,7 @@
           <entry key="jpg" value="1" />
           <entry key="json" value="18" />
           <entry key="kt" value="277" />
-          <entry key="md" value="6" />
+          <entry key="md" value="7" />
           <entry key="properties" value="3" />
           <entry key="sh" value="1" />
           <entry key="xml" value="36" />
@@ -97,7 +97,7 @@
           <entry key="JSON" value="18" />
           <entry key="Kotlin" value="277" />
           <entry key="Manifest" value="6" />
-          <entry key="PLAIN_TEXT" value="11" />
+          <entry key="PLAIN_TEXT" value="12" />
           <entry key="Properties" value="3" />
           <entry key="XML" value="41" />
         </counts>
@@ -105,21 +105,21 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="195" />
-          <entry key="java" value="3381" />
+          <entry key="java" value="3423" />
           <entry key="json" value="212" />
           <entry key="kt" value="46747" />
           <entry key="kts" value="161" />
-          <entry key="md" value="183" />
+          <entry key="md" value="272" />
           <entry key="sh" value="30" />
           <entry key="xml" value="300" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3381" />
+          <entry key="JAVA" value="3423" />
           <entry key="JSON" value="212" />
           <entry key="Kotlin" value="46908" />
-          <entry key="PLAIN_TEXT" value="213" />
+          <entry key="PLAIN_TEXT" value="302" />
           <entry key="XML" value="495" />
         </counts>
       </usages-collector>
@@ -161,17 +161,17 @@
         <entry file="file://$PROJECT_DIR$/src/main/resource/sample.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
+            <state relative-caret-position="340">
               <caret line="33" column="84" lean-forward="true" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="84" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1250">
-              <caret line="113" column="13" lean-forward="true" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="13" />
+            <state relative-caret-position="504">
+              <caret line="110" column="78" lean-forward="true" selection-start-line="110" selection-start-column="78" selection-end-line="110" selection-end-column="78" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -179,15 +179,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar:///usr/lib/jvm/java-8-oracle/javafx-src.zip!/javafx/scene/control/CheckBox.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="158" column="25" selection-start-line="158" selection-start-column="25" selection-end-line="158" selection-end-column="25" />
-              <folding>
-                <element signature="e#5183#5184#0" expanded="true" />
-                <element signature="e#5247#5248#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="352">
+              <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -278,7 +274,6 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/DNSClient.kt" />
         <option value="$PROJECT_DIR$/config.json" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/Test.kt" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/common/data/DataReceived.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/common/Flag.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/common/EnhancedUDPServer.kt" />
@@ -307,6 +302,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resource/sample.fxml" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Controller.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -701,12 +697,12 @@
       <workItem from="1554526711663" duration="8091000" />
       <workItem from="1554696858001" duration="1196000" />
       <workItem from="1554701577519" duration="52000" />
-      <workItem from="1554782684862" duration="11019000" />
+      <workItem from="1554782684862" duration="11350000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="307304000" />
+    <option name="totallyTimeSpent" value="307635000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -721,7 +717,7 @@
     <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16987179" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16987179" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -734,7 +730,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.3260135" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49924126" visible="true" weight="0.32563025" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49924126" visible="true" weight="0.32563025" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007587" side_tool="true" weight="0.41385135" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32094595" />
@@ -812,7 +808,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/HttpData.kt" />
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/experimental/EnhancedUDPServer.kt" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.3.10/kotlin-stdlib-1.3.10-sources.jar!/kotlin/Primitives.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -1128,14 +1123,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resource/sample.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="33" column="84" lean-forward="true" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-8-oracle/javafx-src.zip!/javafx/scene/control/CheckBox.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -1147,13 +1134,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resource/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="33" column="84" lean-forward="true" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1250">
-          <caret line="113" column="13" lean-forward="true" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="13" />
+        <state relative-caret-position="504">
+          <caret line="110" column="78" lean-forward="true" selection-start-line="110" selection-start-column="78" selection-end-line="110" selection-end-column="78" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
         </state>
       </provider>
     </entry>
