@@ -64,15 +64,14 @@ class ClientWebSocket : AbstractVerticle() {
       return
     httpClient.websocket(remotePort
         , remoteIp
-        , "/proxy"
+        , "/"+RandomStringUtils.randomAlphanumeric(5)
         , MultiMap.caseInsensitiveMultiMap()
-        .add(RandomStringUtils.randomAlphanumeric(Random().nextInt(10))
+        .add(RandomStringUtils.randomAlphanumeric(Random().nextInt(10)+1)
             ,userInfo.secret())) { webSocket ->
       webSocket.writePing(Buffer.buffer())
       webSocket.binaryMessageHandler { _buffer ->
-        if (_buffer.length() < 4) {
-          return@binaryMessageHandler
-        }
+        if (_buffer.length() < 4) return@binaryMessageHandler
+
         val buffer = if (userInfo.offset != 0) _buffer.getBuffer(userInfo.offset, _buffer.length()) else _buffer
         when (buffer.getIntLE(0)) {
           Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(userInfo,buffer).uuid)

@@ -6,16 +6,19 @@ import io.vertx.core.buffer.Buffer
 import io.vertx.core.dns.DnsClient
 import io.vertx.core.http.HttpServer
 import io.vertx.core.http.ServerWebSocket
+import io.vertx.core.json.DecodeException
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.net.NetClient
 import io.vertx.core.net.NetSocket
+import io.vertx.kotlin.core.executeBlockingAwait
 import io.vertx.kotlin.core.net.connectAwait
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.wooy.proxy.common.UserInfo
 import me.wooy.proxy.data.*
+import java.net.InetAddress
 import java.util.*
 import javax.crypto.BadPaddingException
 import kotlin.collections.HashSet
@@ -23,13 +26,11 @@ import kotlin.collections.LinkedHashMap
 
 class ServerWebSocket : AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(ServerWebSocket::class.java)
-  private lateinit var dnsClient: DnsClient
   private lateinit var netClient: NetClient
   private lateinit var httpServer: HttpServer
   private val userMap:MutableMap<String,UserInfo> = LinkedHashMap()
   private val hasLoginSet = HashSet<String>()
   private var port: Int = 1888
-  private var dns: String = "8.8.8.8"
   private var maxQueueSize = 8*1024*1024
   private val localMap = LinkedHashMap<String, NetSocket>()
   private fun ServerWebSocket.writeBinaryMessageWithOffset(userInfo: UserInfo,data: Buffer) {
@@ -47,7 +48,6 @@ class ServerWebSocket : AbstractVerticle() {
     netClient = vertx.createNetClient()
     httpServer = vertx.createHttpServer()
     httpServer.websocketHandler(this::socketHandler)
-    dnsClient = vertx.createDnsClient(53, dns)
     vertx.executeBlocking<HttpServer>({
       httpServer.listen(port, it.completer())
     }) {
@@ -71,7 +71,6 @@ class ServerWebSocket : AbstractVerticle() {
 
   private fun initParams() {
     port = config().getInteger("port")?:1888
-    dns = config().getString("dns")?:"8.8.8.8"
     maxQueueSize = config().getInteger("max_queue_size")?:8*1024*1024
     config().getJsonArray("users").forEach {
       val userInfo = UserInfo.fromJson(it as JsonObject)
@@ -83,10 +82,11 @@ class ServerWebSocket : AbstractVerticle() {
     val userInfo = sock.headers()
         .firstOrNull { userMap.containsKey(it.value) && !hasLoginSet.contains(it.value) }
         ?.let {
-          hasLoginSet.add(it.value)
           userMap[it.value]
         }?:return sock.reject()
-
+    if(!userInfo.multipleMode){
+      hasLoginSet.add(userInfo.secret())
+    }
     sock.setWriteQueueMaxSize(maxQueueSize)
     sock.binaryMessageHandler { _buffer ->
       GlobalScope.launch(vertx.dispatcher()) {
@@ -100,15 +100,19 @@ class ServerWebSocket : AbstractVerticle() {
           }
         } catch (e: BadPaddingException) {
           sock.reject()
+        } catch(e:DecodeException){
+
         }
       }
+    }.closeHandler {
+      hasLoginSet.remove(userInfo.secret())
     }
     sock.accept()
   }
 
   private suspend fun clientConnectHandler(userInfo: UserInfo,sock: ServerWebSocket, data: ClientConnect) {
     val net = try {
-      netClient.connectAwait(data.port, data.host)
+      netClient.connectAwait(data.port, InetAddress.getByName(data.host).hostAddress)
     } catch (e: Throwable) {
       logger.warn(e.message)
       sock.writeBinaryMessageWithOffset(userInfo,Exception.create(userInfo,data.uuid, e.localizedMessage))
@@ -139,12 +143,15 @@ class ServerWebSocket : AbstractVerticle() {
   }
 
   private fun clientDNSHandler(userInfo: UserInfo,sock: ServerWebSocket, data: DnsQuery) {
-    dnsClient.lookup4(data.host) {
-      if (it.failed()) {
-        sock.writeBinaryMessageWithOffset(userInfo,DnsQuery.create(userInfo,data.uuid, "0.0.0.0"))
-      } else {
-        sock.writeBinaryMessageWithOffset(userInfo,DnsQuery.create(userInfo,data.uuid, it.result() ?: "0.0.0.0"))
+    vertx.executeBlocking<String>({
+      val address = try{
+        InetAddress.getByName(data.host)?.hostAddress?:"0.0.0.0"
+      }catch(e:Throwable){
+        "0.0.0.0"
       }
+      it.complete(address)
+    }){
+      sock.writeBinaryMessageWithOffset(userInfo,DnsQuery.create(userInfo,data.uuid, it.result()))
     }
   }
 }

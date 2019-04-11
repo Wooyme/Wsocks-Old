@@ -31,12 +31,25 @@ public class Controller {
         listView.getItems().remove(selected.intValue());
         Main.info.remove(selected.intValue());
         Utils.INSTANCE.saveInfo(Main.saveFile,Main.info);
-        this.localPortTextField.clear();
-        this.remotePortTextField.clear();
-        this.remoteAddressTextField.clear();
-        this.usernameTextField.clear();
-        this.passwordTextField.clear();
-        this.selected = -1;
+        this.selected = listView.getItems().size()-1;
+        if(this.selected.intValue()<0){
+            localPortTextField.clear();
+            remoteAddressTextField.clear();
+            remotePortTextField.clear();
+            usernameTextField.clear();
+            passwordTextField.clear();
+            doZipCheckBox.setSelected(false);
+        }else{
+            listView.getSelectionModel().select(this.selected.intValue());
+            JsonObject config = Main.info.getJsonObject(this.selected.intValue());
+            localPortTextField.setText(String.valueOf(config.getInteger("local.port")));
+            remoteAddressTextField.setText(config.getString("remote.ip"));
+            remotePortTextField.setText(String.valueOf(config.getInteger("remote.port")));
+            usernameTextField.setText(config.getString("user"));
+            passwordTextField.setText(config.getString("pass"));
+            doZipCheckBox.setSelected(config.getBoolean("zip"));
+        }
+
     }
 
     @FXML
