@@ -49,7 +49,6 @@ public class Controller {
             passwordTextField.setText(config.getString("pass"));
             doZipCheckBox.setSelected(config.getBoolean("zip"));
         }
-
     }
 
     @FXML
