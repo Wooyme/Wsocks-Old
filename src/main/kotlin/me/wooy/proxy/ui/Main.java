@@ -24,6 +24,7 @@ public class Main extends Application {
         vertx = Vertx.vertx(options);
         String home = System.getProperty("user.home");
         Paths.get(home, ".wsocks", "").toFile().mkdirs();
+        Utils.INSTANCE.saveGlobalPac(Paths.get(home, ".wsocks", "global.pac").toFile());
         saveFile = Paths.get(home, ".wsocks", "save.json").toFile();
         info = Utils.INSTANCE.readInfo(saveFile);
         vertx.deployVerticle(new ClientWebSocket());

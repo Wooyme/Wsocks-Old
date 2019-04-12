@@ -32,7 +32,7 @@
     <session id="996742881">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="83" />
+          <entry key="project.closed" value="84" />
           <entry key="project.open.time.1" value="4" />
           <entry key="project.open.time.100" value="1" />
           <entry key="project.open.time.114" value="1" />
@@ -70,10 +70,11 @@
           <entry key="project.open.time.7" value="3" />
           <entry key="project.open.time.70" value="1" />
           <entry key="project.open.time.71" value="1" />
+          <entry key="project.open.time.74" value="1" />
           <entry key="project.open.time.78" value="1" />
           <entry key="project.open.time.79" value="1" />
           <entry key="project.open.time.88" value="1" />
-          <entry key="project.opened" value="89" />
+          <entry key="project.opened" value="90" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -87,7 +88,7 @@
           <entry key="java" value="315" />
           <entry key="jpg" value="1" />
           <entry key="json" value="21" />
-          <entry key="kt" value="295" />
+          <entry key="kt" value="296" />
           <entry key="md" value="8" />
           <entry key="properties" value="3" />
           <entry key="sh" value="1" />
@@ -101,7 +102,7 @@
           <entry key="Image" value="1" />
           <entry key="JAVA" value="315" />
           <entry key="JSON" value="21" />
-          <entry key="Kotlin" value="295" />
+          <entry key="Kotlin" value="296" />
           <entry key="Manifest" value="6" />
           <entry key="PLAIN_TEXT" value="13" />
           <entry key="Properties" value="3" />
@@ -111,9 +112,9 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="195" />
-          <entry key="java" value="3617" />
+          <entry key="java" value="3618" />
           <entry key="json" value="283" />
-          <entry key="kt" value="49480" />
+          <entry key="kt" value="49590" />
           <entry key="kts" value="161" />
           <entry key="md" value="353" />
           <entry key="sh" value="30" />
@@ -122,9 +123,9 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3617" />
+          <entry key="JAVA" value="3618" />
           <entry key="JSON" value="283" />
-          <entry key="Kotlin" value="49641" />
+          <entry key="Kotlin" value="49751" />
           <entry key="PLAIN_TEXT" value="383" />
           <entry key="XML" value="579" />
         </counts>
@@ -136,8 +137,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1002">
-              <caret line="129" column="13" lean-forward="true" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
+            <state relative-caret-position="2706">
+              <caret line="129" column="13" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -145,32 +146,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
-              <caret line="29" column="21" lean-forward="true" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Tray.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="30" column="133" selection-start-line="30" selection-start-column="133" selection-end-line="30" selection-end-column="133" />
-              <folding>
-                <element signature="e#26#306#0" expanded="true" />
-              </folding>
+              <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/net/java/dev/jna/jna-platform/4.5.2/jna-platform-4.5.2-sources.jar!/com/sun/jna/platform/win32/WinReg.java">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Tray.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-18">
-              <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+            <state relative-caret-position="283">
+              <caret line="39" column="7" lean-forward="true" selection-start-line="39" selection-start-column="7" selection-end-line="39" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -301,7 +290,6 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientMqtt.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/encryption/Zlib.java" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/encryption/Test.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Utils.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Main.java" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/AbstractClient.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/ClientConnect.kt" />
@@ -321,6 +309,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Controller.java" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Tray.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Utils.kt" />
       </list>
     </option>
   </component>
@@ -712,12 +701,13 @@
       <workItem from="1554957556806" duration="119000" />
       <workItem from="1554958815091" duration="850000" />
       <workItem from="1554959984651" duration="2481000" />
-      <workItem from="1554990774153" duration="1144000" />
+      <workItem from="1554990774153" duration="1539000" />
+      <workItem from="1555043845890" duration="184000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="325057000" />
+    <option name="totallyTimeSpent" value="325688000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -745,7 +735,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.3260135" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49924126" weight="0.32263514" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49924126" visible="true" weight="0.32263514" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007587" side_tool="true" weight="0.41385135" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32037815" />
@@ -890,13 +880,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Utils.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="24" lean-forward="true" selection-start-column="24" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/io/vertx/vertx-core/3.6.0/vertx-core-3.6.0-sources.jar!/io/vertx/core/http/HttpClientOptions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -983,12 +966,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resource/sample.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="33" column="84" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="84" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.3.10/kotlin-stdlib-1.3.10-sources.jar!/kotlin/text/StringNumberConversionsJVM.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -1091,13 +1074,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/dorkbox/SystemTray/3.15/SystemTray-3.15-sources.jar!/dorkbox/systemTray/SystemTray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="82" column="6" selection-start-line="82" selection-start-column="6" selection-end-line="82" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1002">
-          <caret line="129" column="13" lean-forward="true" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
+        <state relative-caret-position="2706">
+          <caret line="129" column="13" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/net/java/dev/jna/jna-platform/4.5.2/jna-platform-4.5.2-sources.jar!/com/sun/jna/platform/win32/WinReg.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -1125,34 +1122,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Utils.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="29" column="21" lean-forward="true" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/dorkbox/SystemTray/3.15/SystemTray-3.15-sources.jar!/dorkbox/systemTray/SystemTray.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="82" column="6" selection-start-line="82" selection-start-column="6" selection-end-line="82" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/net/java/dev/jna/jna-platform/4.5.2/jna-platform-4.5.2-sources.jar!/com/sun/jna/platform/win32/WinReg.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18">
-          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+        <state relative-caret-position="305">
+          <caret line="25" column="3" selection-start-line="25" selection-start-column="3" selection-end-line="25" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Tray.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="30" column="133" selection-start-line="30" selection-start-column="133" selection-end-line="30" selection-end-column="133" />
-          <folding>
-            <element signature="e#26#306#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="283">
+          <caret line="39" column="7" lean-forward="true" selection-start-line="39" selection-start-column="7" selection-end-line="39" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="26" column="88" selection-start-line="26" selection-start-column="88" selection-end-line="26" selection-end-column="88" />
         </state>
       </provider>
     </entry>

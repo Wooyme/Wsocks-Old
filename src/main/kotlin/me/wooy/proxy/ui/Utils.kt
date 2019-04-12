@@ -16,4 +16,12 @@ object Utils{
   fun saveInfo(saveFile: File,info:JsonArray){
     saveFile.writeText(info.toString())
   }
+  fun saveGlobalPac(saveFile: File){
+    val pac = """
+        function FindProxyForURL(o,c){
+          return "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT";
+        }
+    """.trimIndent()
+    saveFile.writeText(pac)
+  }
 }
