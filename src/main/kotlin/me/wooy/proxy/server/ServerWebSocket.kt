@@ -29,7 +29,7 @@ class ServerWebSocket : AbstractVerticle() {
   private lateinit var netClient: NetClient
   private lateinit var httpServer: HttpServer
   private val userMap:MutableMap<String,UserInfo> = LinkedHashMap()
-  private val hasLoginSet = HashSet<String>()
+  private val hasLoginMap = HashMap<String,Int>()
   private var port: Int = 1888
   private var maxQueueSize = 8*1024*1024
   private val localMap = LinkedHashMap<String, NetSocket>()
@@ -79,14 +79,15 @@ class ServerWebSocket : AbstractVerticle() {
   }
 
   private fun socketHandler(sock: ServerWebSocket) {
-    val userInfo = sock.headers()
-        .firstOrNull { userMap.containsKey(it.value) && !hasLoginSet.contains(it.value) }
-        ?.let {
-          userMap[it.value]
-        }?:return sock.reject()
-    if(!userInfo.multipleMode){
-      hasLoginSet.add(userInfo.secret())
+    val key = sock.headers()
+        .firstOrNull { userMap.containsKey(it.value) }?.value ?: return sock.reject()
+    val userInfo = userMap[key]?:return sock.reject()
+    if(hasLoginMap[key]?.let {
+          userInfo.maxLoginDevices in 0..(it - 1)
+    } == true){
+      return sock.reject()
     }
+    hasLoginMap[key] =(hasLoginMap[key]?:0) + 1
     sock.setWriteQueueMaxSize(maxQueueSize)
     sock.binaryMessageHandler { _buffer ->
       GlobalScope.launch(vertx.dispatcher()) {
@@ -105,7 +106,7 @@ class ServerWebSocket : AbstractVerticle() {
         }
       }
     }.closeHandler {
-      hasLoginSet.remove(userInfo.secret())
+      hasLoginMap[userInfo.secret()] = hasLoginMap[userInfo.secret()]?.minus(1)?:0
     }
     sock.accept()
   }
