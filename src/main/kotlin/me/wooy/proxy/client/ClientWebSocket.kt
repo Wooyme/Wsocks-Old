@@ -13,8 +13,10 @@ import io.vertx.core.net.NetServer
 import io.vertx.core.net.NetSocket
 import me.wooy.proxy.common.UserInfo
 import me.wooy.proxy.data.*
+import me.wooy.proxy.jni.KCP
 import org.apache.commons.lang3.RandomStringUtils
 import java.net.Inet4Address
+import java.net.InetAddress
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -29,6 +31,7 @@ class ClientWebSocket : AbstractVerticle() {
   private lateinit var remoteIp: String
   private lateinit var userInfo: UserInfo
   private val httpClient: HttpClient by lazy { vertx.createHttpClient() }
+  private val ds by lazy { vertx.createDatagramSocket() }
   private lateinit var ws: WebSocket
 
   override fun start(future: Future<Void>) {
@@ -51,6 +54,7 @@ class ClientWebSocket : AbstractVerticle() {
       vertx.eventBus().publish("net-status-update", "${bufferSizeHistory shr 11}kb/s")
       bufferSizeHistory = 0
     }
+
     future.complete()
   }
 
@@ -62,9 +66,10 @@ class ClientWebSocket : AbstractVerticle() {
   private fun login() {
     if (!this::remoteIp.isInitialized)
       return
+    val randomKey = "/"+RandomStringUtils.randomAlphanumeric(5)
     httpClient.websocket(remotePort
-        , remoteIp
-        , "/"+RandomStringUtils.randomAlphanumeric(5)
+        , InetAddress.getByName(remoteIp).hostAddress
+        , randomKey
         , MultiMap.caseInsensitiveMultiMap()
         .add(RandomStringUtils.randomAlphanumeric(Random().nextInt(10)+1)
             ,userInfo.secret())) { webSocket ->
@@ -91,6 +96,7 @@ class ClientWebSocket : AbstractVerticle() {
       logger.info("Connected to remote server")
       vertx.eventBus().publish("status-modify", JsonObject().put("status", "$remoteIp:$remotePort"))
     }
+    initKcp(randomKey)
   }
 
   private fun initSocksServer(port: Int) {
@@ -107,6 +113,8 @@ class ClientWebSocket : AbstractVerticle() {
         bufferHandler(uuid, socket, it)
       }.closeHandler {
         connectMap.remove(uuid)
+      }.exceptionHandler {
+        socket.close()
       }
     }.listen(port) {
       logger.info("Listen at $port")
@@ -220,7 +228,45 @@ class ClientWebSocket : AbstractVerticle() {
 
   private fun wsExceptionHandler(e: Exception) {
     connectMap.remove(e.uuid)?.close()
-    logger.warn(e.message)
+    if(e.message.isNotEmpty())
+      logger.warn(e.message)
+  }
+
+  private fun initKcp(randomKey:String){
+    val kcpTest = object : KCP(0x11223344) {
+      override fun output(buffer: ByteArray, size: Int) {
+        ds.send(Buffer.buffer().appendBytes(buffer.sliceArray(0..size)),3333,remoteIp){}
+      }
+    }
+    kcpTest.NoDelay(1, 10, 2, 1)
+    kcpTest.WndSize(256,256)
+
+    vertx.setPeriodic(10){
+      kcpTest.Update(Date().time)
+    }
+    val data = ByteArray(1024*1024)
+    vertx.setPeriodic(10){
+      var len = kcpTest.Recv(data)
+      while(len>0){
+        val buffer = Buffer.buffer(data.sliceArray(0 until len))
+        when (buffer.getIntLE(0)) {
+          Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(userInfo,buffer).uuid)
+          Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(userInfo,buffer))
+          Flag.RAW.ordinal -> {
+            bufferSizeHistory += buffer.length()
+            wsReceivedRawHandler(RawData(userInfo,buffer))
+          }
+          else -> logger.warn(buffer.getIntLE(0))
+        }
+        len = kcpTest.Recv(data)
+      }
+    }
+    ds.handler {
+      kcpTest.Input(it.data().bytes)
+    }.listen(9999,"0.0.0.0"){
+      println("DS Listen at 9999")
+    }
+    ds.send(Buffer.buffer().appendString("login").appendString(randomKey),3333,remoteIp){}
   }
 }
 

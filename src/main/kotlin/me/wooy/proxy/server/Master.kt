@@ -25,7 +25,7 @@ class Master : AbstractVerticle() {
               , it.getParam("pass") ?: return@requestHandler it.response().end()
               , it.getParam("zip")?.toBoolean() ?: false
               , it.getParam("offset")?.toInt() ?: 0
-              , it.getParam("multiple")?.toBoolean() ?: false
+              , it.getParam("multiple")?.toInt() ?: -1
               , it.getParam("limit")?.toLong() ?: -1L)
           it.response().end("{\"status\":1}")
         }
@@ -39,7 +39,7 @@ class Master : AbstractVerticle() {
     }
   }
 
-  private fun addUser(username: String, password: String, doZip: Boolean, offset: Int, multipleMode: Boolean, limitation: Long) {
+  private fun addUser(username: String, password: String, doZip: Boolean, offset: Int, multipleMode: Int, limitation: Long) {
     val new = JsonObject()
         .put("user", username)
         .put("pass", password)
