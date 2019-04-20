@@ -12,8 +12,6 @@ public class Controller {
     @FXML
     private ListView<String> listView;
     @FXML
-    private TextField localPortTextField;
-    @FXML
     private TextField remoteAddressTextField;
     @FXML
     private TextField remotePortTextField;
@@ -33,7 +31,6 @@ public class Controller {
         Utils.INSTANCE.saveInfo(Main.saveFile,Main.info);
         this.selected = listView.getItems().size()-1;
         if(this.selected.intValue()<0){
-            localPortTextField.clear();
             remoteAddressTextField.clear();
             remotePortTextField.clear();
             usernameTextField.clear();
@@ -42,7 +39,6 @@ public class Controller {
         }else{
             listView.getSelectionModel().select(this.selected.intValue());
             JsonObject config = Main.info.getJsonObject(this.selected.intValue());
-            localPortTextField.setText(String.valueOf(config.getInteger("local.port")));
             remoteAddressTextField.setText(config.getString("remote.ip"));
             remotePortTextField.setText(String.valueOf(config.getInteger("remote.port")));
             usernameTextField.setText(config.getString("user"));
@@ -53,7 +49,6 @@ public class Controller {
 
     @FXML
     protected void onAddButtonClicked(ActionEvent event) {
-        Integer localPort = new Integer(localPortTextField.getText());
         String host = remoteAddressTextField.getText();
         Integer remotePort = new Integer(remotePortTextField.getText());
         String username = usernameTextField.getText();
@@ -61,7 +56,7 @@ public class Controller {
         boolean doZip = doZipCheckBox.isSelected();
         JsonObject config = new JsonObject();
         config.put("proxy.type", "socks5")
-                .put("local.port", localPort);
+                .put("local.port", 1080);
         config.put("remote.ip", host)
                 .put("remote.port", remotePort)
                 .put("user", username)
@@ -76,7 +71,6 @@ public class Controller {
 
     @FXML
     protected void onConfirmButtonClicked(ActionEvent event) {
-        Integer localPort = new Integer(localPortTextField.getText());
         String host = remoteAddressTextField.getText();
         Integer remotePort = new Integer(remotePortTextField.getText());
         String username = usernameTextField.getText();
@@ -84,7 +78,7 @@ public class Controller {
         boolean doZip = doZipCheckBox.isSelected();
         JsonObject config = new JsonObject();
         config.put("proxy.type", "socks5")
-                .put("local.port", localPort);
+                .put("local.port", 1080);
         config.put("remote.ip", host)
                 .put("remote.port", remotePort)
                 .put("user", username)
@@ -97,21 +91,16 @@ public class Controller {
         }
         Main.vertx.eventBus().publish("config-modify", config);
         Tray.INSTANCE.getSystemTray().setStatus("Connecting...");
-        ((Stage) localPortTextField.getScene().getWindow()).close();
+        ((Stage) remoteAddressTextField.getScene().getWindow()).close();
     }
 
     @FXML
     protected void initialize() {
-        if(System.getProperty("os.name").contains("Windows")){
-            localPortTextField.setText("1080");
-            localPortTextField.setEditable(false);
-        }
         listView.getSelectionModel()
                 .selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() < 0) return;
             this.selected = newValue;
             JsonObject config = Main.info.getJsonObject(this.selected.intValue());
-            localPortTextField.setText(String.valueOf(config.getInteger("local.port")));
             remoteAddressTextField.setText(config.getString("remote.ip"));
             remotePortTextField.setText(String.valueOf(config.getInteger("remote.port")));
             usernameTextField.setText(config.getString("user"));
@@ -123,7 +112,6 @@ public class Controller {
         Main.info.stream().forEach((value) -> {
             JsonObject config = (JsonObject) value;
             if (config.containsKey("selected") && config.getBoolean("selected")) {
-                localPortTextField.setText(String.valueOf(config.getInteger("local.port")));
                 remoteAddressTextField.setText(config.getString("remote.ip"));
                 remotePortTextField.setText(String.valueOf(config.getInteger("remote.port")));
                 usernameTextField.setText(config.getString("user"));

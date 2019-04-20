@@ -3,8 +3,8 @@
   <component name="AutoImportedSourceRoots">
     <option name="directories">
       <list>
-        <option value="D:\project\proxy/src/main/java" />
-        <option value="D:\project\proxy/src/main/kotlin" />
+        <option value="$MODULE_DIR$/src/main/java" />
+        <option value="$MODULE_DIR$/src/main/kotlin" />
       </list>
     </option>
   </component>
