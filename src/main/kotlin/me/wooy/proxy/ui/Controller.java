@@ -27,7 +27,7 @@ public class Controller {
     protected void onRemoveButtonClicked(ActionEvent event) {
         if (this.selected.intValue() < 0) return;
         listView.getItems().remove(selected.intValue());
-        Main.info.remove(selected.intValue());
+        Main.info.remove(selected.intValue()+1);
         Utils.INSTANCE.saveInfo(Main.saveFile,Main.info);
         this.selected = listView.getItems().size()-1;
         if(this.selected.intValue()<0){
