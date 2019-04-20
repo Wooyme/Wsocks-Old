@@ -3,6 +3,7 @@ package me.wooy.proxy.server
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.DeploymentOptions
 import io.vertx.core.Future
+import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.eventbus.DeliveryOptions
 import io.vertx.core.eventbus.EventBus
@@ -49,7 +50,7 @@ class ServerWebSocket : AbstractVerticle() {
       }
     }
   }
-  class KcpWorkerCaller(private val eventBus: EventBus,private val inputAddress:String,private val sendAddress:String){
+  class KcpWorkerCaller(private val id:String,private val vertx:Vertx,private val eventBus: EventBus,private val inputAddress:String,private val sendAddress:String){
     fun input(buf:Buffer){
       eventBus.send(inputAddress,buf, DeliveryOptions().setLocalOnly(true))
     }
@@ -61,6 +62,9 @@ class ServerWebSocket : AbstractVerticle() {
           callback(it.result().body())
         }
       }
+    }
+    fun stop(){
+      vertx.undeploy(id)
     }
   }
   private val logger = LoggerFactory.getLogger(ServerWebSocket::class.java)
@@ -150,7 +154,7 @@ class ServerWebSocket : AbstractVerticle() {
       }
     }.closeHandler {
       hasLoginMap[userInfo.secret()] = hasLoginMap[userInfo.secret()]?.minus(1)?:0
-      kcpMap.remove(senderMap.remove(sock.path()))
+      kcpMap.remove(senderMap.remove(sock.path()))?.stop()
     }
     sock.accept()
   }
@@ -220,10 +224,15 @@ class ServerWebSocket : AbstractVerticle() {
         }
         kcp.WndSize(128,128)
         kcp.NoDelay(1, 10, 2, 1)
-        vertx.deployVerticle(KcpWorker(kcp,randomKey), DeploymentOptions().setWorker(true))
-        kcpMap[it.sender().getString()] = KcpWorkerCaller(vertx.eventBus(),"$randomKey-input"
-            ,"$randomKey-send")
-        senderMap[randomKey] = it.sender().getString()
+        vertx.deployVerticle(KcpWorker(kcp,randomKey), DeploymentOptions().setWorker(true)){result->
+          if(result.failed()){
+            result.cause().printStackTrace()
+            return@deployVerticle
+          }
+          kcpMap[it.sender().getString()] = KcpWorkerCaller(result.result(),vertx,vertx.eventBus(),"$randomKey-input"
+              ,"$randomKey-send")
+          senderMap[randomKey] = it.sender().getString()
+        }
       }else {
         kcpMap[it.sender().getString()]?.input(it.data())
       }
