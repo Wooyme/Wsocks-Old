@@ -6,7 +6,6 @@ import io.vertx.core.Future
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.eventbus.DeliveryOptions
-import io.vertx.core.eventbus.EventBus
 import io.vertx.core.http.HttpServer
 import io.vertx.core.http.ServerWebSocket
 import io.vertx.core.json.DecodeException
@@ -32,14 +31,21 @@ import kotlin.collections.LinkedHashMap
 
 class ServerWebSocket : AbstractVerticle() {
   class KcpWorker(private val kcp:KCP,private val address:String):AbstractVerticle(){
+    private val data = ByteArray(1024*1024)
+    private val eventBus by lazy { vertx.eventBus() }
     override fun start(){
       super.start()
       vertx.eventBus().localConsumer<Buffer>("$address-input"){
         kcp.Input(it.body().bytes)
       }
+
+      vertx.eventBus().localConsumer<String>("$address-send-wait"){
+        it.reply(kcp.WaitSnd()>8000)
+      }
+
       vertx.eventBus().localConsumer<Buffer>("$address-send"){
         kcp.Send(it.body().bytes)
-        if(kcp.WaitSnd()>500){
+        if(kcp.WaitSnd()>8000){
           it.reply(1)
         }else{
           it.reply(0)
@@ -47,10 +53,24 @@ class ServerWebSocket : AbstractVerticle() {
       }
       vertx.setPeriodic(10){
         kcp.Update(Date().time)
+        var len = kcp.Recv(data)
+        while(len>0){
+          eventBus.send("$address-recv",Buffer.buffer(data.sliceArray(0 until len)), DeliveryOptions().setLocalOnly(true))
+          len = kcp.Recv(data)
+        }
       }
     }
+
+    override fun stop() {
+      kcp.clean()
+      super.stop()
+    }
   }
-  class KcpWorkerCaller(private val id:String,private val vertx:Vertx,private val eventBus: EventBus,private val inputAddress:String,private val sendAddress:String){
+  class KcpWorkerCaller(private val id:String,private val vertx:Vertx
+                        ,private val inputAddress:String
+                        ,private val sendAddress:String
+                        ,private val recvAddress:String){
+    private val eventBus = vertx.eventBus()
     fun input(buf:Buffer){
       eventBus.send(inputAddress,buf, DeliveryOptions().setLocalOnly(true))
     }
@@ -63,6 +83,19 @@ class ServerWebSocket : AbstractVerticle() {
         }
       }
     }
+
+    fun getWaiting(callback: (Boolean) -> Any){
+      eventBus.send<Boolean>("$sendAddress-wait","",DeliveryOptions().setLocalOnly(true)){
+        callback(it.result().body())
+      }
+    }
+
+    fun recv(callback:(Buffer)->Any){
+      eventBus.localConsumer<Buffer>(recvAddress){
+        callback(it.body())
+      }
+    }
+
     fun stop(){
       vertx.undeploy(id)
     }
@@ -73,12 +106,13 @@ class ServerWebSocket : AbstractVerticle() {
   private val userMap:MutableMap<String,UserInfo> = LinkedHashMap()
   private val hasLoginMap = HashMap<String,Int>()
   //web 服务器端口
-  private val port: Int by lazy { config().getInteger("port")?:1888 }
+  private val port = 8888
   private val localMap = LinkedHashMap<String, NetSocket>()
   private val ds by lazy { vertx.createDatagramSocket() }
   private val fakeIp by lazy { config().getString("fake_ip") }
   private val fakePort by lazy { config().getInteger("fake_port") }
   private val udpPort by lazy { config().getInteger("udp_port") }
+  private val registeredRandomKey = HashMap<String,UserInfo>()
   private val senderMap:MutableMap<String,String> = LinkedHashMap()
   private val kcpMap:MutableMap<String,KcpWorkerCaller> = LinkedHashMap()
 
@@ -96,7 +130,7 @@ class ServerWebSocket : AbstractVerticle() {
 
   override fun start(startFuture: Future<Void>) {
     initParams()
-    netClient = vertx.createNetClient()
+    netClient = vertx.createNetClient(NetClientOptions().setReceiveBufferSize(4*1024*1024))
     httpServer = vertx.createHttpServer()
     httpServer.websocketHandler(this::socketHandler)
     vertx.executeBlocking<HttpServer>({
@@ -138,29 +172,15 @@ class ServerWebSocket : AbstractVerticle() {
       return sock.reject()
     }
     hasLoginMap[key] =(hasLoginMap[key]?:0) + 1
-    sock.binaryMessageHandler { _buffer ->
-      GlobalScope.launch(vertx.dispatcher()) {
-        val buffer = if (userInfo.offset != 0) _buffer.getBuffer(userInfo.offset, _buffer.length()) else _buffer
-        try {
-          when (buffer.getIntLE(0)) {
-            Flag.CONNECT.ordinal -> clientConnectHandler(userInfo,sock, ClientConnect(userInfo,buffer))
-            Flag.RAW.ordinal -> clientRawHandler(userInfo,sock, RawData(userInfo,buffer))
-            Flag.DNS.ordinal -> clientDNSHandler(userInfo,sock, DnsQuery(userInfo,buffer))
-            else -> logger.error(buffer.getIntLE(0))
-          }
-        } catch (e: BadPaddingException) {
-          sock.reject()
-        } catch(e:DecodeException){ }
-      }
-    }.closeHandler {
+    registeredRandomKey[sock.path()] = userInfo
+    sock.closeHandler {
       hasLoginMap[userInfo.secret()] = hasLoginMap[userInfo.secret()]?.minus(1)?:0
       kcpMap.remove(senderMap.remove(sock.path()))?.stop()
     }
     sock.accept()
   }
 
-  private suspend fun clientConnectHandler(userInfo: UserInfo,sock: ServerWebSocket, data: ClientConnect) {
-    val kcp = kcpMap[senderMap[sock.path()]]?:return
+  private suspend fun clientConnectHandler(userInfo: UserInfo,kcp:KcpWorkerCaller, data: ClientConnect) {
     val net = try {
       netClient.connectAwait(data.port, InetAddress.getByName(data.host).hostAddress)
     } catch (e: Throwable) {
@@ -169,12 +189,17 @@ class ServerWebSocket : AbstractVerticle() {
       return
     }
     net.handler { buffer ->
+      fun wait(){
+        net.pause()
+        vertx.setTimer(3000){
+          kcp.getWaiting {
+            if(it) wait() else net.resume()
+          }
+        }
+      }
       kcp.sendWithOffset(userInfo,RawData.create(userInfo,data.uuid, buffer)){
         if(it==1){
-          net.pause()
-          vertx.setTimer(3000){
-            net.resume()
-          }
+          wait()
         }
       }
     }.closeHandler {
@@ -187,14 +212,14 @@ class ServerWebSocket : AbstractVerticle() {
     kcp.sendWithOffset(userInfo,ConnectSuccess.create(userInfo,data.uuid))
   }
 
-  private fun clientRawHandler(userInfo: UserInfo,sock: ServerWebSocket, data: RawData) {
+  private fun clientRawHandler(userInfo: UserInfo,kcp:KcpWorkerCaller, data: RawData) {
     val net = localMap[data.uuid]
     net?.write(data.data) ?: let {
-      kcpMap[senderMap[sock.path()]]?.sendWithOffset(userInfo,Exception.create(userInfo,data.uuid, "Remote socket has closed"))
+      kcp.sendWithOffset(userInfo,Exception.create(userInfo,data.uuid, "Remote socket has closed"))
     }
   }
 
-  private fun clientDNSHandler(userInfo: UserInfo,sock: ServerWebSocket, data: DnsQuery) {
+  private fun clientDNSHandler(userInfo: UserInfo,kcp:KcpWorkerCaller, data: DnsQuery) {
     vertx.executeBlocking<String>({
       val address = try{
         InetAddress.getByName(data.host)?.hostAddress?:"0.0.0.0"
@@ -203,17 +228,17 @@ class ServerWebSocket : AbstractVerticle() {
       }
       it.complete(address)
     }){
-      kcpMap[senderMap[sock.path()]]?.sendWithOffset(userInfo,DnsQuery.create(userInfo,data.uuid, it.result()))
+      kcp.sendWithOffset(userInfo,DnsQuery.create(userInfo,data.uuid, it.result()))
     }
   }
 
   private fun initKcp(){
     ds.handler {
-      if(it.data().getString(0,5)=="login"){
+      if(it.data().length()>10 && it.data().getString(0,5)=="login"){
         if(kcpMap.containsKey(it.sender().getString())) return@handler
         val randomKey = it.data().getString(5,it.data().length())
-        println("IP:${it.sender().host()},Port:${it.sender().port()}")
-        println(ByteBuffer.wrap(randomKey.toByteArray()).getLong(0))
+        val userInfo = registeredRandomKey[randomKey]?:return@handler
+        logger.info("IP:${it.sender().host()},Port:${it.sender().port()}")
         val conv = ByteBuffer.wrap(randomKey.toByteArray()).getInt(0).toLong()
         val raw = Kcp()
         val result = raw.init(fakeIp,fakePort,udpPort,it.sender().host(),it.sender().port())
@@ -222,15 +247,34 @@ class ServerWebSocket : AbstractVerticle() {
             raw.sendBuf(result,buffer,size)
           }
         }
-        kcp.WndSize(128,128)
+        kcp.WndSize(256,256)
         kcp.NoDelay(1, 10, 2, 1)
-        vertx.deployVerticle(KcpWorker(kcp,randomKey), DeploymentOptions().setWorker(true)){result->
-          if(result.failed()){
-            result.cause().printStackTrace()
+
+        vertx.deployVerticle(KcpWorker(kcp,randomKey), DeploymentOptions().setWorker(true)){aResult->
+          if(aResult.failed()){
+            aResult.cause().printStackTrace()
             return@deployVerticle
           }
-          kcpMap[it.sender().getString()] = KcpWorkerCaller(result.result(),vertx,vertx.eventBus(),"$randomKey-input"
-              ,"$randomKey-send")
+          val kcpWC = KcpWorkerCaller(aResult.result(),vertx,"$randomKey-input"
+              ,"$randomKey-send","$randomKey-recv")
+          kcpWC.recv {_buffer->
+            GlobalScope.launch(vertx.dispatcher()) {
+              val buffer = if (userInfo.offset != 0) _buffer.getBuffer(userInfo.offset, _buffer.length()) else _buffer
+              try {
+                when (buffer.getIntLE(0)) {
+                  Flag.CONNECT.ordinal -> clientConnectHandler(userInfo,kcpWC, ClientConnect(userInfo,buffer))
+                  Flag.RAW.ordinal -> clientRawHandler(userInfo,kcpWC, RawData(userInfo,buffer))
+                  Flag.DNS.ordinal -> clientDNSHandler(userInfo,kcpWC, DnsQuery(userInfo,buffer))
+                  else -> logger.error(buffer.getIntLE(0))
+                }
+              } catch (e: BadPaddingException) {
+
+              } catch(e:DecodeException){
+
+              }
+            }
+          }
+          kcpMap[it.sender().getString()] = kcpWC
           senderMap[randomKey] = it.sender().getString()
         }
       }else {

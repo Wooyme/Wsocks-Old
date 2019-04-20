@@ -32,6 +32,10 @@ class ClientWebSocket : AbstractVerticle() {
       eventBus.localConsumer<Buffer>("$address-input"){
         kcp.Input(it.body().bytes)
       }
+
+      vertx.eventBus().localConsumer<Buffer>("$address-send"){
+        kcp.Send(it.body().bytes)
+      }
       vertx.setPeriodic(10){
         kcp.Update(Date().time)
         var len = kcp.Recv(data)
@@ -41,6 +45,11 @@ class ClientWebSocket : AbstractVerticle() {
         }
       }
     }
+
+    fun send(buf:Buffer){
+      eventBus.send("$address-send",buf, DeliveryOptions().setLocalOnly(true))
+    }
+
     fun input(buf:Buffer){
       eventBus.send("$address-input",buf,DeliveryOptions().setLocalOnly(true))
     }
@@ -57,22 +66,25 @@ class ClientWebSocket : AbstractVerticle() {
   private val address = Inet4Address.getByName("127.0.0.1").address
   private var bufferSizeHistory: Long = 0L
   private var port = 1080
-  private var remotePort = 1888
+  private var remotePort = 3333
   private lateinit var remoteIp: String
   private lateinit var userInfo: UserInfo
   private val httpClient: HttpClient by lazy { vertx.createHttpClient() }
   private val ds by lazy { vertx.createDatagramSocket() }
   private lateinit var ws: WebSocket
-
+  private lateinit var kcpW:KcpWorker
+  private val randomKey = "/"+RandomStringUtils.randomAlphanumeric(7)
   override fun start(future: Future<Void>) {
     vertx.eventBus().consumer<JsonObject>("config-modify") {
       if(it.body().size()!=0){
         port = it.body().getInteger("local.port") ?: 1080
-        remotePort = it.body().getInteger("remote.port") ?: 1888
+        remotePort = it.body().getInteger("remote.port") ?: 3333
         remoteIp = it.body().getString("remote.ip")
         userInfo = UserInfo.fromJson(it.body())
       }
-      login()
+      if(this::remoteIp.isInitialized) {
+        login()
+      }
       initSocksServer(port)
     }
 
@@ -84,7 +96,6 @@ class ClientWebSocket : AbstractVerticle() {
       vertx.eventBus().publish("net-status-update", "${bufferSizeHistory shr 11}kb/s")
       bufferSizeHistory = 0
     }
-
     future.complete()
   }
 
@@ -94,39 +105,24 @@ class ClientWebSocket : AbstractVerticle() {
   }
 
   private fun login() {
-    if (!this::remoteIp.isInitialized)
-      return
-    val randomKey = "/"+RandomStringUtils.randomAlphanumeric(7)
-    httpClient.websocket(remotePort
+    if(this::ws.isInitialized) ws.close()
+    httpClient.websocket(8888
         , InetAddress.getByName(remoteIp).hostAddress
         , randomKey
         , MultiMap.caseInsensitiveMultiMap()
         .add(RandomStringUtils.randomAlphanumeric(Random().nextInt(10)+1)
             ,userInfo.secret())) { webSocket ->
       webSocket.writePing(Buffer.buffer())
-      webSocket.binaryMessageHandler { _buffer ->
-        if (_buffer.length() < 4) return@binaryMessageHandler
-
-        val buffer = if (userInfo.offset != 0) _buffer.getBuffer(userInfo.offset, _buffer.length()) else _buffer
-        when (buffer.getIntLE(0)) {
-          Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(userInfo,buffer).uuid)
-          Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(userInfo,buffer))
-          Flag.RAW.ordinal -> {
-            bufferSizeHistory += buffer.length()
-            wsReceivedRawHandler(RawData(userInfo,buffer))
-          }
-          else -> logger.warn(buffer.getIntLE(0))
-        }
-      }.exceptionHandler { t ->
+      webSocket.exceptionHandler { t ->
         logger.warn(t)
         ws.close()
         login()
       }
       this.ws = webSocket
+      initKcp(randomKey)
       logger.info("Connected to remote server")
       vertx.eventBus().publish("status-modify", JsonObject().put("status", "$remoteIp:$remotePort"))
     }
-    initKcp(randomKey)
   }
 
   private fun initSocksServer(port: Int) {
@@ -150,7 +146,6 @@ class ClientWebSocket : AbstractVerticle() {
       logger.info("Listen at $port")
     }
   }
-
 
   private fun bufferHandler(uuid: String, netSocket: NetSocket, buffer: Buffer) {
     val version = buffer.getByte(0)
@@ -220,27 +215,16 @@ class ClientWebSocket : AbstractVerticle() {
     }
   }
 
-  private fun WebSocket.writeBinaryMessageWithOffset(data: Buffer) {
-    if (userInfo.offset == 0) {
-      this.writeBinaryMessage(data)
-    } else {
-      val bytes = ByteArray(userInfo.offset)
-      Random().nextBytes(bytes)
-      this.writeBinaryMessage(Buffer.buffer(bytes).appendBuffer(data))
-    }
-  }
-
-
   private fun tryConnect(uuid: String, netSocket: NetSocket, host: String, port: Int) {
     connectMap[uuid] = netSocket
-    ws.writeBinaryMessageWithOffset(ClientConnect.create(userInfo,uuid, host, port))
+    kcpW.send(ClientConnect.create(userInfo,uuid, host, port))
   }
 
   private fun wsConnectedHandler(uuid: String) {
     val netSocket = connectMap[uuid] ?: return
     //建立连接后修改handler
     netSocket.handler {
-      ws.writeBinaryMessageWithOffset(RawData.create(userInfo,uuid, it))
+      kcpW.send(RawData.create(userInfo,uuid, it))
     }
     val buffer = Buffer.buffer()
         .appendByte(0x05.toByte())
@@ -263,6 +247,10 @@ class ClientWebSocket : AbstractVerticle() {
   }
 
   private fun initKcp(randomKey:String){
+    if(this::kcpW.isInitialized) {
+      ds.send(Buffer.buffer("login").appendString(randomKey),3333,remoteIp){}
+      return
+    }
     val conv = ByteBuffer.wrap(randomKey.toByteArray()).getInt(0).toLong()
     val kcpTest = object : KCP(conv) {
       override fun output(buffer: ByteArray, size: Int) {
@@ -270,7 +258,7 @@ class ClientWebSocket : AbstractVerticle() {
       }
     }
     kcpTest.NoDelay(1, 10, 2, 1)
-    kcpTest.WndSize(128,128)
+    kcpTest.WndSize(256,256)
     val kcpWorker = KcpWorker(vertx.eventBus(),kcpTest,randomKey)
     kcpWorker.recv {buffer->
       when (buffer.getIntLE(0)) {
@@ -288,8 +276,9 @@ class ClientWebSocket : AbstractVerticle() {
       kcpWorker.input(it.data())
     }.listen(9999,"0.0.0.0"){
       println("DS Listen at 9999")
+      this.kcpW = kcpWorker
+      ds.send(Buffer.buffer("login").appendString(randomKey),remotePort,remoteIp){}
     }
-    ds.send(Buffer.buffer().appendString("login").appendString(randomKey),3333,remoteIp){}
   }
 }
 

@@ -14,7 +14,7 @@ class Master : AbstractVerticle() {
     config().getJsonObject("config")
   }
   private val port by lazy {
-    config.getInteger("master")?:8888
+    config.getInteger("master")?:8880
   }
   override fun start() {
     super.start()

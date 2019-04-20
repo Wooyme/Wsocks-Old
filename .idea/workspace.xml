@@ -32,7 +32,7 @@
     <session id="996742881">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="99" />
+          <entry key="project.closed" value="100" />
           <entry key="project.open.time.1" value="4" />
           <entry key="project.open.time.100" value="1" />
           <entry key="project.open.time.104" value="1" />
@@ -88,57 +88,57 @@
         <counts>
           <entry key="MF" value="6" />
           <entry key="class" value="20" />
-          <entry key="classpath" value="1" />
+          <entry key="classpath" value="2" />
           <entry key="editorconfig" value="3" />
           <entry key="fxml" value="6" />
           <entry key="gitignore" value="3" />
           <entry key="iml" value="2" />
-          <entry key="java" value="385" />
+          <entry key="java" value="387" />
           <entry key="jpg" value="1" />
-          <entry key="json" value="23" />
-          <entry key="kt" value="337" />
+          <entry key="json" value="24" />
+          <entry key="kt" value="338" />
           <entry key="md" value="8" />
           <entry key="project" value="1" />
           <entry key="properties" value="3" />
           <entry key="sh" value="1" />
-          <entry key="xml" value="48" />
+          <entry key="xml" value="52" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="20" />
-          <entry key="Eclipse" value="2" />
+          <entry key="Eclipse" value="3" />
           <entry key="IDEA_MODULE" value="2" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="385" />
-          <entry key="JSON" value="23" />
-          <entry key="Kotlin" value="337" />
+          <entry key="JAVA" value="387" />
+          <entry key="JSON" value="24" />
+          <entry key="Kotlin" value="338" />
           <entry key="Manifest" value="6" />
           <entry key="PLAIN_TEXT" value="15" />
           <entry key="Properties" value="3" />
-          <entry key="XML" value="54" />
+          <entry key="XML" value="58" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="195" />
           <entry key="gitignore" value="7" />
-          <entry key="java" value="3701" />
+          <entry key="java" value="3767" />
           <entry key="json" value="368" />
-          <entry key="kt" value="55257" />
+          <entry key="kt" value="56285" />
           <entry key="kts" value="161" />
           <entry key="md" value="353" />
           <entry key="sh" value="30" />
-          <entry key="xml" value="492" />
+          <entry key="xml" value="544" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3701" />
+          <entry key="JAVA" value="3767" />
           <entry key="JSON" value="368" />
-          <entry key="Kotlin" value="55418" />
+          <entry key="Kotlin" value="56446" />
           <entry key="PLAIN_TEXT" value="390" />
-          <entry key="XML" value="687" />
+          <entry key="XML" value="739" />
         </counts>
       </usages-collector>
     </session>
@@ -148,17 +148,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientWebSocket.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="52" column="3" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
+            <state relative-caret-position="-220">
+              <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="57" column="36" selection-start-line="57" selection-start-column="36" selection-end-line="57" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="236" column="57" lean-forward="true" selection-start-line="236" selection-start-column="57" selection-end-line="236" selection-end-column="57" />
+            <state relative-caret-position="21">
+              <caret line="193" column="28" lean-forward="true" selection-start-line="193" selection-start-column="28" selection-end-line="193" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -264,7 +273,6 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Utils.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Main.java" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/data/Exception.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/Master.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/Test.kt" />
         <option value="$PROJECT_DIR$/Kcp.java" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/ServerTest.kt" />
@@ -273,13 +281,14 @@
         <option value="$PROJECT_DIR$/src/main/resource/sample.fxml" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/launch.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/Kcp.java" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/KCP.java" />
         <option value="$PROJECT_DIR$/target/config.json" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientWebSocket.kt" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/ui/Controller.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/Master.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/KCP.java" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientWebSocket.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -304,7 +313,6 @@
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="proxy" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
         </path>
       </expand>
       <select />
@@ -348,6 +356,50 @@
               <item name="proxy" type="b2602c69:ProjectViewProjectNode" />
               <item name="proxy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proxy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proxy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proxy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proxy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proxy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proxy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proxy" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -613,7 +665,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="387254000" />
+    <option name="totallyTimeSpent" value="398273000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -640,7 +692,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32263514" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49848256" weight="0.5118243" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49848256" weight="0.3412162" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5015175" side_tool="true" weight="0.32079646" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.31925675" />
@@ -715,14 +767,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.3.10/kotlin-stdlib-1.3.10-sources.jar!/kotlin/String.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/ServerTest.kt" />
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/common/UserInfo.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -949,30 +993,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/target/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/Kcp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/KCP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="406" column="30" selection-start-line="406" selection-start-column="30" selection-end-line="406" selection-end-column="30" />
-          <folding>
-            <element signature="e#6698#6699#0" expanded="true" />
-            <element signature="e#6726#6727#0" expanded="true" />
-            <element signature="e#28850#28851#0" expanded="true" />
-            <element signature="e#28906#28907#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -994,13 +1018,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
           <caret line="269" column="7" selection-start-line="269" selection-start-column="7" selection-end-line="269" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientWebSocket.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="52" column="3" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
         </state>
       </provider>
     </entry>
@@ -1039,13 +1056,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/net/InetAddress.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -1060,10 +1070,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.classpath">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/Master.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/jni/KCP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="111" column="18" selection-start-line="111" selection-start-column="18" selection-end-line="111" selection-end-column="18" />
+          <folding>
+            <element signature="e#6698#6699#0" expanded="true" />
+            <element signature="e#6726#6727#0" expanded="true" />
+            <element signature="e#28850#28851#0" expanded="true" />
+            <element signature="e#28906#28907#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/client/ClientWebSocket.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-220">
+          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/me/wooy/proxy/server/ServerWebSocket.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="236" column="57" lean-forward="true" selection-start-line="236" selection-start-column="57" selection-end-line="236" selection-end-column="57" />
+        <state relative-caret-position="222">
+          <caret line="57" column="36" selection-start-line="57" selection-start-column="36" selection-end-line="57" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="193" column="28" lean-forward="true" selection-start-line="193" selection-start-column="28" selection-end-line="193" selection-end-column="28" />
         </state>
       </provider>
     </entry>

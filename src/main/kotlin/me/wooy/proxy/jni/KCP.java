@@ -980,4 +980,12 @@ public abstract class KCP {
     public int WaitSnd() {
         return nsnd_buf.size() + nsnd_que.size();
     }
+
+    public void clean(){
+        nrcv_buf.clear();
+        nsnd_buf.clear();
+        nrcv_que.clear();
+        nsnd_que.clear();
+        acklist.clear();
+    }
 }
