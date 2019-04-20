@@ -3,6 +3,7 @@
     <words>
       <w>addr</w>
       <w>atyp</w>
+      <w>conv</w>
       <w>vertx</w>
       <w>websocket</w>
       <w>wsocks</w>

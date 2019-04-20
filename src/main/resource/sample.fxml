@@ -7,11 +7,6 @@
     <padding>
         <Insets top="10" right="10" bottom="5" left="10"/>
     </padding>
-    <Label text="Local Port"
-           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <TextField fx:id="localPortTextField"
-               GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200"/>
-
     <Label text="Remote Address"
            GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     <TextField fx:id="remoteAddressTextField"

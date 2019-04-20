@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
     return
   }
 
-  val vertx = Vertx.vertx()
+  val vertx = Vertx.vertx(VertxOptions())
   val serverType = cmd.getOptionValue("type")
   val configPath = cmd.getOptionValue("config-path")
   val serverConfig = JsonObject(File(configPath).readText())

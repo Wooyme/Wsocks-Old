@@ -4,6 +4,6 @@ public class Kcp{
         System.loadLibrary("KcpTest");
     }
     public native long init(String fakeIp,int fakePort,int localPort,String remoteIp,int remotePort);
-    public native void sendBuf(long info,byte[] buf);
+    public native void sendBuf(long info,byte[] buf,int len);
 
 }

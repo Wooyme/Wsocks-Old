@@ -1,9 +1,12 @@
 package me.wooy.proxy.client
 
 import io.vertx.core.AbstractVerticle
+import io.vertx.core.DeploymentOptions
 import io.vertx.core.Future
 import io.vertx.core.MultiMap
 import io.vertx.core.buffer.Buffer
+import io.vertx.core.eventbus.DeliveryOptions
+import io.vertx.core.eventbus.EventBus
 import io.vertx.core.http.HttpClient
 import io.vertx.core.http.WebSocket
 import io.vertx.core.json.JsonObject
@@ -17,10 +20,37 @@ import me.wooy.proxy.jni.KCP
 import org.apache.commons.lang3.RandomStringUtils
 import java.net.Inet4Address
 import java.net.InetAddress
+import java.nio.ByteBuffer
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class ClientWebSocket : AbstractVerticle() {
+  class KcpWorker(private val eventBus: EventBus,private val kcp:KCP,private val address:String):AbstractVerticle(){
+    private val data = ByteArray(1024*1024)
+    override fun start(){
+      super.start()
+      eventBus.localConsumer<Buffer>("$address-input"){
+        kcp.Input(it.body().bytes)
+      }
+      vertx.setPeriodic(10){
+        kcp.Update(Date().time)
+        var len = kcp.Recv(data)
+        while(len>0){
+          eventBus.send("$address-recv",Buffer.buffer(data.sliceArray(0 until len)), DeliveryOptions().setLocalOnly(true))
+          len = kcp.Recv(data)
+        }
+      }
+    }
+    fun input(buf:Buffer){
+      eventBus.send("$address-input",buf,DeliveryOptions().setLocalOnly(true))
+    }
+
+    fun recv(callback:(Buffer)->Any){
+      eventBus.localConsumer<Buffer>("$address-recv"){
+        callback(it.body())
+      }
+    }
+  }
   private val logger: Logger = LoggerFactory.getLogger(ClientWebSocket::class.java)
   private lateinit var netServer: NetServer
   private val connectMap = ConcurrentHashMap<String, NetSocket>()
@@ -66,7 +96,7 @@ class ClientWebSocket : AbstractVerticle() {
   private fun login() {
     if (!this::remoteIp.isInitialized)
       return
-    val randomKey = "/"+RandomStringUtils.randomAlphanumeric(5)
+    val randomKey = "/"+RandomStringUtils.randomAlphanumeric(7)
     httpClient.websocket(remotePort
         , InetAddress.getByName(remoteIp).hostAddress
         , randomKey
@@ -108,7 +138,7 @@ class ClientWebSocket : AbstractVerticle() {
         socket.close()
         return@connectHandler
       }
-      val uuid = UUID.randomUUID().toString()
+      val uuid = RandomStringUtils.randomAlphanumeric(8)
       socket.handler {
         bufferHandler(uuid, socket, it)
       }.closeHandler {
@@ -233,36 +263,29 @@ class ClientWebSocket : AbstractVerticle() {
   }
 
   private fun initKcp(randomKey:String){
-    val kcpTest = object : KCP(0x11223344) {
+    val conv = ByteBuffer.wrap(randomKey.toByteArray()).getInt(0).toLong()
+    val kcpTest = object : KCP(conv) {
       override fun output(buffer: ByteArray, size: Int) {
         ds.send(Buffer.buffer().appendBytes(buffer.sliceArray(0..size)),3333,remoteIp){}
       }
     }
     kcpTest.NoDelay(1, 10, 2, 1)
-    kcpTest.WndSize(256,256)
-
-    vertx.setPeriodic(10){
-      kcpTest.Update(Date().time)
-    }
-    val data = ByteArray(1024*1024)
-    vertx.setPeriodic(10){
-      var len = kcpTest.Recv(data)
-      while(len>0){
-        val buffer = Buffer.buffer(data.sliceArray(0 until len))
-        when (buffer.getIntLE(0)) {
-          Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(userInfo,buffer).uuid)
-          Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(userInfo,buffer))
-          Flag.RAW.ordinal -> {
-            bufferSizeHistory += buffer.length()
-            wsReceivedRawHandler(RawData(userInfo,buffer))
-          }
-          else -> logger.warn(buffer.getIntLE(0))
+    kcpTest.WndSize(128,128)
+    val kcpWorker = KcpWorker(vertx.eventBus(),kcpTest,randomKey)
+    kcpWorker.recv {buffer->
+      when (buffer.getIntLE(0)) {
+        Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(userInfo,buffer).uuid)
+        Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(userInfo,buffer))
+        Flag.RAW.ordinal -> {
+          bufferSizeHistory += buffer.length()
+          wsReceivedRawHandler(RawData(userInfo,buffer))
         }
-        len = kcpTest.Recv(data)
+        else -> logger.warn(buffer.getIntLE(0))
       }
     }
+    vertx.deployVerticle(kcpWorker, DeploymentOptions().setWorker(true))
     ds.handler {
-      kcpTest.Input(it.data().bytes)
+      kcpWorker.input(it.data())
     }.listen(9999,"0.0.0.0"){
       println("DS Listen at 9999")
     }
