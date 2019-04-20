@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="proxy" default="all">
+  
+  
+  <property file="proxy.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.klib"/>
+    <include name="*.apk"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.7.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/fasterxml/jackson/core/jackson-annotations/2.9.7/jackson-annotations-2.9.7.jar"/>
+  </path>
+  
+  <path id="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/fasterxml/jackson/core/jackson-core/2.9.7/jackson-core-2.9.7.jar"/>
+  </path>
+  
+  <path id="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/fasterxml/jackson/core/jackson-databind/2.9.7/jackson-databind-2.9.7.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-buffer:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-buffer/4.1.30.Final/netty-buffer-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-codec-dns:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-codec-dns/4.1.30.Final/netty-codec-dns-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-codec-http2:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-codec-http2/4.1.30.Final/netty-codec-http2-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-codec-http:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-codec-http/4.1.30.Final/netty-codec-http-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-codec-socks:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-codec-socks/4.1.30.Final/netty-codec-socks-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-codec:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-codec/4.1.30.Final/netty-codec-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-common:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-common/4.1.30.Final/netty-common-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-handler-proxy:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-handler-proxy/4.1.30.Final/netty-handler-proxy-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-handler:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-handler/4.1.30.Final/netty-handler-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-resolver-dns:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-resolver-dns/4.1.30.Final/netty-resolver-dns-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-resolver:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-resolver/4.1.30.Final/netty-resolver-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.netty:netty-transport:4.1.30.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/netty/netty-transport/4.1.30.Final/netty-transport-4.1.30.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.reactivex.rxjava2:rxjava:2.2.4.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/reactivex/rxjava2/rxjava/2.2.4/rxjava-2.2.4.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.reactivex:rxjava:1.3.8.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/reactivex/rxjava/1.3.8/rxjava-1.3.8.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-auth-common:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-auth-common/3.6.0/vertx-auth-common-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-bridge-common:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-bridge-common/3.6.0/vertx-bridge-common-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-codegen:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-codegen/3.6.0/vertx-codegen-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-core:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-core/3.6.0/vertx-core-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-junit5:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-junit5/3.6.0/vertx-junit5-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-lang-kotlin-coroutines:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-lang-kotlin-coroutines/3.6.0/vertx-lang-kotlin-coroutines-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-lang-kotlin:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-lang-kotlin/3.6.0/vertx-lang-kotlin-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-rx-gen:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-rx-gen/3.6.0/vertx-rx-gen-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-rx-java-gen:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-rx-java-gen/3.6.0/vertx-rx-java-gen-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-rx-java2-gen:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-rx-java2-gen/3.6.0/vertx-rx-java2-gen-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-rx-java2:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-rx-java2/3.6.0/vertx-rx-java2-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-rx-java:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-rx-java/3.6.0/vertx-rx-java-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-web-common:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-web-common/3.6.0/vertx-web-common-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_io.vertx:vertx-web:3.6.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/io/vertx/vertx-web/3.6.0/vertx-web-3.6.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.apiguardian:apiguardian-api:1.0.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.10.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/kotlin/kotlin-stdlib-common/1.3.10/kotlin-stdlib-common-1.3.10.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.3.0/kotlin-stdlib-jdk7-1.3.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.3.0/kotlin-stdlib-jdk8-1.3.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.10.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/kotlin/kotlin-stdlib/1.3.10/kotlin-stdlib-1.3.10.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/kotlinx/kotlinx-coroutines-core-common/1.0.1/kotlinx-coroutines-core-common-1.0.1.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.0.1/kotlinx-coroutines-core-1.0.1.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.jetbrains:annotations:13.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/annotations/13.0/annotations-13.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.junit.jupiter:junit-jupiter-api:5.3.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-api/5.3.2/junit-jupiter-api-5.3.2.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.junit.jupiter:junit-jupiter-engine:5.3.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-engine/5.3.2/junit-jupiter-engine-5.3.2.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.junit.platform:junit-platform-commons:1.2.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-commons/1.2.0/junit-platform-commons-1.2.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.junit.platform:junit-platform-engine:1.2.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-engine/1.2.0/junit-platform-engine-1.2.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.junit.platform:junit-platform-launcher:1.2.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-launcher/1.2.0/junit-platform-launcher-1.2.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.mvel:mvel2:2.3.1.final.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/mvel/mvel2/2.3.1.Final/mvel2-2.3.1.Final.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.opentest4j:opentest4j:1.1.0.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.1.0/opentest4j-1.1.0.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.reactivestreams:reactive-streams:1.0.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/reactivestreams/reactive-streams/1.0.2/reactive-streams-1.0.2.jar"/>
+  </path>
+  
+  
+  <!-- Global Libraries -->
+  
+  
+  <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <fileset dir="${javac2.home}">
+      <include name="javac2.jar"/>
+      <include name="jdom.jar"/>
+      <include name="asm-all*.jar"/>
+      <include name="forms-*.jar"/>
+    </fileset>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module proxy -->
+  
+  <dirname property="module.proxy.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.proxy" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.proxy" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.proxy" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.proxy" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="proxy.output.dir" value="${module.proxy.basedir}/target/classes"/>
+  <property name="proxy.testoutput.dir" value="${module.proxy.basedir}/target/test-classes"/>
+  
+  <path id="proxy.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="proxy.module.production.classpath">
+    <path refid="${module.jdk.classpath.proxy}"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-core:3.6.0.classpath"/>
+    <path refid="library.maven:_io.netty:netty-common:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-buffer:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-transport:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler-proxy:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-socks:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http2:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.7.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-auth-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-bridge-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin:3.6.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin-coroutines:3.6.0.classpath"/>
+  </path>
+  
+  <path id="proxy.runtime.production.module.classpath">
+    <pathelement location="${proxy.output.dir}"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-core:3.6.0.classpath"/>
+    <path refid="library.maven:_io.netty:netty-common:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-buffer:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-transport:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler-proxy:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-socks:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http2:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.7.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-auth-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-bridge-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin:3.6.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin-coroutines:3.6.0.classpath"/>
+  </path>
+  
+  <path id="proxy.module.classpath">
+    <path refid="${module.jdk.classpath.proxy}"/>
+    <pathelement location="${proxy.output.dir}"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-core:3.6.0.classpath"/>
+    <path refid="library.maven:_io.netty:netty-common:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-buffer:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-transport:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler-proxy:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-socks:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http2:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.7.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-junit5:3.6.0.classpath"/>
+    <path refid="library.maven:_org.junit.jupiter:junit-jupiter-engine:5.3.2.classpath"/>
+    <path refid="library.maven:_org.junit.jupiter:junit-jupiter-api:5.3.2.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java-gen:3.6.0.classpath"/>
+    <path refid="library.maven:_io.reactivex:rxjava:1.3.8.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-gen:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-codegen:3.6.0.classpath"/>
+    <path refid="library.maven:_org.mvel:mvel2:2.3.1.final.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java2:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java2-gen:3.6.0.classpath"/>
+    <path refid="library.maven:_io.reactivex.rxjava2:rxjava:2.2.4.classpath"/>
+    <path refid="library.maven:_org.reactivestreams:reactive-streams:1.0.2.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-auth-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-bridge-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin:3.6.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin-coroutines:3.6.0.classpath"/>
+    <path refid="library.maven:_org.junit.platform:junit-platform-launcher:1.2.0.classpath"/>
+    <path refid="library.maven:_org.apiguardian:apiguardian-api:1.0.0.classpath"/>
+    <path refid="library.maven:_org.junit.platform:junit-platform-engine:1.2.0.classpath"/>
+    <path refid="library.maven:_org.junit.platform:junit-platform-commons:1.2.0.classpath"/>
+    <path refid="library.maven:_org.opentest4j:opentest4j:1.1.0.classpath"/>
+  </path>
+  
+  <path id="proxy.runtime.module.classpath">
+    <pathelement location="${proxy.testoutput.dir}"/>
+    <pathelement location="${proxy.output.dir}"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.10.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-core:3.6.0.classpath"/>
+    <path refid="library.maven:_io.netty:netty-common:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-buffer:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-transport:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-handler-proxy:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-socks:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-http2:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-resolver-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_io.netty:netty-codec-dns:4.1.30.final.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.7.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-junit5:3.6.0.classpath"/>
+    <path refid="library.maven:_org.junit.jupiter:junit-jupiter-engine:5.3.2.classpath"/>
+    <path refid="library.maven:_org.junit.jupiter:junit-jupiter-api:5.3.2.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java-gen:3.6.0.classpath"/>
+    <path refid="library.maven:_io.reactivex:rxjava:1.3.8.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-gen:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-codegen:3.6.0.classpath"/>
+    <path refid="library.maven:_org.mvel:mvel2:2.3.1.final.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java2:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-rx-java2-gen:3.6.0.classpath"/>
+    <path refid="library.maven:_io.reactivex.rxjava2:rxjava:2.2.4.classpath"/>
+    <path refid="library.maven:_org.reactivestreams:reactive-streams:1.0.2.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-web-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-auth-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-bridge-common:3.6.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin:3.6.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0.classpath"/>
+    <path refid="library.maven:_io.vertx:vertx-lang-kotlin-coroutines:3.6.0.classpath"/>
+    <path refid="library.maven:_org.junit.platform:junit-platform-launcher:1.2.0.classpath"/>
+    <path refid="library.maven:_org.apiguardian:apiguardian-api:1.0.0.classpath"/>
+    <path refid="library.maven:_org.junit.platform:junit-platform-engine:1.2.0.classpath"/>
+    <path refid="library.maven:_org.junit.platform:junit-platform-commons:1.2.0.classpath"/>
+    <path refid="library.maven:_org.opentest4j:opentest4j:1.1.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.proxy">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.proxy">
+    <patternset refid="excluded.from.module.proxy"/>
+  </patternset>
+  
+  <path id="proxy.module.sourcepath">
+    <dirset dir="${module.proxy.basedir}">
+      <include name="src/main/kotlin"/>
+    </dirset>
+  </path>
+  
+  <path id="proxy.module.test.sourcepath">
+    <dirset dir="${module.proxy.basedir}">
+      <include name="src/test/kotlin"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.proxy" depends="compile.module.proxy.production,compile.module.proxy.tests" description="Compile module proxy"/>
+  
+  <target name="compile.module.proxy.production" depends="register.custom.compilers" description="Compile module proxy; production classes">
+    <mkdir dir="${proxy.output.dir}"/>
+    <javac2 destdir="${proxy.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.proxy}/javac">
+      <compilerarg line="${compiler.args.proxy}"/>
+      <bootclasspath refid="proxy.module.bootclasspath"/>
+      <classpath refid="proxy.module.production.classpath"/>
+      <src refid="proxy.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.proxy"/>
+    </javac2>
+    
+    <copy todir="${proxy.output.dir}">
+      <fileset dir="${module.proxy.basedir}/src/main/kotlin">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.proxy.tests" depends="register.custom.compilers,compile.module.proxy.production" description="compile module proxy; test classes" unless="skip.tests">
+    <mkdir dir="${proxy.testoutput.dir}"/>
+    <javac2 destdir="${proxy.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.proxy}/javac">
+      <compilerarg line="${compiler.args.proxy}"/>
+      <bootclasspath refid="proxy.module.bootclasspath"/>
+      <classpath refid="proxy.module.classpath"/>
+      <src refid="proxy.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.proxy"/>
+    </javac2>
+    
+    <copy todir="${proxy.testoutput.dir}">
+      <fileset dir="${module.proxy.basedir}/src/test/kotlin">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.proxy" description="cleanup module">
+    <delete dir="${proxy.output.dir}"/>
+    <delete dir="${proxy.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.proxy" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.proxy" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

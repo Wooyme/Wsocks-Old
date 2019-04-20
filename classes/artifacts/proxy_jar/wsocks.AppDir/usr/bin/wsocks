@@ -1,0 +1,11 @@
+DIR="$(dirname "$(readlink -f "$0")")"
+WSOCKS="$HOME/.wsocks"
+mkdir $WSOCKS
+LOG="$HOME/.wsocks/log.log"
+cd $DIR
+if [ ! -e "$WSOCKS/gfw.lst" ];then
+	cp gfw.lst "$WSOCKS/gfw.lst"
+fi
+nohup java -jar -Dvertx.disableFileCPResolving=true proxy.jar -T client-socks5-ui > $LOG&
+exit 0
+

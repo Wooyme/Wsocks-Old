@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Wsocks
+Comment=A light websocket based proxy
+Exec=wsocks
+Icon=wsocks
+Terminal=false
+Type=Application
+Categories=Application;Development;

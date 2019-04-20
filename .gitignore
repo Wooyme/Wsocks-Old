@@ -1,0 +1,4 @@
+target/
+.idea/
+classes/
+config.json
