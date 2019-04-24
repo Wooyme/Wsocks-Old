@@ -5,7 +5,7 @@ import me.wooy.proxy.common.UserInfo
 import me.wooy.proxy.encryption.Aes
 
 class RawData(userInfo: UserInfo,buffer:Buffer) {
-  private val decryptedBuffer = Buffer.buffer(Aes.decrypt(buffer.getBytes(Int.SIZE_BYTES,buffer.length()),userInfo.key,userInfo.doZip))
+  private val decryptedBuffer = Buffer.buffer(Aes.decrypt(buffer.getBytes(Int.SIZE_BYTES*2,buffer.length()),userInfo.key,userInfo.doZip))
   private val uuidLength = decryptedBuffer.getIntLE(0)
   val uuid = decryptedBuffer.getString(Int.SIZE_BYTES,Int.SIZE_BYTES+uuidLength)
   val data = decryptedBuffer.getBuffer(Int.SIZE_BYTES+uuidLength,decryptedBuffer.length())
@@ -17,7 +17,7 @@ class RawData(userInfo: UserInfo,buffer:Buffer) {
         .appendBuffer(data).bytes,userInfo.key,userInfo.doZip)
 
       return Buffer.buffer()
-        .appendIntLE(Flag.RAW.ordinal)
+        .appendIntLE(Flag.RAW.ordinal).appendIntLE(encryptedBuffer.size)
         .appendBytes(encryptedBuffer)
     }
   }

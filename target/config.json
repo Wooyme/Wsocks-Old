@@ -1,2 +1,2 @@
-{"users":[{"user":"wooyme","pass":"11241124","offset":0,"zip":true,"multiple":-1,"limit":-1}],"port":1889,"master":8888,
-  "fake_ip":"127.0.0.2","fake_port":7777,"udp_port":3333}
+{"users":[{"user":"wooyme","pass":"11241124","offset":0,"zip":true,"multiple":-1,"limit":-1}],"master":8880,
+  "fake_ip":"127.0.0.1","fake_port":7777,"udp_port":3333}

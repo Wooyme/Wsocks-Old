@@ -17,16 +17,23 @@ import io.vertx.core.net.NetSocket
 import me.wooy.proxy.common.UserInfo
 import me.wooy.proxy.data.*
 import me.wooy.proxy.jni.KCP
+import me.wooy.proxy.server.ServerWebSocket
 import org.apache.commons.lang3.RandomStringUtils
+import org.pcap4j.core.BpfProgram
+import org.pcap4j.core.PacketListener
+import org.pcap4j.core.PcapNetworkInterface
+import org.pcap4j.core.Pcaps
+import org.pcap4j.packet.TcpPacket
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.nio.ByteBuffer
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import javax.crypto.IllegalBlockSizeException
 
 class ClientWebSocket : AbstractVerticle() {
   class KcpWorker(private val eventBus: EventBus,private val kcp:KCP,private val address:String):AbstractVerticle(){
-    private val data = ByteArray(1024*1024)
+    private val data = ByteArray(16*1024*1024)
     override fun start(){
       super.start()
       eventBus.localConsumer<Buffer>("$address-input"){
@@ -61,7 +68,6 @@ class ClientWebSocket : AbstractVerticle() {
   private lateinit var remoteIp: String
   private lateinit var userInfo: UserInfo
   private val httpClient: HttpClient by lazy { vertx.createHttpClient() }
-  private val ds by lazy { vertx.createDatagramSocket() }
   private lateinit var ws: WebSocket
 
   override fun start(future: Future<Void>) {
@@ -97,36 +103,24 @@ class ClientWebSocket : AbstractVerticle() {
     if (!this::remoteIp.isInitialized)
       return
     val randomKey = "/"+RandomStringUtils.randomAlphanumeric(7)
-    httpClient.websocket(remotePort
+    httpClient.websocket(8888
         , InetAddress.getByName(remoteIp).hostAddress
         , randomKey
         , MultiMap.caseInsensitiveMultiMap()
         .add(RandomStringUtils.randomAlphanumeric(Random().nextInt(10)+1)
             ,userInfo.secret())) { webSocket ->
       webSocket.writePing(Buffer.buffer())
-      webSocket.binaryMessageHandler { _buffer ->
-        if (_buffer.length() < 4) return@binaryMessageHandler
-
-        val buffer = if (userInfo.offset != 0) _buffer.getBuffer(userInfo.offset, _buffer.length()) else _buffer
-        when (buffer.getIntLE(0)) {
-          Flag.CONNECT_SUCCESS.ordinal -> wsConnectedHandler(ConnectSuccess(userInfo,buffer).uuid)
-          Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(userInfo,buffer))
-          Flag.RAW.ordinal -> {
-            bufferSizeHistory += buffer.length()
-            wsReceivedRawHandler(RawData(userInfo,buffer))
-          }
-          else -> logger.warn(buffer.getIntLE(0))
-        }
-      }.exceptionHandler { t ->
+      webSocket.exceptionHandler { t ->
         logger.warn(t)
         ws.close()
         login()
       }
       this.ws = webSocket
+      initKcp(randomKey)
       logger.info("Connected to remote server")
       vertx.eventBus().publish("status-modify", JsonObject().put("status", "$remoteIp:$remotePort"))
     }
-    initKcp(randomKey)
+
   }
 
   private fun initSocksServer(port: Int) {
@@ -142,6 +136,7 @@ class ClientWebSocket : AbstractVerticle() {
       socket.handler {
         bufferHandler(uuid, socket, it)
       }.closeHandler {
+        ws.writeBinaryMessageWithOffset(Exception.create(userInfo,uuid,""))
         connectMap.remove(uuid)
       }.exceptionHandler {
         socket.close()
@@ -178,12 +173,10 @@ class ClientWebSocket : AbstractVerticle() {
     * */
     val cmd = buffer.getByte(1)
     val addressType = buffer.getByte(3)
-    logger.info("UUID:$uuid,$cmd,$addressType")
     val (host, port) = when (addressType) {
       0x01.toByte() -> {
         val host = Inet4Address.getByAddress(buffer.getBytes(4, 8)).toString().removePrefix("/")
         val port = buffer.getShort(8).toInt()
-        logger.info("UUID:$uuid,Connect to $host:$port")
         host to port
       }
       0x03.toByte() -> {
@@ -230,7 +223,6 @@ class ClientWebSocket : AbstractVerticle() {
     }
   }
 
-
   private fun tryConnect(uuid: String, netSocket: NetSocket, host: String, port: Int) {
     connectMap[uuid] = netSocket
     ws.writeBinaryMessageWithOffset(ClientConnect.create(userInfo,uuid, host, port))
@@ -266,9 +258,12 @@ class ClientWebSocket : AbstractVerticle() {
     val conv = ByteBuffer.wrap(randomKey.toByteArray()).getInt(0).toLong()
     val kcpTest = object : KCP(conv) {
       override fun output(buffer: ByteArray, size: Int) {
-        ds.send(Buffer.buffer().appendBytes(buffer.sliceArray(0..size)),3333,remoteIp){}
+        ws.writeBinaryMessageWithOffset(Buffer.buffer()
+            .appendIntLE(Flag.KCP.ordinal)
+            .appendBytes(buffer.sliceArray(0 until size)))
       }
     }
+    kcpTest.SetMtu(1000)
     kcpTest.NoDelay(1, 10, 2, 1)
     kcpTest.WndSize(128,128)
     val kcpWorker = KcpWorker(vertx.eventBus(),kcpTest,randomKey)
@@ -278,18 +273,44 @@ class ClientWebSocket : AbstractVerticle() {
         Flag.EXCEPTION.ordinal -> wsExceptionHandler(Exception(userInfo,buffer))
         Flag.RAW.ordinal -> {
           bufferSizeHistory += buffer.length()
-          wsReceivedRawHandler(RawData(userInfo,buffer))
+          try {
+            wsReceivedRawHandler(RawData(userInfo, buffer))
+          }catch (e:IllegalBlockSizeException){
+            logger.info("Error:"+buffer.length()+" Want:${buffer.getIntLE(Int.SIZE_BYTES)}")
+          }
         }
-        else -> logger.warn(buffer.getIntLE(0))
+        else -> {
+          logger.warn(buffer.getIntLE(0))
+        }
       }
     }
     vertx.deployVerticle(kcpWorker, DeploymentOptions().setWorker(true))
-    ds.handler {
-      kcpWorker.input(it.data())
-    }.listen(9999,"0.0.0.0"){
-      println("DS Listen at 9999")
+    vertx.createNetClient().connect(remotePort,remoteIp){
+      if(it.failed()) it.cause().printStackTrace()
+      else {
+        it.result().write(Buffer.buffer("login").appendString(randomKey))
+        val device = Pcaps.findAllDevs()[0]
+        Thread{
+          pcapLoop(device,kcpWorker)
+        }.start()
+        it.result().pause()
+      }
     }
-    ds.send(Buffer.buffer().appendString("login").appendString(randomKey),3333,remoteIp){}
+  }
+
+  private fun pcapLoop(device: PcapNetworkInterface,kcpWorker: KcpWorker){
+    val snapshotLength = 65536
+    val readTimeout = 50
+    val handle = device.openLive(snapshotLength, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS,readTimeout)
+    handle.setFilter("tcp src port $remotePort", BpfProgram.BpfCompileMode.OPTIMIZE)
+    handle.loop(-1, PacketListener {
+      val tcp = it.get(TcpPacket::class.java)
+      if(tcp.payload.length()>Int.SIZE_BYTES){
+        kcpWorker.input(Buffer.buffer(tcp.payload.rawData))
+      }
+    })
   }
 }
+
+
 

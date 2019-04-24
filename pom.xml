@@ -37,6 +37,18 @@
   </dependencyManagement>
 
   <dependencies>
+
+      <dependency>
+          <groupId>org.pcap4j</groupId>
+          <artifactId>pcap4j-core</artifactId>
+          <version>1.7.7</version>
+      </dependency>
+      <dependency>
+          <groupId>org.pcap4j</groupId>
+          <artifactId>pcap4j-packetfactory-static</artifactId>
+          <version>1.7.7</version>
+      </dependency>
+
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
