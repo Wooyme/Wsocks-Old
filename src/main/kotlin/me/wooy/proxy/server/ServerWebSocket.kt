@@ -89,11 +89,9 @@ class ServerWebSocket : AbstractVerticle() {
   //web 服务器端口
   private val port = 8888
   private val localMap = LinkedHashMap<String, LinkedHashMap<String, NetSocket>>()
-  private val ds by lazy { vertx.createDatagramSocket() }
   private val fakeTcpServer by lazy { vertx.createNetServer() }
   private val fakeIp by lazy { config().getString("fake_ip") }
   private val fakePort by lazy { config().getInteger("fake_port") }
-  private val udpPort by lazy { config().getInteger("udp_port") }
   private val senderMap: MutableMap<String, String> = LinkedHashMap()
   private val kcpMap: MutableMap<String, KcpWorkerCaller> = LinkedHashMap()
 
@@ -241,6 +239,8 @@ class ServerWebSocket : AbstractVerticle() {
   }
 
   private fun initRawTcpKcp(){
+    val raw = Kcp()
+    raw.initSock()
     fakeTcpServer.connectHandler {
       logger.info("Connect ${it.remoteAddress().host()}:${it.remoteAddress().port()}")
       it.handler {buf->
@@ -250,11 +250,11 @@ class ServerWebSocket : AbstractVerticle() {
           println("IP:${it.remoteAddress().host()},Port:${it.remoteAddress().port()}")
           println(ByteBuffer.wrap(randomKey.toByteArray()).getLong(0))
           val conv = ByteBuffer.wrap(randomKey.toByteArray()).getInt(0).toLong()
-          val raw = Kcp()
+
           val result = raw.init(fakeIp, fakePort, fakePort, it.remoteAddress().host(), it.remoteAddress().port())
           val kcp = object : KCP(conv) {
               override fun output(buffer: ByteArray, size: Int) {
-                raw.sendBuf(result, buffer, size)
+                raw.sendRaw(result, buffer, size)
               }
             }
           kcp.SetMtu(1000)

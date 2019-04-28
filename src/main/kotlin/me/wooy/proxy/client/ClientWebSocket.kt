@@ -302,7 +302,7 @@ class ClientWebSocket : AbstractVerticle() {
     val snapshotLength = 65536
     val readTimeout = 50
     val handle = device.openLive(snapshotLength, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS,readTimeout)
-    handle.setFilter("tcp src port $remotePort", BpfProgram.BpfCompileMode.OPTIMIZE)
+    handle.setFilter("tcp src port $remotePort and src host $remoteIp", BpfProgram.BpfCompileMode.OPTIMIZE)
     handle.loop(-1, PacketListener {
       val tcp = it.get(TcpPacket::class.java)
       if(tcp.payload.length()>Int.SIZE_BYTES){
