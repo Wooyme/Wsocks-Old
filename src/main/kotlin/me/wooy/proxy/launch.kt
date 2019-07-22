@@ -2,14 +2,11 @@ package me.wooy.proxy
 
 import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
-import io.vertx.core.VertxOptions
-import io.vertx.core.dns.AddressResolverOptions
 import io.vertx.core.json.JsonObject
 import me.wooy.proxy.server.Master
 import me.wooy.proxy.server.ServerWebSocket
 import org.apache.commons.cli.*
 import java.io.File
-import java.net.InetAddress
 
 //服务端入口
 fun main(args: Array<String>) {

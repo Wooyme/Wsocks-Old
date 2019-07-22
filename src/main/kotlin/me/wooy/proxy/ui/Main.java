@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import me.wooy.proxy.client.ClientWebSocket;
 
-import javax.rmi.CORBA.Util;
 import java.io.File;
 import java.nio.file.Paths;
 

@@ -22,28 +22,30 @@ object Tray {
         systemTray.setTooltip("WSocks")
         systemTray.setImage(LT_GRAY_TRAIN)
         systemTray.status = "No Action"
-
         val mainMenu = systemTray.menu
-        val proxySettingEntry = MenuItem("1.PAC代理")
-        Advapi32Util.registryCreateKey(WinReg.HKEY_CURRENT_USER,"Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings","AutoConfigURL")
-        Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings","AutoConfigURL"
-                , "https://blackwhite.txthinking.com/white.pac")
-        Advapi32Util.registrySetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings","ProxyEnable"
-                , 0)
-        proxySettingEntry.setCallback {
-            if (proxySettingEntry.text.startsWith("1")) {
-                proxySettingEntry.text = "2.全局代理"
-                Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
-                        ,"AutoConfigURL", "file://" + Paths.get(System.getProperty("user.home"), ".wsocks", "global.pac"))
-                Advapi32Util.registrySetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
-                        , "ProxyEnable",0)
-            } else {
-                proxySettingEntry.text = "1.PAC代理"
-                Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
-                        ,"AutoConfigURL", "https://blackwhite.txthinking.com/black.pac")
-                Advapi32Util.registrySetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
-                        ,"ProxyEnable", 0)
+        if(System.getProperty("os.name").toLowerCase().contains("windows")) {
+            val proxySettingEntry = MenuItem("1.PAC代理")
+            Advapi32Util.registryCreateKey(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "AutoConfigURL")
+            Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "AutoConfigURL"
+                    , "https://blackwhite.txthinking.com/white.pac")
+            Advapi32Util.registrySetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "ProxyEnable"
+                    , 0)
+            proxySettingEntry.setCallback {
+                if (proxySettingEntry.text.startsWith("1")) {
+                    proxySettingEntry.text = "2.全局代理"
+                    Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
+                            , "AutoConfigURL", "file://" + Paths.get(System.getProperty("user.home"), ".wsocks", "global.pac"))
+                    Advapi32Util.registrySetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
+                            , "ProxyEnable", 0)
+                } else {
+                    proxySettingEntry.text = "1.PAC代理"
+                    Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
+                            , "AutoConfigURL", "https://blackwhite.txthinking.com/black.pac")
+                    Advapi32Util.registrySetIntValue(WinReg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"
+                            , "ProxyEnable", 0)
+                }
             }
+            mainMenu.add(proxySettingEntry)
         }
         val netStatusEntry = MenuItem("0kb/s")
         vertx.eventBus().consumer<String>("net-status-update") {
@@ -63,9 +65,6 @@ object Tray {
         }
         val quitEntry = MenuItem("Quit") {
             System.exit(0)
-        }
-        if (System.getProperty("os.name").contains("Windows")) {
-            mainMenu.add(proxySettingEntry)
         }
         mainMenu.add(netStatusEntry)
         mainMenu.add(editEntry)

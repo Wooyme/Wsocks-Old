@@ -3,7 +3,6 @@ package me.wooy.proxy.server
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
 import io.vertx.core.buffer.Buffer
-import io.vertx.core.dns.DnsClient
 import io.vertx.core.http.HttpServer
 import io.vertx.core.http.ServerWebSocket
 import io.vertx.core.json.DecodeException
@@ -11,7 +10,6 @@ import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.core.net.NetClient
 import io.vertx.core.net.NetSocket
-import io.vertx.kotlin.core.executeBlockingAwait
 import io.vertx.kotlin.core.net.connectAwait
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.GlobalScope
@@ -22,7 +20,6 @@ import java.net.InetAddress
 import java.util.*
 import javax.crypto.BadPaddingException
 import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashMap
 
 class ServerWebSocket : AbstractVerticle() {
@@ -88,6 +85,7 @@ class ServerWebSocket : AbstractVerticle() {
         } == true){
       return sock.reject()
     }
+    logger.info("Connected from ${userInfo.username}")
     hasLoginMap[key] =(hasLoginMap[key]?:0) + 1
     sock.setWriteQueueMaxSize(maxQueueSize)
     sock.binaryMessageHandler { _buffer ->

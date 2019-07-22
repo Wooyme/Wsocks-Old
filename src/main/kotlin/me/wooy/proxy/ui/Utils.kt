@@ -1,8 +1,8 @@
 package me.wooy.proxy.ui
 
 import io.vertx.core.json.JsonArray
-import io.vertx.core.json.JsonObject
 import java.io.File
+
 object Utils{
   fun readInfo(saveFile:File):JsonArray{
     return try {

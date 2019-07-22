@@ -1,3 +1,10 @@
-{"users":{
-  "test":"test"
-},"key":"cnmgfwnmsl","offset":0,"port":9998}
+{"users":[
+  {
+    "user":"wooyme",
+    "pass":"11241124",
+    "offset":0,
+    "zip":true,
+    "multiple":-1,
+    "limit":-1
+  }
+],"port":1889}
