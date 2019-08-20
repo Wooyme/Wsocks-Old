@@ -128,6 +128,7 @@ class ServerWebSocket : AbstractVerticle() {
       sock.writeBinaryMessageWithOffset(userInfo,RawData.create(userInfo,data.uuid, buffer))
     }.closeHandler {
       localMap.remove(data.uuid)
+      sock.writeBinaryMessageWithOffset(userInfo,Exception.create(userInfo,data.uuid,""))
     }.exceptionHandler {
       it.printStackTrace()
     }
